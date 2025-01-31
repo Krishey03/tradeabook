@@ -7,7 +7,7 @@ import { Button } from "../ui/button";
 function CommonForm({ formControls, formData, setFormData, onSubmit, buttonText }) {
     function renderInputsByComponentType(getControlItem) {
         let element = null;
-        const value = formData[getControlItem.name] || ''; // Fixed typo from `formDate` to `formData`
+        const value = formData[getControlItem.name] || '';
 
         switch (getControlItem.type) {
             case 'input':
@@ -36,6 +36,7 @@ function CommonForm({ formControls, formData, setFormData, onSubmit, buttonText 
                             })
                         }
                         value={value}
+                        // value={formData[getControlItem.name] || getControlItem.options?.[0]?.id}
                     >
                         <SelectTrigger className="w-full">
                             <SelectValue placeholder={getControlItem.placeholder} />

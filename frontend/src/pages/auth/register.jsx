@@ -1,21 +1,35 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import CommonForm from "@/components/common/form";
 import { registerFormControls } from "@/config";
+import { registerUser } from "@/store/auth-slice"
+import { useDispatch } from 'react-redux';
+import { useToast } from "@/components/ui/use-toast";
+
 
 const initialState = {
-    username: '',
+    userName: '',
     email: '',
     password: ''
 };
 
 function AuthRegister() {
     const [formData, setFormData] = useState(initialState);
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+    const {toast} = useToast()
 
     function onSubmit(event) {
         event.preventDefault();
         console.log("Form submitted:", formData);
-        //Need to add the form submission logic here...
+        dispatch(registerUser(formData)).then((data) => {
+            if(data?.payload.success) {
+                toast({
+                    title: data?.payload?.message,
+                })
+                navigate('/auth/login')
+            }
+        })
     }
 
     return (
