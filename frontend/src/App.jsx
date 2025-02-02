@@ -15,14 +15,21 @@ import ShoppingCheckout from "./pages/shopping-view/checkout";
 import ShoppingListing from "./pages/shopping-view/listing";
 import CheckAuth from "./components/common/check-auth";
 import UnauthPage from "./pages/unauth-page";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { checkAuth } from "./store/auth-slice";
 
 function App() {
-    // Dummy data for testing
-    const isAuthenticated = false; // Set to `false` for testing unauthenticated behavior
-    const user = {
-        name: 'Krish',
-        role: 'user', // Change to 'user' to test user behavior
-    };
+    // // Dummy data for testing
+    // const isAuthenticated = false; // Set to `false` for testing unauthenticated behavior
+    // const user = null
+
+    const{isAuthenticated, user} = useSelector(state=> state.auth)
+    const dispatch = useDispatch()
+
+    useEffect(()=>{
+        dispatch(checkAuth())
+    }, [dispatch])
 
     return (
         <div className="flex flex-col overflow-hidden bg-white">
