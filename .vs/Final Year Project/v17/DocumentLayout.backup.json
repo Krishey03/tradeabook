@@ -3,14 +3,6 @@
   "WorkspaceRootPath": "C:\\Users\\LENOVO\\Desktop\\Final Year Project\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\LENOVO\\Desktop\\Final Year Project\\frontend\\src\\store\\auth-slice\\index.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\store\\auth-slice\\index.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\LENOVO\\Desktop\\Final Year Project\\frontend\\package-lock.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\package-lock.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\LENOVO\\Desktop\\Final Year Project\\frontend\\src\\config\\index.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\config\\index.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
@@ -38,7 +30,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -46,33 +38,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "package-lock.json",
-              "DocumentMoniker": "C:\\Users\\LENOVO\\Desktop\\Final Year Project\\frontend\\package-lock.json",
-              "RelativeDocumentMoniker": "frontend\\package-lock.json",
-              "ToolTip": "C:\\Users\\LENOVO\\Desktop\\Final Year Project\\frontend\\package-lock.json*",
-              "RelativeToolTip": "frontend\\package-lock.json*",
-              "ViewState": "AgIAABwKAAAAAAAAAAAYwCgKAABSAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-02-03T12:28:40.116Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "index.js",
-              "DocumentMoniker": "C:\\Users\\LENOVO\\Desktop\\Final Year Project\\frontend\\src\\store\\auth-slice\\index.js",
-              "RelativeDocumentMoniker": "frontend\\src\\store\\auth-slice\\index.js",
-              "ToolTip": "C:\\Users\\LENOVO\\Desktop\\Final Year Project\\frontend\\src\\store\\auth-slice\\index.js",
-              "RelativeToolTip": "frontend\\src\\store\\auth-slice\\index.js",
-              "ViewState": "AgIAAAUAAAAAAAAAAAAAAA4AAABCAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2025-02-03T12:28:35.01Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 2,
               "Title": "User.js",
               "DocumentMoniker": "C:\\Users\\LENOVO\\Desktop\\Final Year Project\\backend\\models\\User.js",
               "RelativeDocumentMoniker": "backend\\models\\User.js",
@@ -80,11 +46,12 @@
               "RelativeToolTip": "backend\\models\\User.js",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2025-01-31T04:00:11.867Z"
+              "WhenOpened": "2025-01-31T04:00:11.867Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 1,
               "Title": "register.jsx",
               "DocumentMoniker": "C:\\Users\\LENOVO\\Desktop\\Final Year Project\\frontend\\src\\pages\\auth\\register.jsx",
               "RelativeDocumentMoniker": "frontend\\src\\pages\\auth\\register.jsx",
@@ -92,11 +59,12 @@
               "RelativeToolTip": "frontend\\src\\pages\\auth\\register.jsx",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
-              "WhenOpened": "2025-01-31T04:00:08.32Z"
+              "WhenOpened": "2025-01-31T04:00:08.32Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
               "Title": "index.js",
               "DocumentMoniker": "C:\\Users\\LENOVO\\Desktop\\Final Year Project\\frontend\\src\\config\\index.js",
               "RelativeDocumentMoniker": "frontend\\src\\config\\index.js",
@@ -109,7 +77,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 3,
               "Title": "auth-controller.js",
               "DocumentMoniker": "C:\\Users\\LENOVO\\Desktop\\Final Year Project\\backend\\controllers\\auth\\auth-controller.js",
               "RelativeDocumentMoniker": "backend\\controllers\\auth\\auth-controller.js",
@@ -117,11 +85,12 @@
               "RelativeToolTip": "backend\\controllers\\auth\\auth-controller.js",
               "ViewState": "AgIAAE4AAAAAAAAAAAAcwFgAAAA3AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2025-01-31T03:59:36.184Z"
+              "WhenOpened": "2025-01-31T03:59:36.184Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 4,
               "Title": "form.jsx",
               "DocumentMoniker": "C:\\Users\\LENOVO\\Desktop\\Final Year Project\\frontend\\src\\components\\common\\form.jsx",
               "RelativeDocumentMoniker": "frontend\\src\\components\\common\\form.jsx",
@@ -129,7 +98,8 @@
               "RelativeToolTip": "frontend\\src\\components\\common\\form.jsx",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
-              "WhenOpened": "2025-01-31T03:58:42.252Z"
+              "WhenOpened": "2025-01-31T03:58:42.252Z",
+              "EditorCaption": ""
             }
           ]
         }

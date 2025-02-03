@@ -6,7 +6,7 @@ import axios from "axios";
 
 const initialState = {
     isAuthenticated: false,
-    isLoading: false,
+    isLoading: true,
     user: null,
 }
 
@@ -26,7 +26,7 @@ export const registerUser = createAsyncThunk('/auth/register',
         try {
             console.log("Sending FormData:", formData); // Debugging
 
-            const response = await axios.post('http://localhost:3000/api/auth/register', formData, {
+            const response = await axios.post('http://localhost:5000/api/auth/register', formData, {
                 headers: { 'Content-Type': 'application/json' },
                 withCredentials: true
             });
@@ -41,7 +41,7 @@ export const registerUser = createAsyncThunk('/auth/register',
 
 export const loginUser = createAsyncThunk('/auth/login', 
     async(formData)=>{
-       const response = await axios.post('http://localhost:3000/api/auth/login', formData,
+       const response = await axios.post('http://localhost:5000/api/auth/login', formData,
         {
             withCredentials: true
         }
