@@ -40,3 +40,26 @@ export const loginFormControls = [
     },
     
 ];
+
+// export const adminSidebarMenuItems = [
+//     {
+//         id: 'dashboard',
+//         label: 'Dashboard',
+//         path: '/admin/dashboard',
+//         icons: <LayoutDashboard />
+//     },
+
+//     {
+//         id: 'products',
+//         label: 'Products',
+//         path: '/admin/products',
+//         icons: <PackageSearch />
+//     },
+
+//     {
+//         id: 'orders',
+//         label: 'Orders',
+//         path: '/admin/orders',
+//         icons: <ClockArrowUp />
+//     },
+// ]
