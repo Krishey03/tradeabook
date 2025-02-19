@@ -1,3 +1,5 @@
+
+
 export const registerFormControls = [
     {
         name: "userName",
@@ -20,7 +22,7 @@ export const registerFormControls = [
         componentType: "input",
         type: "password",
     },
-];
+]
 
 export const loginFormControls = [
 
@@ -39,4 +41,8 @@ export const loginFormControls = [
         type: "password",
     },
     
-];
+]
+
+
+
+
