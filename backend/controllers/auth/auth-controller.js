@@ -4,9 +4,9 @@ const User = require('../../models/User');
 
 // Register User
 const registerUser = async (req, res) => {
-    console.log("📥 Received body:", req.body);  // ✅ Log the received body
+    console.log("📥 Received body:", req.body);
 
-    const { userName, email, password, phone, address } = req.body;  // ✅ Ensure phone & address are included
+    const { userName, email, password, phone, address } = req.body;
 
     try {
         // Check if the user already exists
@@ -19,7 +19,7 @@ const registerUser = async (req, res) => {
         }
 
         // Validate that all fields are provided
-        if (!userName || !email || !password || !phone || !address) {  // ✅ Validate all required fields
+        if (!userName || !email || !password || !phone || !address) {  // Validate all required fields
             return res.status(400).json({
                 success: false,
                 message: "All fields (userName, email, password, phone, address) are required.",
@@ -87,7 +87,7 @@ const loginUser = async (req, res) => {
         // Generate JWT token
         const token = jwt.sign(
             { id: checkUser.id, role: checkUser.role, email: checkUser.email },
-            'CLIENT_SECRET_KEY',  // 🔑 Change this to an environment variable in production
+            'CLIENT_SECRET_KEY', 
             { expiresIn: '60m' }
         );
 
@@ -133,7 +133,7 @@ const authMiddleware = async (req, res, next) => {
     }
 
     try {
-        const decoded = jwt.verify(token, 'CLIENT_SECRET_KEY');  // 🔑 Use env variable
+        const decoded = jwt.verify(token, 'CLIENT_SECRET_KEY');
         req.user = decoded;
         next();
     } catch (error) {
