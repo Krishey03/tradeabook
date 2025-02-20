@@ -14,7 +14,7 @@ function CommonForm({ formControls, formData, setFormData, onSubmit, buttonText 
                 element = (
                     <Input
                         name={getControlItem.name}
-                        placeholder={getControlItem.placeholder}
+                        placeholder={getControlItem.label}
                         id={getControlItem.name}
                         type={getControlItem.type}
                         value={value}
