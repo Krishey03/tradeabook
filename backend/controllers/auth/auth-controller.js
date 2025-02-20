@@ -1,35 +1,28 @@
 const bcrypt = require('bcryptjs'); 
 const jwt = require('jsonwebtoken');
 const User = require('../../models/User');
-const { secureHeapUsed } = require('crypto');
 
 // Register User
 const registerUser = async (req, res) => {
+    console.log("📥 Received body:", req.body);  // ✅ Log the received body
 
-    console.log("📥 Received body:", req.body);  // Log the received body
-
-
-    const { userName, email, password } = req.body;
+    const { userName, email, password, phone, address } = req.body;  // ✅ Ensure phone & address are included
 
     try {
-
-    const checkUser = await User.findOne({ email})
-    if(checkUser) return res.json({success: false, message:'User with the same email is already registered'})
-
-        // Validate that all fields are present
-        if (!userName || !email || !password) {
-            return res.status(400).json({
-                success: false,
-                message: "All fields are required",
+        // Check if the user already exists
+        const checkUser = await User.findOne({ email });
+        if (checkUser) {
+            return res.status(400).json({ 
+                success: false, 
+                message: "User with the same email is already registered" 
             });
         }
 
-        // Check if user already exists
-        const existingUser = await User.findOne({ email });
-        if (existingUser) {
+        // Validate that all fields are provided
+        if (!userName || !email || !password || !phone || !address) {  // ✅ Validate all required fields
             return res.status(400).json({
                 success: false,
-                message: "User already exists",
+                message: "All fields (userName, email, password, phone, address) are required.",
             });
         }
 
@@ -41,6 +34,8 @@ const registerUser = async (req, res) => {
             userName,
             email,
             password: hashPassword,
+            phone,
+            address
         });
 
         await newUser.save();
@@ -50,7 +45,7 @@ const registerUser = async (req, res) => {
             message: "User registered successfully!",
         });
     } catch (e) {
-        console.error("Registration Error:", e);
+        console.error("❌ Registration Error:", e);
         res.status(500).json({
             success: false,
             message: "An error occurred during registration.",
@@ -63,7 +58,7 @@ const loginUser = async (req, res) => {
     const { email, password } = req.body;
 
     try {
-        // Validate input FIRST before querying the database
+        // Validate input
         if (!email || !password) {
             return res.status(400).json({
                 success: false,
@@ -92,20 +87,20 @@ const loginUser = async (req, res) => {
         // Generate JWT token
         const token = jwt.sign(
             { id: checkUser.id, role: checkUser.role, email: checkUser.email },
-            'CLIENT_SECRET_KEY',
+            'CLIENT_SECRET_KEY',  // 🔑 Change this to an environment variable in production
             { expiresIn: '60m' }
         );
 
-        // Send response only ONCE
+        // Send response
         return res
             .cookie('token', token, { httpOnly: true, secure: false })
             .json({
                 success: true,
                 message: "Login successful",
                 user: {
+                    id: checkUser._id,
                     email: checkUser.email,
                     role: checkUser.role,
-                    id: checkUser._id,
                 },
             });
 
@@ -118,35 +113,35 @@ const loginUser = async (req, res) => {
     }
 };
 
-//logout
-
+// Logout User
 const logoutUser = (req, res) => {
     res.clearCookie('token').json({
         success: true,
         message: "Logged out successfully",
-    })
+    });
 };
 
-//auth middleware
-
+// Auth Middleware
 const authMiddleware = async (req, res, next) => {
-    const token = req.cookies.token
-    if(!token) return res.status(401).json({
-        success: false,
-        message: "You are not authenticated!"
-    })
-
-    try{
-        const decoded = jwt.verify(token, 'CLIENT_SECRET_KEY')
-        req.user = decoded
-        next()
+    const token = req.cookies.token;
+    
+    if (!token) {
+        return res.status(401).json({
+            success: false,
+            message: "You are not authenticated!",
+        });
     }
-    catch(error){
-        res.status(401).json({
+
+    try {
+        const decoded = jwt.verify(token, 'CLIENT_SECRET_KEY');  // 🔑 Use env variable
+        req.user = decoded;
+        next();
+    } catch (error) {
+        return res.status(401).json({
             success: false,
             message: "Unauthorized user!",
-        })
+        });
     }
-}
+};
 
 module.exports = { registerUser, loginUser, logoutUser, authMiddleware };

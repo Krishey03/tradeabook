@@ -1,3 +1,5 @@
+
+
 export const registerFormControls = [
     {
         name: "userName",
@@ -20,7 +22,22 @@ export const registerFormControls = [
         componentType: "input",
         type: "password",
     },
-];
+    {
+        name: "phone",
+        label: "Phone",
+        placeholder: "Phone No",
+        componentType: "input",
+        type: "String",
+    },
+    {
+        name: "address",
+        label: "Address",
+        placeholder: "Enter your address",
+        componentType: "input",
+        type: "String",
+    },
+
+]
 
 export const loginFormControls = [
 
@@ -63,3 +80,8 @@ export const loginFormControls = [
 //         icons: <ClockArrowUp />
 //     },
 // ]
+
+
+
+
+

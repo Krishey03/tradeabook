@@ -18,6 +18,17 @@ const UserSchema = new mongoose.Schema({
         required: true,
     },
 
+    phone: {
+        type: String,
+        required: true,
+        // match: [/^\+?[1-9]\d{1,14}$/, "Invalid phone number format"], 
+    },
+
+    address: {
+        type: String,
+        required: true,
+    },
+
     role: {
         type: String,
         default : 'user'

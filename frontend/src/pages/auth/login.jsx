@@ -18,15 +18,6 @@ function AuthLogin() {
 
     function onSubmit(event) {
         event.preventDefault();
-        // dispatch(loginUser(formData)).then(data => {
-        //     if(data?.payload.success) {
-        //         toast({
-        //             title: data?.payload?.message,
-        //             variant: 'destructive',
-        //         })
-
-        //     }
-        // })
         dispatch(loginUser(formData)).then(data => {
             console.log("Full Login Response:", data);
         });

@@ -10,7 +10,9 @@ import { useToast } from "@/components/ui/use-toast";
 const initialState = {
     userName: '',
     email: '',
-    password: ''
+    password: '',
+    phone: '',
+    address: ''
 };
 
 function AuthRegister() {
@@ -54,7 +56,7 @@ function AuthRegister() {
             </div>
             <CommonForm
                 formControls={registerFormControls}
-                buttonText="Sign Up"
+                buttonText={'Sign Up'}
                 formData={formData}
                 setFormData={setFormData}
                 onSubmit={onSubmit}
