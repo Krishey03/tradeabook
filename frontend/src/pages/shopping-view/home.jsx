@@ -50,6 +50,7 @@ function AdminProducts() {
                     <CommonForm onSubmit={onSubmit} formData={formData} setFormData={setFormData} buttonText='Add'
                     formControls={addProductFormElements}
                     />
+                    console.log("Hey")
                 </div>
             </SheetContent>
         </Sheet>
