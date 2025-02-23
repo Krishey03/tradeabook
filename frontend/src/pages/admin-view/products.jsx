@@ -4,7 +4,7 @@ import { SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Sheet } from "@/components/ui/sheet";
 import { addProductFormElements } from "@/config";
 import { Fragment, useState } from "react";
-import ProductImageUpload from "./image-upload";
+import ProductImageUpload from "../../components/admin-view/image-upload";
 
 const initialFormData= {
     image: null,
@@ -22,11 +22,12 @@ function AdminProducts() {
     const[openCreateProductsDialog,setOpenCreateProductsDialog] = useState(false)
     const[formData,setFormData] = useState(initialFormData)
     const[imageFile, setImageFile] = useState(null)
-    const[uploadedImageUrl, setUploadedImageUrl] = useState('')
+    const[uploadedImageUrl, setUploadedImageUrl] = useState("")
+    const[imageLoadingState, setImageLoadingState] = useState(false)
 
-    function onSubmit(){
-
-    }
+    function onSubmit(){}
+    console.log(formData, "formData");
+    
 
     return <Fragment>
         <div className="mb-5 flex justify-end">
@@ -42,7 +43,9 @@ function AdminProducts() {
                 imageFile={imageFile} 
                 setImageFile={setImageFile} 
                 uploadedImageUrl={uploadedImageUrl} 
-                setUploadedImageUrl={setUploadedImageUrl} 
+                setImageLoadingState={setImageLoadingState} 
+                setUploadedImageUrl={setUploadedImageUrl}
+                imageLoadingState={imageLoadingState}
                 />
                 <div className="py-6">
                     <CommonForm onSubmit={onSubmit} formData={formData} setFormData={setFormData} buttonText='Add'
