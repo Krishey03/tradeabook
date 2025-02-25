@@ -26,7 +26,7 @@ const handleImageUpload = async(req, res)=>{
 //add a new product
 const addProduct = async(req,res)=>{
     try{
-        const{title, author, category, description, image, seller, minBid} = req.body
+        const{title, author, category, description, image, minBid} = req.body
         const newlyCreatedProduct = new Product({
             title, author, category, description, image, seller, minBid
         })
@@ -49,7 +49,7 @@ const fetchAllProducts = async(req,res)=>{
     try{
         const listOfProducts = await Product.find({})
         res.status(200).json({
-            success: True,
+            success: true,
             data: listOfProducts
         })
     }catch(e){

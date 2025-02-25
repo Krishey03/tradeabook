@@ -1,5 +1,3 @@
-
-
 export const registerFormControls = [
     {
         name: "userName",
@@ -75,49 +73,25 @@ export const addProductFormElements = [
     {
       label: "Category",
       name: "category",
-      componentType: "select",
-      options: [
-        { id: "men", label: "Men" },
-        { id: "women", label: "Women" },
-        { id: "kids", label: "Kids" },
-        { id: "accessories", label: "Accessories" },
-        { id: "footwear", label: "Footwear" },
-      ],
+      componentType: "text",
     },
     {
-      label: "Brand",
-      name: "brand",
-      componentType: "select",
-      options: [
-        { id: "nike", label: "Nike" },
-        { id: "adidas", label: "Adidas" },
-        { id: "puma", label: "Puma" },
-        { id: "levi", label: "Levi's" },
-        { id: "zara", label: "Zara" },
-        { id: "h&m", label: "H&M" },
-      ],
+      label: "Author",
+      name: "author",
+      componentType: "text",
     },
     {
-      label: "Price",
-      name: "price",
+      label: "Seller Name",
+      name: "seller",
+      componentType: "text"
+    },
+    {
+      label: "Min Bid",
+      name: "minBid",
       componentType: "input",
       type: "number",
-      placeholder: "Enter product price",
-    },
-    {
-      label: "Sale Price",
-      name: "salePrice",
-      componentType: "input",
-      type: "number",
-      placeholder: "Enter sale price (optional)",
-    },
-    {
-      label: "Total Stock",
-      name: "totalStock",
-      componentType: "input",
-      type: "number",
-      placeholder: "Enter total stock",
-    },
+      placeholder: "Enter minimum bid price",
+    }
   ];
 
 
