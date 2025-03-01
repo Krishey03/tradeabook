@@ -65,9 +65,6 @@ function AdminSideBar({open, setOpen}) {
                 <div onClick={()=>navigate('/admin/dashboard')} className="flex cursor-pointer items-center justify-between mb-4">
                     <ChartNoAxesCombined size={35}/>
                     <h2 className="text-xl font-bold">Dashboard</h2>
-                    <button className="text-xs text-gray-400 hover:text-gray-500" onClick={() => navigate("/admin/orders")}>
-                        View Orders
-                    </button>
                 </div>
                 <MenuItems/>
             </aside>

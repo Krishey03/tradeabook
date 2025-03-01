@@ -1,56 +1,102 @@
-
-
-// function ShoppingHome(){
-//     return(
-//         <div>Shopping Home Page</div>
-//     );
-
-// }
-
-// export default ShoppingHome;
-
 import CommonForm from "@/components/common/form";
 import { Button } from "@/components/ui/button";
 import { SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Sheet } from "@/components/ui/sheet";
 import { addProductFormElements } from "@/config";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
+import ProductImageUpload from "../../components/admin-view/image-upload";
+import { useDispatch, useSelector } from "react-redux";
+import { addNewProduct, fetchAllProducts } from "@/store/admin/products-slice";
 
-const initialFormData= {
-    image: null,
-    title: '',
-    description: '',
-    category: '',
-    brand: '',
-    price: "",
-    salePrice: '',
-    totalStock: ''
-}
 
 function AdminProducts() {
 
-    const[openCreateProductsDialog,setOpenCreateProductsDialog] = useState(false)
-    const[formData,setFormData] = useState(initialFormData)
+const { user } = useSelector((state) => state.auth);
 
-    function onSubmit(){
+  const initialFormData = {
+    title: '',
+    author: '',
+    isbn: '',
+    publisher: '',
+    publicationDate: '',
+    edition: '',
+    description: '',
+    minBid: '',
+    seller: user?.userName,
+    image: null,
+  };
 
-    }
+      const [openCreateProductsDialog, setOpenCreateProductsDialog] =
+        useState(false);
+      const [formData, setFormData] = useState(initialFormData);
+      const [imageFile, setImageFile] = useState(null);
+      const [uploadedImageUrl, setUploadedImageUrl] = useState("");
+      const [imageLoadingState, setImageLoadingState] = useState(false);
+      
+      const dispatch = useDispatch();
+
+    function onSubmit(event) {
+        event.preventDefault();
+            dispatch(
+              addNewProduct({
+                ...formData,
+                image: uploadedImageUrl,
+              })
+            ).then((data) => {
+              if (data?.payload?.success) {
+                dispatch(fetchAllProducts());
+                setOpenCreateProductsDialog(false);
+                setImageFile(null);
+                setFormData(initialFormData);
+              }
+            });
+      }
+    
+      function isFormValid() {
+        return Object.keys(formData)
+          .map((key) => formData[key] !== "")
+          .every((item) => item);
+      }
+    
+      useEffect(() => {
+        dispatch(fetchAllProducts());
+      }, [dispatch]);
+    
+      console.log(formData, "productList");
+    
 
     return <Fragment>
         <div className="mb-5 flex justify-end">
             <Button onClick={()=>setOpenCreateProductsDialog(true)} className="text-white">Add new Product</Button>
         </div>
-        <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-4"></div>
-        <Sheet open={openCreateProductsDialog} onOpenChange={()=>{setOpenCreateProductsDialog(false)}}>
-            <SheetContent side="right" className="overflow-auto text-white">
+      <Sheet
+        open={openCreateProductsDialog}
+        onOpenChange={() => {
+          setOpenCreateProductsDialog(false);
+          setFormData(initialFormData);
+        }}
+      >
+        <SheetContent side="right" className="overflow-auto text-white bg-black p-6 rounded-lg shadow-xl transition-all duration-300">
                 <SheetHeader>
-                    <SheetTitle className="text-white">Add new Product</SheetTitle>
+                  Upload a Product
                 </SheetHeader>
+                <ProductImageUpload 
+                  imageFile={imageFile}
+                  setImageFile={setImageFile}
+                  uploadedImageUrl={uploadedImageUrl}
+                  setUploadedImageUrl={setUploadedImageUrl}
+                  setImageLoadingState={setImageLoadingState}
+                  imageLoadingState={imageLoadingState}
+                />
                 <div className="py-6">
-                    <CommonForm onSubmit={onSubmit} formData={formData} setFormData={setFormData} buttonText='Add'
-                    formControls={addProductFormElements}
+                    <CommonForm 
+                      buttonText="Upload"
+                      onSubmit={onSubmit} 
+                      formData={formData} 
+                      setFormData={setFormData} 
+                      formControls={addProductFormElements}
+                      isBtnDisabled={!isFormValid()}
                     />
-                    console.log("Hey")
                 </div>
             </SheetContent>
         </Sheet>

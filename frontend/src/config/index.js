@@ -109,6 +109,29 @@ export const addProductFormElements = [
   },
 ];
 
+export const shoppingViewHeaderMenuItems = [
+  {
+    id: "home",
+    label: "Home",
+    path: "/shop/home",
+  },
+  {
+    id: "products",
+    label: "Products",
+    path: "/shop/listing",
+  },
+  {
+    id: "about",
+    label: "About",
+    path: "/shop/about",
+  },
+  {
+    id: "search",
+    label: "Search",
+    path: "/shop/search",
+  },
+];
+
 
 
 

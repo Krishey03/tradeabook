@@ -9,7 +9,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { addNewProduct, deleteProduct, editProduct, fetchAllProducts } from "@/store/admin/products-slice";
 import AdminProductTile from "@/components/admin-view/product-tile";
 
-const initialFormData= {
+function AdminProducts() {
+
+  const { user } = useSelector((state) => state.auth);
+
+  const initialFormData = {
     title: '',
     author: '',
     isbn: '',
@@ -18,11 +22,9 @@ const initialFormData= {
     edition: '',
     description: '',
     minBid: '',
-    seller: "user",
+    seller: user?.userName,
     image: null,
-}
-
-function AdminProducts() {
+  };
 
       const [openCreateProductsDialog, setOpenCreateProductsDialog] =
         useState(false);
