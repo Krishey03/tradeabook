@@ -57,42 +57,58 @@ export const loginFormControls = [
 ];
 
 export const addProductFormElements = [
-    {
-      label: "Title",
-      name: "title",
-      componentType: "input",
-      type: "text",
-      placeholder: "Enter product title",
-    },
-    {
-      label: "Description",
-      name: "description",
-      componentType: "textarea",
-      placeholder: "Enter product description",
-    },
-    {
-      label: "Category",
-      name: "category",
-      componentType: "text",
-    },
-    {
-      label: "Author",
-      name: "author",
-      componentType: "text",
-    },
-    {
-      label: "Seller Name",
-      name: "seller",
-      componentType: "text"
-    },
-    {
-      label: "Min Bid",
-      name: "minBid",
-      componentType: "input",
-      type: "number",
-      placeholder: "Enter minimum bid price",
-    }
-  ];
+  {
+    label: "Title",
+    name: "title",
+    componentType: "input",
+    type: "text",
+    placeholder: "Enter product title",
+  },
+  {
+    label: "Description",
+    name: "description",
+    componentType: "textarea",
+    placeholder: "Enter product description",
+  },
+  {
+    label: "Author",
+    name: "author",
+    componentType: "text",
+    placeholder: "Enter author name",
+  },
+  {
+    label: "ISBN",
+    name: "isbn",
+    componentType: "text",
+    placeholder: "Enter ISBN number",
+  },
+  {
+    label: "Publisher",
+    name: "publisher",
+    componentType: "text",
+    placeholder: "Enter publisher name",
+  },
+  {
+    label: "Publication Date",
+    name: "publicationDate",
+    componentType: "text",
+    placeholder: "Enter publication date",
+  },
+  {
+    label: "Edition",
+    name: "edition",
+    componentType: "text",
+    placeholder: "Enter edition",
+  },
+  {
+    label: "Min Bid",
+    name: "minBid",
+    componentType: "input",
+    type: "number",
+    placeholder: "Enter minimum bid price",
+  },
+];
+
 
 
 

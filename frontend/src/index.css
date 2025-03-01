@@ -127,3 +127,22 @@ button:focus-visible {
     --ring: rgb(0, 100, 255);
   }
 }
+
+@layer base {
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+  }
+}
+
+
+@layer utilities {
+  .bg-background {
+    background-color: var(--background);
+  }
+  .text-foreground {
+    color: var(--foreground);
+  }
+}
+
+
