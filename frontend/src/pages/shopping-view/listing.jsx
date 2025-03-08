@@ -5,7 +5,6 @@ import ShoppingProductTile from "./product-tile";
 import ProductDetailsDialog from "@/pages/shopping-view/product-details";
 
 function ShoppingListing(){
-
     const dispatch = useDispatch();
     const {productList, productDetails} = useSelector((state)=>state.shopProductsSlice)
     const [openDetailsDialog, setOpenDetailsDialog] = useState(false)
@@ -15,17 +14,16 @@ function ShoppingListing(){
     }, [dispatch])
 
     function handleGetProductDetails(getCurrentProductId){
-        console.log(getCurrentProductId, 'getCurrentProductId')
+        console.log(getCurrentProductId)
         dispatch (fetchProductDetails(getCurrentProductId))
     }
 
     console.log(productList, 'productList')
     console.log(productDetails, 'productDetails')
 
-    useEffect(()=>{
-        if(productDetails !== null) setOpenDetailsDialog(true)
-
-    }, [productDetails])
+    useEffect(() => {
+        if (productDetails !== null) setOpenDetailsDialog(true);
+      }, [productDetails])
 
     return (
         <div className="grid grid-cols-1 md:grid-cols-[300px_1fr] gap-6 p-4 md:p-6">
@@ -38,14 +36,15 @@ function ShoppingListing(){
                 </div>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
-            {productList && productList.length > 0
-                ? productList.map((productItem) => (
-                    <ShoppingProductTile handleGetProductDetails={handleGetProductDetails}
-                    product={productItem}
-                    />
-                ))
-                : null}
-            </div>
+          {productList && productList.length > 0
+            ? productList.map((productItem) => (
+                <ShoppingProductTile
+                  handleGetProductDetails={handleGetProductDetails}
+                  product={productItem}
+                />
+              ))
+            : null}
+        </div>
             <ProductDetailsDialog 
                 open={openDetailsDialog} 
                 setOpen={setOpenDetailsDialog} 

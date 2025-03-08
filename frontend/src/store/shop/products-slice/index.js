@@ -49,7 +49,7 @@ const shoppingProductSlice = createSlice({
         }).addCase(fetchProductDetails.fulfilled,(state,action)=>{
             console.log(action.payload.data)
             state.isLoading = false,
-            state.fetchProductDetails = action.payload.data
+            state.productDetails = action.payload.data
         }).addCase(fetchProductDetails.rejected,(state,action)=>{
             state.isLoading = false,
             state.productList = null
