@@ -11,7 +11,8 @@ import AdminProductTile from "@/components/admin-view/product-tile";
 
 function AdminProducts() {
 
-  const { user } = useSelector((state) => state.auth);
+    const { user } = useSelector((state) => state.auth);
+    const { userEmail } = useSelector((state) => state.auth);
 
   const initialFormData = {
     title: '',
@@ -23,6 +24,7 @@ function AdminProducts() {
     description: '',
     minBid: '',
     seller: user?.userName,
+    sellerEmail: userEmail?.email,
     image: null,
   };
 
@@ -93,9 +95,10 @@ function AdminProducts() {
     
 
     return <Fragment>
-        <div className="mb-5 flex justify-end">
+      {/* Admin Add product */}
+        {/* <div className="mb-5 flex justify-end">
             <Button onClick={()=>setOpenCreateProductsDialog(true)} className="text-white">Add new Product</Button>
-        </div>
+        </div> */}
         <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-4">
         {productList && productList.length > 0
           ? productList.map((productItem) => (

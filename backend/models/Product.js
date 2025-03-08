@@ -11,6 +11,7 @@ const ProductSchema = new mongoose.Schema(
     description: String,
     minBid: Number,
     seller: String,
+    sellerEmail: String,
     image: String,
   }
 );

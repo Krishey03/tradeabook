@@ -1,10 +1,10 @@
 import { Card, CardContent } from "@/components/ui/card";
 
 
-function ShoppingProductTile({ product }) {
+function ShoppingProductTile({ product, handleGetProductDetails }) {
     return (
         <Card className="w-full max-w-sm mx-auto">
-            <div>
+            <div onClick={()=>handleGetProductDetails(product?._id)} className="cursor-pointer">
                 <div className="relative">
                     <img 
                         src={product.image}

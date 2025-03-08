@@ -11,7 +11,7 @@ import { addNewProduct, fetchAllProducts } from "@/store/admin/products-slice";
 
 function AdminProducts() {
 
-const { user } = useSelector((state) => state.auth);
+const { user, userEmail } = useSelector((state) => state.auth);
 
   const initialFormData = {
     title: '',
@@ -23,6 +23,7 @@ const { user } = useSelector((state) => state.auth);
     description: '',
     minBid: '',
     seller: user?.userName,
+    sellerEmail: userEmail?.email,
     image: null,
   };
 
