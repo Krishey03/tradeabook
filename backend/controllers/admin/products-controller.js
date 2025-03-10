@@ -65,7 +65,7 @@ const fetchAllProducts = async(req,res)=>{
 const editProduct = async (req, res) => {
     try {
         const { id } = req.params;
-        const { title, author, isbn, publisher, publicationDate, edition, description, image,  minBid } = req.body;
+        const { title, author, isbn, publisher, publicationDate, edition, description, image, minBid, seller, sellerEmail } = req.body;
         const findProduct = await Product.findById(id);
 
         if (!findProduct) {
@@ -86,7 +86,6 @@ const editProduct = async (req, res) => {
         findProduct.seller = seller || findProduct.seller;
         findProduct.sellerEmail = sellerEmail || findProduct.sellerEmail;
         findProduct.minBid = minBid || findProduct.minBid;
-        findProduct.minBid = minBid || findProduct.currentBid;
 
         await findProduct.save();
 
@@ -95,13 +94,14 @@ const editProduct = async (req, res) => {
             data: findProduct,
         });
     } catch (e) {
-        console.log(e); 
+        console.log(e);
         res.status(500).json({
             success: false,
             message: "An error occurred while updating the product.",
         });
     }
 };
+
 
 
 //delete a product

@@ -43,7 +43,7 @@ function AdminProducts() {
               useEffect(() => {
             setFormData((prev) => ({
                 ...prev,
-                currentBid: prev.minBid || '', // Set to minBid when available
+                currentBid: prev.minBid || '',
             }));
         }, [formData.minBid]);
 
