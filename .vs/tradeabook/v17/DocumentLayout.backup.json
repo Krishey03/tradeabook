@@ -3,16 +3,40 @@
   "WorkspaceRootPath": "D:\\Final Year Project\\tradeabook\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Final Year Project\\tradeabook\\frontend\\src\\pages\\shopping-view\\home.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\pages\\shopping-view\\home.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Final Year Project\\tradeabook\\frontend\\src\\pages\\shopping-view\\listing.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\pages\\shopping-view\\listing.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Final Year Project\\tradeabook\\frontend\\src\\pages\\shopping-view\\product-details.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\pages\\shopping-view\\product-details.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Final Year Project\\tradeabook\\frontend\\src\\pages\\admin-view\\products.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\pages\\admin-view\\products.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Final Year Project\\tradeabook\\frontend\\src\\components\\admin-view\\product-tile.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\components\\admin-view\\product-tile.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Final Year Project\\tradeabook\\frontend\\src\\pages\\shopping-view\\home.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\pages\\shopping-view\\home.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Final Year Project\\tradeabook\\backend\\controllers\\admin\\products-controller.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:backend\\controllers\\admin\\products-controller.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Final Year Project\\tradeabook\\backend\\models\\Product.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:backend\\models\\Product.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Final Year Project\\tradeabook\\frontend\\src\\pages\\shopping-view\\header.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\pages\\shopping-view\\header.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Final Year Project\\tradeabook\\frontend\\src\\App.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\App.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Final Year Project\\tradeabook\\frontend\\src\\store\\shop\\products-slice\\index.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
@@ -38,7 +62,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
@@ -46,7 +70,82 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "product-details.jsx",
+              "DocumentMoniker": "D:\\Final Year Project\\tradeabook\\frontend\\src\\pages\\shopping-view\\product-details.jsx",
+              "RelativeDocumentMoniker": "frontend\\src\\pages\\shopping-view\\product-details.jsx",
+              "ToolTip": "D:\\Final Year Project\\tradeabook\\frontend\\src\\pages\\shopping-view\\product-details.jsx",
+              "RelativeToolTip": "frontend\\src\\pages\\shopping-view\\product-details.jsx",
+              "ViewState": "AgIAACcAAAAAAAAAAAAEwDAAAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
+              "WhenOpened": "2025-03-09T02:42:53.371Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 3,
+              "Title": "product-tile.jsx",
+              "DocumentMoniker": "D:\\Final Year Project\\tradeabook\\frontend\\src\\components\\admin-view\\product-tile.jsx",
+              "RelativeDocumentMoniker": "frontend\\src\\components\\admin-view\\product-tile.jsx",
+              "ToolTip": "D:\\Final Year Project\\tradeabook\\frontend\\src\\components\\admin-view\\product-tile.jsx",
+              "RelativeToolTip": "frontend\\src\\components\\admin-view\\product-tile.jsx",
+              "ViewState": "AgIAAB8AAAAAAAAAAAAEwCgAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
+              "WhenOpened": "2025-03-09T02:18:35.919Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Product.js",
+              "DocumentMoniker": "D:\\Final Year Project\\tradeabook\\backend\\models\\Product.js",
+              "RelativeDocumentMoniker": "backend\\models\\Product.js",
+              "ToolTip": "D:\\Final Year Project\\tradeabook\\backend\\models\\Product.js",
+              "RelativeToolTip": "backend\\models\\Product.js",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2025-03-08T15:39:51.526Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "listing.jsx",
+              "DocumentMoniker": "D:\\Final Year Project\\tradeabook\\frontend\\src\\pages\\shopping-view\\listing.jsx",
+              "RelativeDocumentMoniker": "frontend\\src\\pages\\shopping-view\\listing.jsx",
+              "ToolTip": "D:\\Final Year Project\\tradeabook\\frontend\\src\\pages\\shopping-view\\listing.jsx",
+              "RelativeToolTip": "frontend\\src\\pages\\shopping-view\\listing.jsx",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADAAAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
+              "WhenOpened": "2025-03-08T15:03:46.558Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "header.jsx",
+              "DocumentMoniker": "D:\\Final Year Project\\tradeabook\\frontend\\src\\pages\\shopping-view\\header.jsx",
+              "RelativeDocumentMoniker": "frontend\\src\\pages\\shopping-view\\header.jsx",
+              "ToolTip": "D:\\Final Year Project\\tradeabook\\frontend\\src\\pages\\shopping-view\\header.jsx",
+              "RelativeToolTip": "frontend\\src\\pages\\shopping-view\\header.jsx",
+              "ViewState": "AgIAAFwAAAAAAAAAAAAYwGsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
+              "WhenOpened": "2025-03-08T14:37:46.507Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "App.jsx",
+              "DocumentMoniker": "D:\\Final Year Project\\tradeabook\\frontend\\src\\App.jsx",
+              "RelativeDocumentMoniker": "frontend\\src\\App.jsx",
+              "ToolTip": "D:\\Final Year Project\\tradeabook\\frontend\\src\\App.jsx",
+              "RelativeToolTip": "frontend\\src\\App.jsx",
+              "ViewState": "AgIAAC0AAAAAAAAAAAAAACcAAAA+AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
+              "WhenOpened": "2025-03-08T14:35:48.465Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
               "Title": "index.js",
               "DocumentMoniker": "D:\\Final Year Project\\tradeabook\\frontend\\src\\store\\shop\\products-slice\\index.js",
               "RelativeDocumentMoniker": "frontend\\src\\store\\shop\\products-slice\\index.js",
@@ -54,12 +153,11 @@
               "RelativeToolTip": "frontend\\src\\store\\shop\\products-slice\\index.js",
               "ViewState": "AgIAAAwAAAAAAAAAAAAAACAAAAAkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2025-03-02T01:37:08.47Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-02T01:37:08.47Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 10,
               "Title": "index.js",
               "DocumentMoniker": "D:\\Final Year Project\\tradeabook\\frontend\\src\\store\\admin\\products-slice\\index.js",
               "RelativeDocumentMoniker": "frontend\\src\\store\\admin\\products-slice\\index.js",
@@ -71,33 +169,32 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 4,
               "Title": "home.jsx",
               "DocumentMoniker": "D:\\Final Year Project\\tradeabook\\frontend\\src\\pages\\shopping-view\\home.jsx",
               "RelativeDocumentMoniker": "frontend\\src\\pages\\shopping-view\\home.jsx",
               "ToolTip": "D:\\Final Year Project\\tradeabook\\frontend\\src\\pages\\shopping-view\\home.jsx",
               "RelativeToolTip": "frontend\\src\\pages\\shopping-view\\home.jsx",
-              "ViewState": "AgIAAAwAAAAAAAAAAAAAABgAAAAKAAAAAAAAAA==",
+              "ViewState": "AgIAAEEAAAAAAAAAAAAAwEYAAAA8AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
               "WhenOpened": "2025-03-01T11:21:35.124Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 5,
               "Title": "products-controller.js",
               "DocumentMoniker": "D:\\Final Year Project\\tradeabook\\backend\\controllers\\admin\\products-controller.js",
               "RelativeDocumentMoniker": "backend\\controllers\\admin\\products-controller.js",
               "ToolTip": "D:\\Final Year Project\\tradeabook\\backend\\controllers\\admin\\products-controller.js",
               "RelativeToolTip": "backend\\controllers\\admin\\products-controller.js",
-              "ViewState": "AgIAAEcAAAAAAAAAAAAAAFUAAAAjAAAAAAAAAA==",
+              "ViewState": "AgIAABMAAAAAAAAAAAAEwBwAAABDAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2025-02-25T03:26:45.445Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-25T03:26:45.445Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 11,
               "Title": "index.js",
               "DocumentMoniker": "D:\\Final Year Project\\tradeabook\\frontend\\src\\config\\index.js",
               "RelativeDocumentMoniker": "frontend\\src\\config\\index.js",
@@ -109,20 +206,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "products.jsx",
               "DocumentMoniker": "D:\\Final Year Project\\tradeabook\\frontend\\src\\pages\\admin-view\\products.jsx",
               "RelativeDocumentMoniker": "frontend\\src\\pages\\admin-view\\products.jsx",
-              "ToolTip": "D:\\Final Year Project\\tradeabook\\frontend\\src\\pages\\admin-view\\products.jsx",
-              "RelativeToolTip": "frontend\\src\\pages\\admin-view\\products.jsx",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAuwBoAAAAKAAAAAAAAAA==",
+              "ToolTip": "D:\\Final Year Project\\tradeabook\\frontend\\src\\pages\\admin-view\\products.jsx*",
+              "RelativeToolTip": "frontend\\src\\pages\\admin-view\\products.jsx*",
+              "ViewState": "AgIAAGIAAAAAAAAAAAAAAGMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
               "WhenOpened": "2025-02-23T13:57:31.438Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 12,
               "Title": "image-upload.jsx",
               "DocumentMoniker": "D:\\Final Year Project\\tradeabook\\frontend\\src\\components\\admin-view\\image-upload.jsx",
               "RelativeDocumentMoniker": "frontend\\src\\components\\admin-view\\image-upload.jsx",

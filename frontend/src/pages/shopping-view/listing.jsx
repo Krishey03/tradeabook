@@ -1,8 +1,9 @@
-import { fetchAllUserProducts, fetchProductDetails } from "@/store/shop/products-slice";
+import { fetchAllUserProducts, fetchProductDetails, setProductDetails } from "@/store/shop/products-slice";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ShoppingProductTile from "./product-tile";
 import ProductDetailsDialog from "@/pages/shopping-view/product-details";
+
 
 function ShoppingListing(){
     const dispatch = useDispatch();
@@ -49,6 +50,7 @@ function ShoppingListing(){
                 open={openDetailsDialog} 
                 setOpen={setOpenDetailsDialog} 
                 productDetails={productDetails}
+                setProductDetails={setProductDetails}
             />
         </div>
     )
@@ -56,3 +58,4 @@ function ShoppingListing(){
 }
 
 export default ShoppingListing;
+

@@ -21,7 +21,7 @@ function ShoppingProductTile({ product, handleGetProductDetails }) {
                     <span className="text-sm text-muted-foreground">{product?.description}</span>
                 </div>
                 <div className="flex items-center justify-between mb-2">
-                    <span className="text-lg font-semibold text-primary">Rs. {product?.minBid}</span>
+                    <span className="text-lg font-semibold text-primary">Rs. {product?.currentBid}</span>
                 </div>
             </CardContent>
         </Card>

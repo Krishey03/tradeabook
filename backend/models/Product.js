@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 const ProductSchema = new mongoose.Schema(
   {
+    image: String,
     title: String,
     author: String,
     isbn: String,
@@ -12,7 +13,8 @@ const ProductSchema = new mongoose.Schema(
     minBid: Number,
     seller: String,
     sellerEmail: String,
-    image: String,
+    currentBid: Number,
+    bidderEmail: String,
   }
 );
 

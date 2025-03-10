@@ -25,6 +25,7 @@ const { user, userEmail } = useSelector((state) => state.auth);
     seller: user?.userName,
     sellerEmail: userEmail?.email,
     image: null,
+    
   };
 
       const [openCreateProductsDialog, setOpenCreateProductsDialog] =
@@ -42,6 +43,7 @@ const { user, userEmail } = useSelector((state) => state.auth);
               addNewProduct({
                 ...formData,
                 image: uploadedImageUrl,
+                currentBid: formData.minBid
               })
             ).then((data) => {
               if (data?.payload?.success) {

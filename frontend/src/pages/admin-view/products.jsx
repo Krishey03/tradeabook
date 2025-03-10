@@ -25,8 +25,9 @@ function AdminProducts() {
     minBid: '',
     seller: user?.userName,
     sellerEmail: userEmail?.email,
+    currentBid: '',
     image: null,
-  };
+  }
 
       const [openCreateProductsDialog, setOpenCreateProductsDialog] =
         useState(false);
@@ -38,6 +39,13 @@ function AdminProducts() {
       const { productList } = useSelector((state) => state.adminProducts);
       
       const dispatch = useDispatch();
+
+              useEffect(() => {
+            setFormData((prev) => ({
+                ...prev,
+                currentBid: prev.minBid || '', // Set to minBid when available
+            }));
+        }, [formData.minBid]);
 
     function onSubmit(event) {
         event.preventDefault();

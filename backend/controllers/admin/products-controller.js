@@ -26,9 +26,9 @@ const handleImageUpload = async(req, res)=>{
 //add a new product
 const addProduct = async(req,res)=>{
     try{
-        const{title, author, isbn, publisher, publicationDate, edition, description, image, minBid, seller, sellerEmail } = req.body
+        const{title, author, isbn, publisher, publicationDate, edition, description, image, minBid, seller, sellerEmail, currentBid } = req.body
         const newlyCreatedProduct = new Product({
-            title, author, isbn, publisher, publicationDate, edition, description, image, minBid, seller, sellerEmail
+            title, author, isbn, publisher, publicationDate, edition, description, image, minBid, seller, sellerEmail, currentBid
         })
         await newlyCreatedProduct.save()
         res.status(201).json({
@@ -86,6 +86,7 @@ const editProduct = async (req, res) => {
         findProduct.seller = seller || findProduct.seller;
         findProduct.sellerEmail = sellerEmail || findProduct.sellerEmail;
         findProduct.minBid = minBid || findProduct.minBid;
+        findProduct.minBid = minBid || findProduct.currentBid;
 
         await findProduct.save();
 
