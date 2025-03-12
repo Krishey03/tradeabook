@@ -6,6 +6,7 @@ import { Dialog, DialogContent } from "@/components/ui/dialog"
 import { fetchAllProducts } from "@/store/admin/products-slice"
 import { io } from "socket.io-client"
 import { toast } from "react-hot-toast"
+import { exchangeProductFormElements } from "@/config"
 
 let socket = null
 
@@ -14,6 +15,8 @@ function ProductDetailsDialog({ open, setOpen, productDetails, setProductDetails
     const [bidAmount, setBidAmount] = useState("")
     const [errorMessage, setErrorMessage] = useState("")
     const dispatch = useDispatch()
+    const [isExchangeFormOpen, setIsExchangeFormOpen] = useState(false)
+    const [exchangeFormData, setExchangeFormData] = useState({})
 
     const userEmail = useSelector((state) => state.auth.user?.email)
 
@@ -107,6 +110,47 @@ function ProductDetailsDialog({ open, setOpen, productDetails, setProductDetails
         }
     }, [open])
 
+    //Exchange
+    const handleExchangeFormChange = (e) => {
+        setExchangeFormData({ ...exchangeFormData, [e.target.name]: e.target.value });
+    };
+
+    const handleExchangeSubmit = async () => {
+        // Validate exchange form fields
+        if (!exchangeFormData.eTitle || !exchangeFormData.eDescription) {
+            toast.error("Please fill out all required fields.");
+            return;
+        }
+
+        console.log('Exchange Form Data:', exchangeFormData); // Log to check what you're sending
+
+        try {
+            const response = await fetch("http://localhost:5000/api/shop/products/offerExchange", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    productId: productDetails?._id,
+                    userEmail,
+                    exchangeOffer: exchangeFormData,
+                }),
+            });
+
+            if (!response.ok) {
+                const text = await response.text(); // Get raw response
+                throw new Error(`Failed to submit exchange. Server response: ${text}`);
+            }
+
+            const data = await response.json();
+            console.log("Exchange Offer Response:", data);
+
+            setIsExchangeFormOpen(false);
+            toast.success("Exchange request sent!");
+        } catch (error) {
+            console.error("Error submitting exchange:", error);
+            toast.error(error.message);
+        }
+    };
+
     return (
         <>
             <Dialog open={open} onOpenChange={setOpen}>
@@ -137,7 +181,7 @@ function ProductDetailsDialog({ open, setOpen, productDetails, setProductDetails
                             {isCardOpen ? "Close Bid Form" : "Place a Bid"}
                         </Button>
 
-                        <Button className='text-white'>Offer an exchange</Button>
+                        <Button className='text-white' onClick={() => setIsExchangeFormOpen(true)}>Offer an exchange</Button>
 
                         {isCardOpen && (
                             <Card className="w-96 p-4 mt-4">
@@ -161,6 +205,29 @@ function ProductDetailsDialog({ open, setOpen, productDetails, setProductDetails
                     </div>
                 </DialogContent>
             </Dialog>
+
+{/* Exchange */}
+            <Dialog open={isExchangeFormOpen} onOpenChange={setIsExchangeFormOpen}>
+                <DialogContent className="p-6 max-w-md">
+                    <h2 className="text-xl font-bold">Offer an Exchange</h2>
+                    {exchangeProductFormElements.map((field) => (
+                        <div key={field.name} className="mb-4">
+                            <label className="block font-medium">{field.label}</label>
+                            <input
+                                type={field.type}
+                                name={field.name}
+                                placeholder={field.placeholder}
+                                onChange={handleExchangeFormChange}
+                                className="w-full p-2 border rounded-md bg-white"
+                            />
+                        </div>
+                    ))}
+                    <Button className="mt-4 w-full" onClick={handleExchangeSubmit}>
+                        Submit Exchange Offer
+                    </Button>
+                </DialogContent>
+            </Dialog>
+            
         </>
     )
 }

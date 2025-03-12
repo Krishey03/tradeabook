@@ -109,6 +109,52 @@ export const addProductFormElements = [
   },
 ];
 
+export const exchangeProductFormElements = [
+  {
+    label: "Title",
+    name: "eTitle",
+    componentType: "input",
+    type: "text",
+    placeholder: "Enter product title",
+  },
+  {
+    label: "Description",
+    name: "eDescription",
+    componentType: "textarea",
+    placeholder: "Enter product description",
+  },
+  {
+    label: "Author",
+    name: "eAuthor",
+    componentType: "text",
+    placeholder: "Enter author name",
+  },
+  {
+    label: "ISBN",
+    name: "eIsbn",
+    componentType: "text",
+    placeholder: "Enter ISBN number",
+  },
+  {
+    label: "Publisher",
+    name: "ePublisher",
+    componentType: "text",
+    placeholder: "Enter publisher name",
+  },
+  {
+    label: "Publication Date",
+    name: "ePublicationDate",
+    componentType: "text",
+    placeholder: "Enter publication date",
+  },
+  {
+    label: "Edition",
+    name: "eEdition",
+    componentType: "text",
+    placeholder: "Enter edition",
+  },
+];
+
 export const shoppingViewHeaderMenuItems = [
   {
     id: "home",

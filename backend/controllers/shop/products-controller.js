@@ -1,4 +1,5 @@
 const Product = require('../../models/Product')
+const eProduct = require('../../models/Exchange')
 const { io } = require('../../server');
 
 const getProducts = async (req, res) => {
@@ -96,6 +97,43 @@ const placeBid = async (req, res) => {
     }
 };
 
+const offerExchange = async (req, res) => {
+    try {
+        const { productId, userEmail, exchangeOffer } = req.body;
+
+        // Log the incoming data to check if exchangeOffer is coming in correctly
+        console.log("Received data:", req.body);
+
+        // Validate required fields
+        if (!productId || !userEmail || !exchangeOffer || !exchangeOffer.eTitle || !exchangeOffer.eDescription) {
+            return res.status(400).json({ message: "Missing required fields" });
+        }
+
+        // Find the product by ID to ensure it exists
+        const product = await Product.findById(productId);
+        if (!product) {
+            return res.status(404).json({ message: "Product not found." });
+        }
+
+        // Create a new eProduct (exchange offer) document
+        const newExchangeOffer = new eProduct({
+            productId: product._id,  // Link to the original product
+            userEmail: userEmail,    // Email of the user offering the exchange
+            exchangeOffer: exchangeOffer,  // The offer details
+        });
+
+        // Save the exchange offer to the eProduct collection
+        await newExchangeOffer.save();
+
+        res.status(200).json({
+            message: "Exchange offer submitted successfully!",
+            exchangeOffer: newExchangeOffer,
+        });
+    } catch (error) {
+        console.error("Error submitting exchange offer:", error);
+        res.status(500).json({ message: "Server error" });
+    }
+};
 
 
-module.exports = { getProducts, getProductDetails, placeBid };
+module.exports = { getProducts, getProductDetails, placeBid, offerExchange };
