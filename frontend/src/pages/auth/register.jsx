@@ -2,10 +2,11 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import CommonForm from "@/components/common/form";
 import { registerFormControls } from "@/config";
-import { registerUser } from "@/store/auth-slice"
+import { registerUser } from "@/store/auth-slice";
 import { useDispatch } from 'react-redux';
 import { useToast } from "@/components/ui/use-toast";
-
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
 const initialState = {
     userName: '',
@@ -17,51 +18,70 @@ const initialState = {
 
 function AuthRegister() {
     const [formData, setFormData] = useState(initialState);
-    const dispatch = useDispatch()
-    const navigate = useNavigate()
-    const {toast} = useToast()
+    const [loading, setLoading] = useState(false);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const { toast } = useToast();
 
-    function onSubmit(event) {
+    async function onSubmit(event) {
         event.preventDefault();
-        console.log("Form submitted:", formData);
-        dispatch(registerUser(formData)).then((data) => {
-            if(data?.payload.success) {
+        setLoading(true);
+
+        try {
+            const data = await dispatch(registerUser(formData)).unwrap();
+            console.log("Registration Response:", data);
+
+            if (data?.success) {
                 toast({
-                    title: data?.payload?.message,
-                })
-                navigate('/auth/login')
+                    title: "Registration Successful",
+                    description: "You can now log in!",
+                    status: "success",
+                });
+                navigate('/auth/login');
             } else {
-            toast({
-                title: data?.payload?.message,
-            })
+                toast({
+                    title: "Registration Failed",
+                    description: data?.message || "Something went wrong!",
+                    status: "error",
+                });
             }
-        })
+        } catch (error) {
+            console.error("Registration Error:", error);
+            toast({
+                title: "Registration Error",
+                description: error?.message || "An unexpected error occurred.",
+                status: "error",
+            });
+        } finally {
+            setLoading(false);
+        }
     }
 
     return (
-        <div className="mx-auto w-full max-w-md space-y-6">
-            <div className="text-center">
-                <h1 className="text-3xl font-bold tracking-tight text-foreground">
-                    Create an account!
-                </h1>
-                <p className="mt-2">
-                    Already have an account?
-                    <Link
-                        className="font-medium ml-2 text-primary hover:underline"
-                        to="/auth/login"
-                    >
-                        Login
-                    </Link>
-                </p>
-            </div>
+<div className="flex min-h-screen items-start justify-center px-4">
+    <Card className="w-full max-w-md shadow-lg">
+        <CardHeader className="text-center">
+            <CardTitle className="text-4xl font-bold">Create an Account!</CardTitle> {/* Increased font size */}
+            <p className="mt-3 text-base text-gray-600">
+                Already have an account? 
+                <Link to="/auth/login" className="ml-1 font-medium text-primary hover:underline">
+                    Login
+                </Link>
+            </p>
+        </CardHeader>
+        <CardContent>
             <CommonForm
                 formControls={registerFormControls}
-                buttonText={'Sign Up'}
+                buttonText={loading ? "Signing Up..." : "Sign Up"}
                 formData={formData}
                 setFormData={setFormData}
                 onSubmit={onSubmit}
+                buttonDisabled={loading}
             />
-        </div>
+        </CardContent>
+    </Card>
+</div>
+
     );
 }
 

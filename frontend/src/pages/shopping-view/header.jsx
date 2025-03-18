@@ -17,13 +17,13 @@ import { logoutUser } from "@/store/auth-slice";
 
 function MenuItems({ closeMenu }) {
   return (
-    <nav className="flex flex-col lg:items-center gap-6 lg:flex-row">
+    <nav className="flex flex-col lg:items-center gap-6 lg:flex-row p-4">
       {shoppingViewHeaderMenuItems.map((menuItem) => (
         <Link 
-          className="text-sm font-medium hover:text-primary transition-all"
+          className="text-sm-b font-medium hover:text-primary transition-all text-black"
           key={menuItem.id} 
           to={menuItem.path}
-          onClick={closeMenu} // Close menu when clicking on mobile
+          onClick={closeMenu} 
         >
           {menuItem.label}
         </Link>
@@ -69,7 +69,7 @@ function HeaderRightContent() {
               User Account
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={handleLogout} className="hover:bg-red-100 cursor-pointer text-red-500">
+            <DropdownMenuItem onClick={handleLogout} className="bg-red-500 cursor-pointer text-white">
               <LogOut className="mr-2 h-4 w-4" />
               Logout
             </DropdownMenuItem>
@@ -84,7 +84,7 @@ function ShoppingHeader() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-white shadow-md">
-      <div className="flex items-center justify-between px-4 md:px-6">
+      <div className="flex items-center justify-between px-4 md:px-6 bg-slate-200">
         {/* Logo */}
         <Link className="flex items-center gap-2 text-black font-bold text-lg" to="/shop/home">
           <House className="h-6 w-6" />

@@ -5,6 +5,8 @@ import { loginFormControls } from "@/config";
 import { loginUser } from "@/store/auth-slice";
 import { useDispatch } from "react-redux";
 import { useToast } from "@/components/ui/use-toast";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
 const initialState = {
     email: '',
@@ -13,41 +15,63 @@ const initialState = {
 
 function AuthLogin() {
     const [formData, setFormData] = useState(initialState);
-    const dispatch = useDispatch()
-    const{toast} = useToast()
+    const [loading, setLoading] = useState(false);
+    const dispatch = useDispatch();
+    const { toast } = useToast();
 
-    function onSubmit(event) {
+    async function onSubmit(event) {
         event.preventDefault();
-        dispatch(loginUser(formData)).then(data => {
-            console.log("Full Login Response:", data);
-        });
-        
+        setLoading(true);
+
+        try {
+            const response = await dispatch(loginUser(formData)).unwrap();
+            console.log("Full Login Response:", response);
+
+            toast({
+                title: "Login Successful",
+                description: "You have successfully logged in.",
+                status: "success",
+            });
+
+        } catch (error) {
+            console.error("Login Error:", error);
+            toast({
+                title: "Login Failed",
+                description: error?.message || "Invalid email or password.",
+                status: "error",
+            });
+        } finally {
+            setLoading(false);
+        }
     }
 
     return (
-        <div className="mx-auto w-full max-w-md space-y-6">
-            <div className="text-center">
-                <h1 className="text-3xl font-bold tracking-tight text-foreground">
-                    Welcome!
-                </h1>
-                <p className="mt-2">
-                    Don't have an account?
-                    <Link
-                        className="font-medium ml-2 text-primary hover:underline"
-                        to="/auth/register"
-                    >
-                        Sign Up
-                    </Link>
-                </p>
-            </div>
+<div className="flex min-h-screen items-start justify-center px-4">
+    <Card className="w-full max-w-lg shadow-lg p-3">
+        <CardHeader className="text-center">
+            <CardTitle className="text-4xl font-bold">Welcome!</CardTitle>
+            <p className="mt-3 text-base text-gray-600">
+                Don't have an account? 
+                <Link to="/auth/register" className="ml-1 font-medium text-primary hover:underline">
+                    Sign Up
+                </Link>
+            </p>
+        </CardHeader>
+        <CardContent className="space-y-4"> {/* Added spacing between elements */}
             <CommonForm
                 formControls={loginFormControls}
-                buttonText="Sign In"
+                buttonText={loading ? "Signing In..." : "Login"}
                 formData={formData}
                 setFormData={setFormData}
                 onSubmit={onSubmit}
+                buttonDisabled={loading}
             />
-        </div>
+        </CardContent>
+    </Card>
+</div>
+
+
+
     );
 }
 

@@ -3,20 +3,19 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ShoppingProductTile from "./product-tile";
 import ProductDetailsDialog from "@/pages/shopping-view/product-details";
-import SellerExchangeOffers from "./sellerExchangeOffers"; 
+import SellerExchangeOffers from "./sellerExchangeOffers";
 
 function ShoppingListing() {
     const dispatch = useDispatch();
-    const {productList, productDetails} = useSelector((state) => state.shopProductsSlice);
+    const { productList, productDetails, loading } = useSelector((state) => state.shopProductsSlice);
     const [openDetailsDialog, setOpenDetailsDialog] = useState(false);
-    const [activeTab, setActiveTab] = useState("products"); // Add state for tabs
-    
+    const [activeTab, setActiveTab] = useState("products");
+
     useEffect(() => {
         dispatch(fetchAllUserProducts());
     }, [dispatch]);
 
     function handleGetProductDetails(getCurrentProductId) {
-        console.log(getCurrentProductId);
         dispatch(fetchProductDetails(getCurrentProductId));
     }
 
@@ -25,55 +24,55 @@ function ShoppingListing() {
     }, [productDetails]);
 
     return (
-        <div className="grid grid-cols-1 md:grid-cols-[300px_1fr] gap-6 p-4 md:p-6">
-            <div className="bg-background w-full rounded-lg shadow-sm">
-                <div className="p-4 border-b flex items-center justify-between">
-                    <h2 className="text-lg font-extrabold">Products</h2>
-                    <div className="flex items-center gap-2">
-                        <span className="text-sm">No of Products: {productList.length}</span>
-                    </div>
+        <div className="flex min-h-screen bg-gray-100">
+            {/* Sidebar for Tab Navigation */}
+            <div className="w-1/6 shadow-lg rounded-lg p-4 space-y-4 bg-slate-200">
+                <div className="flex flex-col space-y-2">
+                    <button
+                        className={`p-3 rounded-md text-lg font-semibold ${activeTab === "products" ? "bg-indigo-600 text-white" : "bg-gray-100 hover:bg-gray-200"}`}
+                        onClick={() => setActiveTab("products")}
+                    >
+                        Products Listing
+                    </button>
+                    <button
+                        className={`p-3 rounded-md text-lg font-semibold ${activeTab === "exchangeOffers" ? "bg-indigo-600 text-white" : "bg-gray-100 hover:bg-gray-200"}`}
+                        onClick={() => setActiveTab("exchangeOffers")}
+                    >
+                        Exchange Offers
+                    </button>
                 </div>
-                
-                {/* Add Navigation */}
-                <div className="p-4">
-                    <div className="flex flex-col space-y-2">
-                        <button 
-                            className={`p-2 text-left rounded-md ${activeTab === "products" ? "bg-primary text-white" : "hover:bg-gray-100"}`}
-                            onClick={() => setActiveTab("products")}
-                        >
-                            Products Listing
-                        </button>
-                        <button 
-                            className={`p-2 text-left rounded-md ${activeTab === "exchangeOffers" ? "bg-primary text-white" : "hover:bg-gray-100"}`}
-                            onClick={() => setActiveTab("exchangeOffers")}
-                        >
-                            Exchange Offers
-                        </button>
-                    </div>
+                <div className="mt-4 text-sm text-gray-500">
+                    <span>No of Products: {productList.length}</span>
                 </div>
             </div>
-            
-            <div>
-                {activeTab === "products" ? (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
-                        {productList && productList.length > 0
-                            ? productList.map((productItem) => (
+
+            {/* Main Content Area */}
+            <div className="flex-1 p-6 ">
+                {loading ? (
+                    <div className="text-center text-xl text-gray-500">Loading...</div>
+                ) : activeTab === "products" ? (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 ">
+                        {productList && productList.length > 0 ? (
+                            productList.map((productItem) => (
                                 <ShoppingProductTile
                                     key={productItem._id}
                                     handleGetProductDetails={handleGetProductDetails}
                                     product={productItem}
                                 />
                             ))
-                            : <p className="col-span-full text-center py-8 text-muted-foreground">No products available</p>}
+                        ) : (
+                            <p className="col-span-full text-center text-gray-400">No products available</p>
+                        )}
                     </div>
                 ) : (
                     <SellerExchangeOffers />
                 )}
             </div>
-            
-            <ProductDetailsDialog 
-                open={openDetailsDialog} 
-                setOpen={setOpenDetailsDialog} 
+
+            {/* Product Details Dialog */}
+            <ProductDetailsDialog
+                open={openDetailsDialog}
+                setOpen={setOpenDetailsDialog}
                 productDetails={productDetails}
                 setProductDetails={setProductDetails}
             />

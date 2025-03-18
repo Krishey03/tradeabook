@@ -36,7 +36,6 @@ function CommonForm({ formControls, formData, setFormData, onSubmit, buttonText,
                             })
                         }
                         value={value}
-                        // value={formData[getControlItem.name] || getControlItem.options?.[0]?.id}
                     >
                         <SelectTrigger className="w-full">
                             <SelectValue placeholder={getControlItem.placeholder} />
@@ -101,7 +100,7 @@ function CommonForm({ formControls, formData, setFormData, onSubmit, buttonText,
                     </div>
                 ))}
             </div>
-            <Button disabled={isBtnDisabled} type="submit" className="mt-2 w-full">
+            <Button disabled={isBtnDisabled} type="submit" className="mt-2 w-full text-white">
                 {buttonText || 'Submit'}
             </Button>
         </form>

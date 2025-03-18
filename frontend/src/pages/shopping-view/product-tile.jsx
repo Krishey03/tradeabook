@@ -1,6 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card";
 
-
 function ShoppingProductTile({ product, handleGetProductDetails }) {
     return (
         <Card className="w-full max-w-sm mx-auto">
@@ -11,10 +10,10 @@ function ShoppingProductTile({ product, handleGetProductDetails }) {
                         alt={product.title}
                         className="w-full h-[300px] object-cover rounded-t-lg"
                     />
-
-
+                    <hr/>
                 </div>
             </div>
+            
             <CardContent className="p-4">
                 <h2 className="text-xl font-bold mb-2">{product?.title}</h2>
                 <div className="flex items-center justify-between mb-2">
