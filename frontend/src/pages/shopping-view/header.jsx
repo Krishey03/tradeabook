@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Button } from "@/components/ui/button";
 import { SheetTrigger, Sheet, SheetContent } from "@/components/ui/sheet";
 import { shoppingViewHeaderMenuItems } from "@/config";
-import { House, Menu, ShoppingCart, UserCog, LogOut, UserRound } from "lucide-react";
+import { House, Menu, ShoppingCart, UserCog, LogOut, UserRound, SquareStack } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import {
     DropdownMenu,
@@ -11,16 +11,20 @@ import {
     DropdownMenuLabel,
     DropdownMenuSeparator,
     DropdownMenuItem,
-  } from "@/components/ui/dropdown-menu";
-
+} from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { logoutUser } from "@/store/auth-slice";
 
-function MenuItems() {
+function MenuItems({ closeMenu }) {
   return (
-    <nav className="flex flex-col mb-3 lg:mb-0 lg:items-center gap-6 lg:flex-row">
+    <nav className="flex flex-col lg:items-center gap-6 lg:flex-row">
       {shoppingViewHeaderMenuItems.map((menuItem) => (
-        <Link className="text-sm font-medium" key={menuItem.id} to={menuItem.path}>
+        <Link 
+          className="text-sm font-medium hover:text-primary transition-all"
+          key={menuItem.id} 
+          to={menuItem.path}
+          onClick={closeMenu} // Close menu when clicking on mobile
+        >
           {menuItem.label}
         </Link>
       ))}
@@ -37,50 +41,57 @@ function HeaderRightContent() {
         dispatch(logoutUser());
     }
 
-  return (
-    <div className="flex lg:items-center lg:flex-row flex-col gap-4">
-      <Button variant="outline" size="icon">
-        <ShoppingCart className="h-6 w-6" />
-        <span className="sr-only">View Cart</span>
-      </Button>
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-            <Avatar className="bg-black">
-                <AvatarFallback className="bg-black text-white font-extrabold">
-                    {user?. userName[0].toUpperCase()}
-                </AvatarFallback>
-
+    return (
+      <div className="flex lg:items-center lg:flex-row flex-col gap-x-2 gap-y-4">
+        <Button variant="outline" size="icon">
+          <SquareStack className="h-6 w-6" />
+          <span className="sr-only">View Categories</span>
+        </Button>  
+        <Button variant="outline" size="icon">
+          <ShoppingCart className="h-6 w-6" />
+          <span className="sr-only">View Cart</span>
+        </Button>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Avatar className="bg-black cursor-pointer">
+              <AvatarFallback className="bg-black text-white font-extrabold text-lg">
+                {user?.userName[0].toUpperCase()}
+              </AvatarFallback>
             </Avatar>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent side="right" className="w-56">
-            <DropdownMenuLabel>Logged in as {user?.userName}</DropdownMenuLabel>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-56 bg-white border shadow-lg rounded-lg">
+            <DropdownMenuLabel className="px-4 py-2 text-sm text-gray-600">
+              Logged in as <span className="font-semibold">{user?.userName}</span>
+            </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={()=>navigate('/shop/account')}>
-                <UserRound  className="mr-2 h-4 w-4"/>
-                User Account
+            <DropdownMenuItem onClick={() => navigate('/shop/account')} className="hover:bg-gray-100 cursor-pointer">
+              <UserRound className="mr-2 h-4 w-4" />
+              User Account
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={handleLogout}>
-                <LogOut className="mr-4 h-4 w-4"/>
-                Logout
+            <DropdownMenuItem onClick={handleLogout} className="hover:bg-red-100 cursor-pointer text-red-500">
+              <LogOut className="mr-2 h-4 w-4" />
+              Logout
             </DropdownMenuItem>
-        </DropdownMenuContent>
-
-      </DropdownMenu>
-    </div>
-  );
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+    );
 }
 
 function ShoppingHeader() {
   const { isAuthenticated } = useSelector((state) => state.auth);
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b bg-white shadow-md">
+    <header className="sticky top-0 z-50 w-full border-b bg-white shadow-md">
       <div className="flex items-center justify-between px-4 md:px-6">
-        <Link className="flex items-center gap-2" to="/shop/home">
-          <House className="h-6 w-6 text-black" />
-          <span className="font-Bold">TradeABook</span>
+        {/* Logo */}
+        <Link className="flex items-center gap-2 text-black font-bold text-lg" to="/shop/home">
+          <House className="h-6 w-6" />
+          TradeABook
         </Link>
+
+        {/* Mobile Menu */}
         <Sheet>
           <SheetTrigger asChild>
             <Button variant="outline" size="icon" className="lg:hidden">
@@ -88,15 +99,17 @@ function ShoppingHeader() {
               <span className="sr-only">Toggle Header Menu</span>
             </Button>
           </SheetTrigger>
-          <SheetContent side="left" className="w-full max-w-xs">
-            <MenuItems />
-            <HeaderRightContent />
+          <SheetContent side="left" className="w-full max-w-xs h-full bg-white p-6">
+            <MenuItems closeMenu={() => {}} />
+            <div className="mt-6">
+              <HeaderRightContent />
+            </div>
           </SheetContent>
         </Sheet>
-        <div className="hidden lg:block">
+
+        {/* Desktop Menu */}
+        <div className="hidden lg:flex items-center gap-6">
           <MenuItems />
-        </div>
-        <div className="hidden lg:block">
           <HeaderRightContent />
         </div>
       </div>

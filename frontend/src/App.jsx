@@ -22,9 +22,6 @@ import { Skeleton } from "@/components/ui/skeleton"
 
 
 function App() {
-    // // Dummy data for testing
-    // const isAuthenticated = false; // Set to `false` for testing unauthenticated behavior
-    // const user = null
 
     const{isAuthenticated, user, isLoading} = useSelector(state=> state.auth)
     const dispatch = useDispatch()
@@ -37,7 +34,8 @@ function App() {
 
 
     return (
-        <div className="flex flex-col overflow-hidden bg-white">
+        <div className="flex flex-col min-h-screen w-full overflow-hidden bg-white">
+            <div>
             <Routes>
                 {/* Auth Layout */}
                 <Route path="/auth" element={
@@ -79,6 +77,7 @@ function App() {
                 {/* No Page Found */}
                 <Route path="*" element={<NotFound />} />
             </Routes>
+            </div>
         </div>
     );
 }

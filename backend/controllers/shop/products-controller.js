@@ -49,10 +49,8 @@ const placeBid = async (req, res) => {
         const { productId, bidAmount, bidderEmail } = req.body;
         const io = req.app.get("io");
 
-        // Log the received data
         console.log("Received bid:", { productId, bidAmount, bidderEmail });
 
-        // Validate required fields
         if (!productId || !bidAmount || !bidderEmail) {
             return res.status(400).json({ message: "All fields are required." });
         }
@@ -63,32 +61,27 @@ const placeBid = async (req, res) => {
             return res.status(404).json({ message: "Product not found." });
         }
 
-        // Ensure bid is higher than the current bid
         if (bidAmount <= product.currentBid) {
             return res.status(400).json({ message: "Bid must be higher than the current bid." });
         }
 
-        // Update product with the new bid
         product.currentBid = bidAmount;
-        product.bidderEmail = bidderEmail; // Ensure this field exists in your schema
+        product.bidderEmail = bidderEmail; 
 
-        // Save changes to the database
         await product.save();
 
-        // Log the product after saving
         console.log("Updated product:", product);
 
-        // Emit the updated bid to all connected clients
         io.emit("newBid", {
             productId: product._id,
             currentBid: product.currentBid,
-            bidderEmail: product.bidderEmail // Include in the response
+            bidderEmail: product.bidderEmail 
         });
 
         res.status(200).json({
             message: "Bid placed successfully",
             currentBid: product.currentBid,
-            bidderEmail: product.bidderEmail // Return for frontend verification
+            bidderEmail: product.bidderEmail
         });
 
     } catch (error) {
@@ -135,5 +128,50 @@ const offerExchange = async (req, res) => {
     }
 };
 
-
-module.exports = { getProducts, getProductDetails, placeBid, offerExchange };
+const getSellerExchangeOffers = async (req, res) => {
+    try {
+        const { sellerEmail } = req.params;
+        
+        // Find all products created by this seller
+        // Check both sellerEmail and bidderEmail fields since the bidderEmail is available in your products
+        const sellerProducts = await Product.find({ 
+            $or: [
+                { sellerEmail: sellerEmail },
+                { bidderEmail: sellerEmail }
+            ]
+        });
+        
+        if (!sellerProducts.length) {
+            return res.status(200).json({
+                success: true,
+                message: "No products found for this seller",
+                data: [] 
+            });
+        }
+        
+        // Get the product IDs
+        const productIds = sellerProducts.map(product => product._id);
+        
+        console.log("Found product IDs:", productIds); // Add this for debugging
+        
+        // Find all exchange offers for these products
+        const exchangeOffers = await eProduct.find({
+            productId: { $in: productIds }
+        }).populate('productId', 'title image'); 
+        
+        console.log("Found exchange offers:", exchangeOffers); // Add this for debugging
+        
+        res.status(200).json({
+            success: true,
+            data: exchangeOffers
+        });
+        
+    } catch (error) {
+        console.error("Error fetching exchange offers:", error);
+        res.status(500).json({
+            success: false,
+            message: 'Server Error'
+        });
+    }
+};
+module.exports = { getProducts, getProductDetails, placeBid, offerExchange, getSellerExchangeOffers };

@@ -79,7 +79,8 @@ export const addProductFormElements = [
   {
     label: "ISBN",
     name: "isbn",
-    componentType: "text",
+    componentType: "input",
+    type: "number",
     placeholder: "Enter ISBN number",
   },
   {
@@ -91,8 +92,10 @@ export const addProductFormElements = [
   {
     label: "Publication Date",
     name: "publicationDate",
-    componentType: "text",
+    componentType: "input",
+    type: "date",
     placeholder: "Enter publication date",
+    onFocus: (e) => e.target.removeAttribute('readonly'),
   },
   {
     label: "Edition",
