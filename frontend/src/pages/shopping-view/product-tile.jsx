@@ -1,26 +1,27 @@
 import { Card, CardContent } from "@/components/ui/card";
+import "@fontsource/inika";
+import "@fontsource/nunito-sans";
+import "./footer";
+import Footer from "./footer";
 
 function ShoppingProductTile({ product, handleGetProductDetails }) {
     return (
-        <Card className="w-full max-w-sm mx-auto">
-            <div onClick={()=>handleGetProductDetails(product?._id)} className="cursor-pointer">
+        <Card className="w-full max-w-sm mx-auto bg-white rounded-lg shadow-lg overflow-hidden transition-transform duration-300 hover:scale-105">
+            <div onClick={() => handleGetProductDetails(product?._id)} className="cursor-pointer">
                 <div className="relative">
-                    <img 
+                    <img
                         src={product.image}
                         alt={product.title}
-                        className="w-full h-[300px] object-cover rounded-t-lg"
+                        className="w-full h-[240px] object-cover rounded-t-lg"
                     />
-                    <hr/>
                 </div>
             </div>
             
-            <CardContent className="p-4">
-                <h2 className="text-xl font-bold mb-2">{product?.title}</h2>
-                <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm text-muted-foreground">{product?.description}</span>
-                </div>
-                <div className="flex items-center justify-between mb-2">
-                    <span className="text-lg font-semibold text-primary">Rs. {product?.currentBid}</span>
+            <CardContent className="p-6 cursor-pointer flex flex-col justify-between h-[120px]">
+                <h2 className="text-xl font-bold font-nunito mb-2 text-gray-900 truncate">{product?.title}</h2>
+                
+                <div className="flex justify-between items-center mt-auto">
+                    <span className="text-lg font-nunito text-gray-700">Rs. {product?.currentBid}</span>
                 </div>
             </CardContent>
         </Card>

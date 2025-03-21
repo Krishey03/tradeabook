@@ -4,6 +4,9 @@ import { SheetTrigger, Sheet, SheetContent } from "@/components/ui/sheet";
 import { shoppingViewHeaderMenuItems } from "@/config";
 import { House, Menu, ShoppingCart, UserCog, LogOut, UserRound, SquareStack } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
+import "@fontsource/inspiration"; 
+import "@fontsource/inika"; 
+
 import {
     DropdownMenu,
     DropdownMenuTrigger,
@@ -20,7 +23,7 @@ function MenuItems({ closeMenu }) {
     <nav className="flex flex-col lg:items-center gap-6 lg:flex-row p-4">
       {shoppingViewHeaderMenuItems.map((menuItem) => (
         <Link 
-          className="text-sm-b font-medium hover:text-primary transition-all text-black"
+          className="text-sm-b font-medium hover:text-primary transition-all text-black font-inika"
           key={menuItem.id} 
           to={menuItem.path}
           onClick={closeMenu} 
@@ -42,10 +45,12 @@ function HeaderRightContent() {
     }
 
     return (
+
+      
       <div className="flex lg:items-center lg:flex-row flex-col gap-x-2 gap-y-4">
         <Button variant="outline" size="icon">
           <SquareStack className="h-6 w-6" />
-          <span className="sr-only">View Categories</span>
+          <span className="sr-only">View Listings</span>
         </Button>  
         <Button variant="outline" size="icon">
           <ShoppingCart className="h-6 w-6" />
@@ -85,11 +90,9 @@ function ShoppingHeader() {
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-white shadow-md">
       <div className="flex items-center justify-between px-4 md:px-6 bg-slate-200">
-        {/* Logo */}
-        <Link className="flex items-center gap-2 text-black font-bold text-lg" to="/shop/home">
-          <House className="h-6 w-6" />
-          TradeABook
-        </Link>
+      <Link className="flex items-center gap-2 text-black font-inspiration text-2xl" to="/shop/home">
+        Trade a Book
+      </Link>
 
         {/* Mobile Menu */}
         <Sheet>
@@ -107,7 +110,6 @@ function ShoppingHeader() {
           </SheetContent>
         </Sheet>
 
-        {/* Desktop Menu */}
         <div className="hidden lg:flex items-center gap-6">
           <MenuItems />
           <HeaderRightContent />

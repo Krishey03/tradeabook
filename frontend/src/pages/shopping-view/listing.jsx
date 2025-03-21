@@ -4,6 +4,9 @@ import { useDispatch, useSelector } from "react-redux";
 import ShoppingProductTile from "./product-tile";
 import ProductDetailsDialog from "@/pages/shopping-view/product-details";
 import SellerExchangeOffers from "./sellerExchangeOffers";
+import "@fontsource/inika"; 
+import Footer from './footer'
+
 
 function ShoppingListing() {
     const dispatch = useDispatch();
@@ -20,26 +23,37 @@ function ShoppingListing() {
     }
 
     useEffect(() => {
-        if (productDetails !== null) setOpenDetailsDialog(true);
+        if (productDetails) {
+            setOpenDetailsDialog(true);
+        } else {
+            setOpenDetailsDialog(false); 
+        }
     }, [productDetails]);
+
+        useEffect(() => {
+        return () => {
+            dispatch(setProductDetails(null)); 
+        };
+    }, [dispatch]);
 
     return (
         <div className="flex min-h-screen bg-gray-100">
             {/* Sidebar for Tab Navigation */}
-            <div className="w-1/6 shadow-lg rounded-lg p-4 space-y-4 bg-slate-200">
+            <div className="w-1/6 shadow-lg p-3 space-y-3 bg-slate-200">
                 <div className="flex flex-col space-y-2">
                     <button
-                        className={`p-3 rounded-md text-lg font-semibold ${activeTab === "products" ? "bg-indigo-600 text-white" : "bg-gray-100 hover:bg-gray-200"}`}
+                        className={`p-3 rounded-md text-lg font-semibold font-inika ${activeTab === "products" ? "bg-indigo-600 text-white" : "bg-gray-100 hover:bg-gray-200"}`}
                         onClick={() => setActiveTab("products")}
                     >
                         Products Listing
                     </button>
                     <button
-                        className={`p-3 rounded-md text-lg font-semibold ${activeTab === "exchangeOffers" ? "bg-indigo-600 text-white" : "bg-gray-100 hover:bg-gray-200"}`}
+                        className={`p-3 rounded-md text-lg font-semibold font-inika ${activeTab === "exchangeOffers" ? "bg-navy text-white" : "bg-gray-100 hover:bg-gray-200"}`}
                         onClick={() => setActiveTab("exchangeOffers")}
                     >
                         Exchange Offers
                     </button>
+
                 </div>
                 <div className="mt-4 text-sm text-gray-500">
                     <span>No of Products: {productList.length}</span>
@@ -66,6 +80,7 @@ function ShoppingListing() {
                     </div>
                 ) : (
                     <SellerExchangeOffers />
+                    
                 )}
             </div>
 

@@ -174,4 +174,24 @@ const getSellerExchangeOffers = async (req, res) => {
         });
     }
 };
-module.exports = { getProducts, getProductDetails, placeBid, offerExchange, getSellerExchangeOffers };
+
+const deleteExchangeOffer = async (req, res) => {
+    try {
+        const { offerId } = req.params;
+
+        const offer = await eProduct.findById(offerId);
+        if (!offer) {
+            return res.status(404).json({ success: false, message: "Exchange offer not found" });
+        }
+
+        await eProduct.findByIdAndDelete(offerId);
+
+        res.status(200).json({ success: true, message: "Exchange offer deleted successfully" });
+
+    } catch (error) {
+        console.error("Error deleting exchange offer:", error);
+        res.status(500).json({ success: false, message: "Server Error" });
+    }
+};
+
+module.exports = { getProducts, getProductDetails, placeBid, offerExchange, getSellerExchangeOffers, deleteExchangeOffer };

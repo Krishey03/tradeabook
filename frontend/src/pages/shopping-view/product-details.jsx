@@ -7,6 +7,7 @@ import { fetchAllProducts } from "@/store/admin/products-slice"
 import { io } from "socket.io-client"
 import { toast } from "react-hot-toast"
 import { exchangeProductFormElements } from "@/config"
+import "@fontsource/nunito-sans"
 
 let socket = null
 
@@ -165,23 +166,28 @@ function ProductDetailsDialog({ open, setOpen, productDetails, setProductDetails
                         />
                     </div>
 
-                    <div className="grid gap-6">
+                    <div className="grid gap-6 font-nunito">
                         <h1 className="text-3xl font-extrabold">Title: {productDetails?.title}</h1>
-                        <p className="text-muted-foreground">Author: {productDetails?.author}</p>
-                        <p className="text-muted-foreground">ISBN: {productDetails?.isbn}</p>
-                        <p className="text-muted-foreground">Publisher: {productDetails?.publisher}</p>
-                        <p className="text-muted-foreground">Publication Date: {productDetails?.publicationDate}</p>
-                        <p className="text-muted-foreground">Edition: {productDetails?.edition}</p>
-                        <p className="text-muted-foreground">Description: {productDetails?.description}</p>
-                        <p className="text-muted-foreground">Seller: {productDetails?.seller}</p>
-                        <p className="text-3xl font-bold text-primary">Minimum Bid: Rs. {productDetails?.minBid}</p>
-                        <p className="text-2xl font-bold text-primary">Current Bid: Rs. {productDetails?.currentBid}</p>
+                        <p className="text-lg font-bold text-muted-foreground">Author: {productDetails?.author}</p>
+                        <p className="text-lg font-semibold text-muted-foreground">ISBN: {productDetails?.isbn}</p>
+                        <p className="text-lg font-semibold text-muted-foreground">Publisher: {productDetails?.publisher}</p>
+                        <p className="text-lg font-semibold text-muted-foreground">Publication Date: {productDetails?.publicationDate}</p>
+                        <p className="text-lg font-semibold text-muted-foreground">Edition: {productDetails?.edition}</p>
+                        <p className="text-lg font-normal text-muted-foreground">Description: {productDetails?.description}</p>
+                        <p className="text-lg font-bold text-muted-foreground">Seller: {productDetails?.seller}</p>
+                        <p className="text-3xl font-extrabold text-primary">Minimum Bid: Rs. {productDetails?.minBid}</p>
+                        <p className="text-2xl font-extrabold text-primary">Current Bid: Rs. {productDetails?.currentBid}</p>
 
-                        <Button className='text-white' onClick={() => setIsCardOpen(!isCardOpen)}>
-                            {isCardOpen ? "Close Bid Form" : "Place a Bid"}
-                        </Button>
+                        <div className="flex space-x-4">
+                            <Button className='text-white font-nunito h-[50px] w-[150px]' onClick={() => setIsCardOpen(!isCardOpen)}>
+                                {isCardOpen ? "Close Bid Form" : "Place a Bid"}
+                            </Button>
 
-                        <Button className='text-white' onClick={() => setIsExchangeFormOpen(true)}>Offer an exchange</Button>
+                            <Button className='text-white font-nunito h-[50px] w-[150px]' onClick={() => setIsExchangeFormOpen(true)}>
+                                Offer an exchange
+                            </Button>
+                        </div>
+
 
                         {isCardOpen && (
                             <Card className="w-96 p-4 mt-4">

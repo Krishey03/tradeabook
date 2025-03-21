@@ -53,10 +53,24 @@ function SellerExchangeOffers() {
   };
 
   const handleRejectOffer = async (offerId) => {
-    // Implement reject exchange offer functionality
-    toast.success("Exchange offer rejected");
-    setOfferDetailsOpen(false);
-    // You would need to create a new endpoint for rejecting offers
+    try {
+      const response = await fetch(`http://localhost:5000/api/shop/products/exchangeOffers/${offerId}`, {
+        method: "DELETE",
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to reject exchange offer");
+      }
+
+      // Remove the rejected offer from the state
+      setExchangeOffers((prevOffers) => prevOffers.filter((offer) => offer._id !== offerId));
+
+      toast.success("Exchange offer rejected and removed");
+      setOfferDetailsOpen(false);
+    } catch (error) {
+      console.error("Error rejecting exchange offer:", error);
+      toast.error("Failed to reject exchange offer");
+    }
   };
 
   return (
@@ -82,7 +96,7 @@ function SellerExchangeOffers() {
                 <p className="mb-2"><strong>Offered Item:</strong> {offer.exchangeOffer.eTitle}</p>
                 <p className="mb-2 truncate"><strong>From:</strong> {offer.userEmail}</p>
                 <p className="mb-4 line-clamp-2"><strong>Description:</strong> {offer.exchangeOffer.eDescription}</p>
-                <Button className="w-full" onClick={() => handleViewDetails(offer)}>
+                <Button className="w-full text-white" onClick={() => handleViewDetails(offer)}>
                   View Details
                 </Button>
               </CardContent>
@@ -148,7 +162,7 @@ function SellerExchangeOffers() {
                   Reject
                 </Button>
                 <Button 
-                  className="flex-1"
+                  className="flex-1 text-white"
                   onClick={() => handleAcceptOffer(selectedOffer._id)}
                 >
                   Accept
