@@ -61,21 +61,27 @@ const placeBid = async (req, res) => {
             return res.status(404).json({ message: "Product not found." });
         }
 
+        // 🚀 **NEW: Check if auction has ended**
+        if (new Date() > product.endTime) {
+            return res.status(400).json({ message: "Bidding has ended for this product." });
+        }
+
         if (bidAmount <= product.currentBid) {
             return res.status(400).json({ message: "Bid must be higher than the current bid." });
         }
 
         product.currentBid = bidAmount;
-        product.bidderEmail = bidderEmail; 
+        product.bidderEmail = bidderEmail;
 
         await product.save();
 
         console.log("Updated product:", product);
 
+        // Notify all clients via WebSockets
         io.emit("newBid", {
             productId: product._id,
             currentBid: product.currentBid,
-            bidderEmail: product.bidderEmail 
+            bidderEmail: product.bidderEmail
         });
 
         res.status(200).json({
@@ -132,8 +138,6 @@ const getSellerExchangeOffers = async (req, res) => {
     try {
         const { sellerEmail } = req.params;
         
-        // Find all products created by this seller
-        // Check both sellerEmail and bidderEmail fields since the bidderEmail is available in your products
         const sellerProducts = await Product.find({ 
             $or: [
                 { sellerEmail: sellerEmail },

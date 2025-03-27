@@ -34,6 +34,7 @@ function AdminProducts() {
     seller: user?.userName || "",
     sellerEmail: user?.email || "",
     image: null,
+    endTime: new Date(Date.now() + 2 * 1000),
   };
 
   const [openCreateProductsDialog, setOpenCreateProductsDialog] = useState(false);
