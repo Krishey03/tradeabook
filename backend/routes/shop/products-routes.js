@@ -5,7 +5,8 @@ const {
   placeBid, 
   offerExchange,
   getSellerExchangeOffers,
-  deleteExchangeOffer 
+  deleteExchangeOffer ,
+  getCartItems
 } = require('../../controllers/shop/products-controller')
 
 const { upload } = require("../../helpers/cloudinary");
@@ -17,6 +18,7 @@ router.get('/get/:id', getProductDetails)
 router.post("/placeBid", placeBid)
 router.post("/offerExchange", offerExchange)
 router.get("/exchangeOffers/:sellerEmail", getSellerExchangeOffers)
-router.delete("/exchangeOffers/:offerId", deleteExchangeOffer);  
+router.delete("/exchangeOffers/:offerId", deleteExchangeOffer)
+router.get("/cart/:email", getCartItems)
 
 module.exports = router

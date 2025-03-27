@@ -15,6 +15,7 @@ const ProductSchema = new mongoose.Schema(
     sellerEmail: String,
     currentBid: Number,
     bidderEmail: String,
+    winnerEmail: String,
     endTime: { type: Date, required: true },
   }
 );

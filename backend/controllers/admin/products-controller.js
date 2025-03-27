@@ -24,25 +24,54 @@ const handleImageUpload = async(req, res)=>{
 }
 
 //add a new product
-const addProduct = async(req,res)=>{
-    try{
-        const{title, author, isbn, publisher, publicationDate, edition, description, image, minBid, seller, sellerEmail, currentBid, endTime } = req.body
+const addProduct = async (req, res) => {
+    try {
+        const { title, author, isbn, publisher, publicationDate, edition, description, image, minBid, seller, sellerEmail } = req.body;
+
+        const endTime = new Date(Date.now() + 30 * 1000); // Testing: Ends in 30 seconds
+
         const newlyCreatedProduct = new Product({
-            title, author, isbn, publisher, publicationDate, edition, description, image, minBid, seller, sellerEmail, currentBid, endTime
-        })
-        await newlyCreatedProduct.save()
+            title,
+            author,
+            isbn,
+            publisher,
+            publicationDate,
+            edition,
+            description,
+            image,
+            minBid,
+            seller,
+            sellerEmail,
+            currentBid: minBid,
+            bidderEmail: "",
+            winnerEmail: "",
+            endTime
+        });
+
+        await newlyCreatedProduct.save();
+
+        // Auto-assign the winner when the bidding ends
+        setTimeout(async () => {
+            const product = await Product.findById(newlyCreatedProduct._id);
+            if (product && product.currentBid > product.minBid) {
+                product.winnerEmail = product.bidderEmail;
+                await product.save();
+                console.log(`Bidding ended. Winner: ${product.winnerEmail}`);
+            }
+        }, 30 * 1000); // 30 seconds for testing
+
         res.status(201).json({
             success: true,
             data: newlyCreatedProduct
-        })
-    }catch(e){
-        console.log(e)
+        });
+    } catch (e) {
+        console.log(e);
         res.status(500).json({
             success: false,
-            message: "An error occured!"
-        })
+            message: "An error occurred!"
+        });
     }
-}
+};
 
 //fetch all products
 const fetchAllProducts = async(req,res)=>{
@@ -127,4 +156,24 @@ const deleteProduct = async(req,res)=>{
     }
 }
 
-module.exports = {handleImageUpload, addProduct, editProduct, deleteProduct, fetchAllProducts}
+const getCartItems = async (req, res) => {
+    try {
+        const userEmail = req.user.email; // Assuming the user is authenticated
+
+        // Fetch products where the user is the winner
+        const cartItems = await Product.find({ winnerEmail: userEmail });
+
+        res.status(200).json({
+            success: true,
+            data: cartItems
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            success: false,
+            message: "An error occurred while fetching the cart items."
+        });
+    }
+};
+
+module.exports = { handleImageUpload, addProduct, editProduct, deleteProduct, fetchAllProducts, getCartItems };

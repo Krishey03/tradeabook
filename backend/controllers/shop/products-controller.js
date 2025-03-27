@@ -198,4 +198,30 @@ const deleteExchangeOffer = async (req, res) => {
     }
 };
 
-module.exports = { getProducts, getProductDetails, placeBid, offerExchange, getSellerExchangeOffers, deleteExchangeOffer };
+const getCartItems = async (req, res) => {
+    try {
+        const { email } = req.params;
+
+        // Find products where the auction has ended, and the user won
+        const wonItems = await Product.find({
+            bidderEmail: email, 
+            endTime: { $lt: new Date() }
+        });
+
+        res.status(200).json({
+            success: true,
+            data: wonItems
+        });
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            success: false,
+            message: "An error occurred while fetching cart items."
+        });
+    }
+};
+
+
+
+module.exports = { getProducts, getProductDetails, placeBid, offerExchange, getSellerExchangeOffers, deleteExchangeOffer, getCartItems };
