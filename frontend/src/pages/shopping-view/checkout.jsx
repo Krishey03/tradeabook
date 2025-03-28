@@ -1,37 +1,19 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import { useEffect } from "react";
 
-
-const Checkout = ({ userEmail }) => {
-    const [wonItems, setWonItems] = useState([]);
-
+const Checkout = () => {
     useEffect(() => {
-        if (!userEmail) return; 
-
-        axios.get(`/api/cart/${userEmail}`)
-            .then(res => setWonItems(res.data.data))
-            .catch(err => console.error(err));
-    }, [userEmail]);
+        fetch("http://localhost:5000/api/shop/products/cart/test@example.com")
+            .then(response => response.json())
+            .then(data => {
+                console.log("Cart Items:", data); // This prints in the browser console
+            })
+            .catch(error => console.error("Error fetching cart items:", error));
+    }, []);
 
     return (
         <div>
-            <h2>Checkout</h2>
-            {wonItems.length === 0 ? (
-                <p>You have no items to checkout.</p>
-            ) : (
-                <div className="checkout-container">
-                    {wonItems.map(item => (
-                        <div key={item._id} className="checkout-item">
-                            <img src={item.image} alt={item.title} className="checkout-image" />
-                            <div className="checkout-details">
-                                <h3>{item.title}</h3>
-                                <p>Final Bid: ${item.currentBid}</p>
-                                <button className="pay-btn">Pay Now</button>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            )}
+            <h1>Checkout</h1>
+            <p>Check the browser console for cart items.</p>
         </div>
     );
 };

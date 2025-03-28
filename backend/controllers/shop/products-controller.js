@@ -1,6 +1,7 @@
 const Product = require('../../models/Product')
 const eProduct = require('../../models/Exchange')
 const { io } = require('../../server');
+const { log } = require('node:console');
 
 const getProducts = async (req, res) => {
     try {
@@ -201,11 +202,12 @@ const deleteExchangeOffer = async (req, res) => {
 const getCartItems = async (req, res) => {
     try {
         const { email } = req.params;
+        console.log("Fetching cart items for:", email);
 
         // Find products where the auction has ended, and the user won
         const wonItems = await Product.find({
             bidderEmail: email, 
-            endTime: { $lt: new Date() }
+            // endTime: { $lt: new Date() }
         });
 
         res.status(200).json({
