@@ -2,8 +2,8 @@ const mongoose = require("mongoose");
 
 const eProductSchema = new mongoose.Schema(
   {
-    productId: { type: mongoose.Schema.Types.ObjectId, ref: "Product" }, // Link to Product schema
-    userEmail: { type: String, required: true }, // Email of the user offering the exchange
+    productId: { type: mongoose.Schema.Types.ObjectId, ref: "Product" }, 
+    userEmail: { type: String, required: true }, 
     exchangeOffer: {
       eTitle: { type: String, required: true },
       eAuthor: { type: String, required: true },
@@ -16,9 +16,9 @@ const eProductSchema = new mongoose.Schema(
     offerStatus: {
       type: String,
       enum: ["pending", "accepted", "declined"],
-      default: "pending", // Default status is pending
+      default: "pending", 
     },
-    dateOffered: { type: Date, default: Date.now }, // Track when the offer was made
+    dateOffered: { type: Date, default: Date.now }, 
   }
 );
 

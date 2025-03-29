@@ -28,7 +28,7 @@ const addProduct = async (req, res) => {
     try {
         const { title, author, isbn, publisher, publicationDate, edition, description, image, minBid, seller, sellerEmail } = req.body;
 
-        const endTime = new Date(Date.now() + 30 * 1000); // Testing: Ends in 30 seconds
+        const endTime = new Date(Date.now() + 1 * 60 * 60 * 1000); // Testing: Ends in 30 seconds
 
         const newlyCreatedProduct = new Product({
             title,

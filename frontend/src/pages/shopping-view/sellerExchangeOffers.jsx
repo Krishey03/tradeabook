@@ -10,22 +10,22 @@ function SellerExchangeOffers() {
   const [loading, setLoading] = useState(false);
   const [selectedOffer, setSelectedOffer] = useState(null);
   const [offerDetailsOpen, setOfferDetailsOpen] = useState(false);
-  
+
   // Get current user email from redux state
   const userEmail = useSelector((state) => state.auth.user?.email);
 
   useEffect(() => {
     if (!userEmail) return;
-    
+
     const fetchExchangeOffers = async () => {
       setLoading(true);
       try {
         const response = await fetch(`http://localhost:5000/api/shop/products/exchangeOffers/${userEmail}`);
-        
+
         if (!response.ok) {
           throw new Error("Failed to fetch exchange offers");
         }
-        
+
         const data = await response.json();
         console.log("Exchange offers data:", data);
         setExchangeOffers(data.data || []);
@@ -36,7 +36,7 @@ function SellerExchangeOffers() {
         setLoading(false);
       }
     };
-    
+
     fetchExchangeOffers();
   }, [userEmail]);
 
@@ -54,29 +54,43 @@ function SellerExchangeOffers() {
 
   const handleRejectOffer = async (offerId) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/shop/products/exchangeOffers/${offerId}`, {
-        method: "DELETE",
-      });
+        // Send PATCH request to backend to decline the offer
+        const response = await fetch(`http://localhost:5000/api/shop/products/exchangeOffers/${offerId}`, {
+            method: "PATCH", // Use PATCH method instead of DELETE
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                offerStatus: "declined", // Update offerStatus to declined
+            }),
+        });
 
-      if (!response.ok) {
-        throw new Error("Failed to reject exchange offer");
-      }
+        // Check if the response is successful
+        if (!response.ok) {
+            throw new Error("Failed to reject exchange offer");
+        }
 
-      // Remove the rejected offer from the state
-      setExchangeOffers((prevOffers) => prevOffers.filter((offer) => offer._id !== offerId));
+        // Update the status of the offer in state to "declined"
+        setExchangeOffers((prevOffers) =>
+            prevOffers.map((offer) =>
+                offer._id === offerId ? { ...offer, offerStatus: "declined" } : offer
+            )
+        );
 
-      toast.success("Exchange offer rejected and removed");
-      setOfferDetailsOpen(false);
+        // Show success message
+        toast.success("Exchange offer declined");
+        setOfferDetailsOpen(false);
     } catch (error) {
-      console.error("Error rejecting exchange offer:", error);
-      toast.error("Failed to reject exchange offer");
+        console.error("Error rejecting exchange offer:", error);
+        toast.error("Failed to reject exchange offer");
     }
-  };
+};
+
 
   return (
     <div className="p-4">
       <h2 className="text-2xl font-bold mb-4">Exchange Offers</h2>
-      
+
       {loading ? (
         <p>Loading exchange offers...</p>
       ) : exchangeOffers.length === 0 ? (
@@ -87,21 +101,24 @@ function SellerExchangeOffers() {
         </Card>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {exchangeOffers.map((offer) => (
-            <Card key={offer._id} className="overflow-hidden">
-              <CardHeader className="p-4">
-                <CardTitle className="text-lg">Exchange Offer for: {offer.productId?.title || "Product"}</CardTitle>
-              </CardHeader>
-              <CardContent className="p-4">
-                <p className="mb-2"><strong>Offered Item:</strong> {offer.exchangeOffer.eTitle}</p>
-                <p className="mb-2 truncate"><strong>From:</strong> {offer.userEmail}</p>
-                <p className="mb-4 line-clamp-2"><strong>Description:</strong> {offer.exchangeOffer.eDescription}</p>
-                <Button className="w-full text-white" onClick={() => handleViewDetails(offer)}>
-                  View Details
-                </Button>
-              </CardContent>
-            </Card>
-          ))}
+          {exchangeOffers.map(
+            (offer) =>
+              offer.offerStatus !== "declined" && ( // Don't display declined offers
+                <Card key={offer._id} className="overflow-hidden">
+                  <CardHeader className="p-4">
+                    <CardTitle className="text-lg">Exchange Offer for: {offer.productId?.title || "Product"}</CardTitle>
+                  </CardHeader>
+                  <CardContent className="p-4">
+                    <p className="mb-2"><strong>Offered Item:</strong> {offer.exchangeOffer.eTitle}</p>
+                    <p className="mb-2 truncate"><strong>From:</strong> {offer.userEmail}</p>
+                    <p className="mb-4 line-clamp-2"><strong>Description:</strong> {offer.exchangeOffer.eDescription}</p>
+                    <Button className="w-full text-white" onClick={() => handleViewDetails(offer)}>
+                      View Details
+                    </Button>
+                  </CardContent>
+                </Card>
+              )
+          )}
         </div>
       )}
 
@@ -111,22 +128,22 @@ function SellerExchangeOffers() {
           <DialogHeader>
             <DialogTitle>Exchange Offer Details</DialogTitle>
           </DialogHeader>
-          
+
           {selectedOffer && (
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <h3 className="font-bold">Your Product</h3>
                   {selectedOffer.productId?.image && (
-                    <img 
-                      src={selectedOffer.productId.image} 
-                      alt={selectedOffer.productId.title || "Product"} 
+                    <img
+                      src={selectedOffer.productId.image}
+                      alt={selectedOffer.productId.title || "Product"}
                       className="w-full h-40 object-cover rounded-md my-2"
                     />
                   )}
                   <p>{selectedOffer.productId?.title || "Unknown Product"}</p>
                 </div>
-                
+
                 <div>
                   <h3 className="font-bold">Offered Exchange</h3>
                   <div className="border rounded-md p-3 my-2 h-40 flex items-center justify-center bg-gray-100">
@@ -135,33 +152,33 @@ function SellerExchangeOffers() {
                   <p>{selectedOffer.exchangeOffer.eTitle}</p>
                 </div>
               </div>
-              
+
               <div>
                 <h3 className="font-bold">Description</h3>
                 <p className="text-muted-foreground">{selectedOffer.exchangeOffer.eDescription}</p>
               </div>
-              
+
               {selectedOffer.exchangeOffer.eCondition && (
                 <div>
                   <h3 className="font-bold">Condition</h3>
                   <p className="text-muted-foreground">{selectedOffer.exchangeOffer.eCondition}</p>
                 </div>
               )}
-              
+
               <div>
                 <h3 className="font-bold">Contact</h3>
                 <p className="text-muted-foreground">{selectedOffer.userEmail}</p>
               </div>
-              
+
               <div className="flex gap-2 pt-4">
-                <Button 
-                  variant="outline" 
+                <Button
+                  variant="outline"
                   className="flex-1"
                   onClick={() => handleRejectOffer(selectedOffer._id)}
                 >
                   Reject
                 </Button>
-                <Button 
+                <Button
                   className="flex-1 text-white"
                   onClick={() => handleAcceptOffer(selectedOffer._id)}
                 >

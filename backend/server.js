@@ -27,14 +27,14 @@ mongoose
     .then(() => console.log('MongoDB Connected'))
     .catch((error) => console.log(error));
 
-app.use(
-    cors({
-        origin: "http://localhost:5173",
-        methods: ["GET", "POST", "DELETE", "PUT"],
-        allowedHeaders: ["Content-Type", "Authorization", "Cache-Control", "Expires", "Pragma"],
-        credentials: true,
-    })
-);
+const corsOptions = {
+    origin: "http://localhost:5173",
+    methods: ["GET", "POST", "DELETE", "PUT", "PATCH"],
+    allowedHeaders: ["Content-Type", "Authorization", "Cache-Control", "Expires", "Pragma"],
+    credentials: true,
+};
+
+app.use(cors(corsOptions)); // Apply CORS settings
 
 app.use(cookieParser());
 app.use(express.json());
@@ -44,6 +44,8 @@ app.use('/api/shop/products', shopProductsRouter);
 
 // Pass 'io' to your routes, where necessary
 app.set('io', io);
+
+app.options('*', cors(corsOptions));  // Preflight requests for all routes
 
 // Start the server
 server.listen(PORT, () => console.log(`Server is now running on port ${PORT}`));

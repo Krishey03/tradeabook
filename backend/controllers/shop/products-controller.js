@@ -154,12 +154,10 @@ const getSellerExchangeOffers = async (req, res) => {
             });
         }
         
-        // Get the product IDs
         const productIds = sellerProducts.map(product => product._id);
         
-        console.log("Found product IDs:", productIds); // Add this for debugging
+        console.log("Found product IDs:", productIds);
         
-        // Find all exchange offers for these products
         const exchangeOffers = await eProduct.find({
             productId: { $in: productIds }
         }).populate('productId', 'title image'); 
@@ -180,24 +178,31 @@ const getSellerExchangeOffers = async (req, res) => {
     }
 };
 
-const deleteExchangeOffer = async (req, res) => {
+const declineExchangeOffer = async (req, res) => {
     try {
         const { offerId } = req.params;
 
+        // Find the offer by ID
         const offer = await eProduct.findById(offerId);
         if (!offer) {
             return res.status(404).json({ success: false, message: "Exchange offer not found" });
         }
 
-        await eProduct.findByIdAndDelete(offerId);
+        // Update the offerStatus to "declined"
+        offer.offerStatus = "declined";
 
-        res.status(200).json({ success: true, message: "Exchange offer deleted successfully" });
+        // Save the updated offer
+        await offer.save();
+
+        res.status(200).json({ success: true, message: "Exchange offer declined successfully" });
 
     } catch (error) {
-        console.error("Error deleting exchange offer:", error);
+        console.error("Error declining exchange offer:", error);
         res.status(500).json({ success: false, message: "Server Error" });
     }
 };
+
+
 
 const getCartItems = async (req, res) => {
     try {
@@ -224,6 +229,45 @@ const getCartItems = async (req, res) => {
     }
 };
 
+const acceptExchangeOffer = async (req, res) => {
+    try {
+        const { offerId } = req.params;
+        
+        // Find the exchange offer by ID
+        const exchangeOffer = await eProduct.findById(offerId);
+        if (!exchangeOffer) {
+            return res.status(404).json({ success: false, message: "Exchange offer not found" });
+        }
+
+        // Get the product that the seller has listed for exchange
+        const product = await Product.findById(exchangeOffer.productId);
+        if (!product) {
+            return res.status(404).json({ success: false, message: "Product not found" });
+        }
+
+        // Mark the exchange offer as accepted (You can add other logic here, like updating product status)
+        exchangeOffer.status = 'Accepted';
+        await exchangeOffer.save();
+
+        // Notify both parties through WebSocket
+        io.emit("exchangeOfferAccepted", {
+            offerId: exchangeOffer._id,
+            productId: exchangeOffer.productId,
+            acceptedBy: exchangeOffer.userEmail,
+            status: exchangeOffer.status
+        });
+
+        res.status(200).json({
+            success: true,
+            message: "Exchange offer accepted successfully",
+            exchangeOffer
+        });
+
+    } catch (error) {
+        console.error("Error accepting exchange offer:", error);
+        res.status(500).json({ success: false, message: "Server Error" });
+    }
+};
 
 
-module.exports = { getProducts, getProductDetails, placeBid, offerExchange, getSellerExchangeOffers, deleteExchangeOffer, getCartItems };
+module.exports = { getProducts, getProductDetails, placeBid, offerExchange, getSellerExchangeOffers, declineExchangeOffer, getCartItems, acceptExchangeOffer };

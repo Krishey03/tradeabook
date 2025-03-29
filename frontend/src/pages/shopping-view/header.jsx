@@ -52,7 +52,7 @@ function HeaderRightContent() {
           <SquareStack className="h-6 w-6" />
           <span className="sr-only">View Listings</span>
         </Button>  
-        <Button variant="outline" size="icon">
+        <Button variant="outline" size="icon" onClick={() => navigate("/shop/checkout")}>
           <ShoppingCart className="h-6 w-6" />
           <span className="sr-only">View Cart</span>
         </Button>

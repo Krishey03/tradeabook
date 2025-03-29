@@ -8,6 +8,7 @@ import { io } from "socket.io-client"
 import { toast } from "react-hot-toast"
 import { exchangeProductFormElements } from "@/config"
 import "@fontsource/nunito-sans"
+import useTimeLeft from "@/hooks/useTimeLeft"
 
 let socket = null
 
@@ -18,6 +19,7 @@ function ProductDetailsDialog({ open, setOpen, productDetails, setProductDetails
     const dispatch = useDispatch()
     const [isExchangeFormOpen, setIsExchangeFormOpen] = useState(false)
     const [exchangeFormData, setExchangeFormData] = useState({})
+    const timeLeft = useTimeLeft(productDetails?.endTime)
 
     const userEmail = useSelector((state) => state.auth.user?.email)
 
@@ -167,7 +169,10 @@ function ProductDetailsDialog({ open, setOpen, productDetails, setProductDetails
                     </div>
 
                     <div className="grid gap-6 font-nunito">
-                        <h1 className="text-3xl font-extrabold">Title: {productDetails?.title}</h1>
+                        <div className="flex justify-between items-center">
+                            <h1 className="text-3xl font-extrabold">{productDetails?.title}</h1>
+                            <span className="text-xl font-sans text-primary">Time Left: {timeLeft}</span> {/* Display time left here */}
+                        </div>
                         <p className="text-lg font-bold text-muted-foreground">Author: {productDetails?.author}</p>
                         <p className="text-lg font-semibold text-muted-foreground">ISBN: {productDetails?.isbn}</p>
                         <p className="text-lg font-semibold text-muted-foreground">Publisher: {productDetails?.publisher}</p>
