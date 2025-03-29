@@ -1,4 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { SheetTrigger, Sheet, SheetContent } from "@/components/ui/sheet";
 import { shoppingViewHeaderMenuItems } from "@/config";
@@ -6,6 +7,7 @@ import { House, Menu, ShoppingCart, UserCog, LogOut, UserRound, SquareStack } fr
 import { Link, useNavigate } from "react-router-dom";
 import "@fontsource/inspiration"; 
 import "@fontsource/inika"; 
+import useExchangeOffers from "@/hooks/useExchangeOffers";
 
 import {
     DropdownMenu,
@@ -36,52 +38,92 @@ function MenuItems({ closeMenu }) {
 }
 
 function HeaderRightContent() {
-    const { user } = useSelector((state) => state.auth);
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-    function handleLogout() {
-        dispatch(logoutUser());
-    }
+  const { exchangeOffers, loading } = useExchangeOffers(user?.email);
+  const [open, setOpen] = useState(false);
 
-    return (
+  function handleLogout() {
+      dispatch(logoutUser());
+  }
 
-      
-      <div className="flex lg:items-center lg:flex-row flex-col gap-x-2 gap-y-4">
-        <Button variant="outline" size="icon">
-          <SquareStack className="h-6 w-6" />
-          <span className="sr-only">View Listings</span>
-        </Button>  
-        <Button variant="outline" size="icon" onClick={() => navigate("/shop/checkout")}>
-          <ShoppingCart className="h-6 w-6" />
-          <span className="sr-only">View Cart</span>
-        </Button>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Avatar className="bg-black cursor-pointer">
-              <AvatarFallback className="bg-black text-white font-extrabold text-lg">
-                {user?.userName[0].toUpperCase()}
-              </AvatarFallback>
-            </Avatar>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-56 bg-white border shadow-lg rounded-lg">
-            <DropdownMenuLabel className="px-4 py-2 text-sm text-gray-600">
-              Logged in as <span className="font-semibold">{user?.userName}</span>
-            </DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => navigate('/shop/account')} className="hover:bg-gray-100 cursor-pointer">
-              <UserRound className="mr-2 h-4 w-4" />
-              User Account
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={handleLogout} className="bg-red-500 cursor-pointer text-white">
-              <LogOut className="mr-2 h-4 w-4" />
-              Logout
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
-    );
+  return (
+    <div className="flex lg:items-center lg:flex-row flex-col gap-x-2 gap-y-4">
+      {/* Exchange Offers Dropdown */}
+      <DropdownMenu open={open} onOpenChange={setOpen}>
+        <DropdownMenuTrigger asChild>
+          <Button variant="outline" size="icon">
+            <SquareStack className="h-6 w-6" />
+            {exchangeOffers.length > 0 && ( // Show notification badge if offers exist
+              <span className="absolute top-0 right-0 bg-red-500 text-white text-xs px-1.5 py-0.5 rounded-full">
+                {exchangeOffers.length}
+              </span>
+            )}
+            <span className="sr-only">View Listings</span>
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end" className="w-64 bg-white border shadow-lg rounded-lg">
+          <DropdownMenuLabel className="px-4 py-2 text-sm text-gray-600">
+            Exchange Offers
+          </DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          
+          {loading ? (
+            <DropdownMenuItem className="text-center">Loading...</DropdownMenuItem>
+          ) : exchangeOffers.length === 0 ? (
+            <DropdownMenuItem className="text-center text-gray-500">No offers available</DropdownMenuItem>
+          ) : (
+            exchangeOffers.map((offer) => (
+              <DropdownMenuItem 
+                key={offer._id} 
+                className="flex justify-between items-center cursor-pointer hover:bg-gray-100"
+                onClick={() => navigate(`/shop/exchange/${offer._id}`)}
+              >
+                <span className="text-sm">{offer.bookTitle}</span>
+                <span className={`text-xs font-semibold px-2 py-1 rounded ${offer.offerStatus === 'pending' ? 'bg-yellow-300' : 'bg-green-300'}`}>
+                  {offer.offerStatus}
+                </span>
+              </DropdownMenuItem>
+            ))
+          )}
+        </DropdownMenuContent>
+      </DropdownMenu>
+
+      {/* Cart */}
+      <Button variant="outline" size="icon" onClick={() => navigate("/shop/checkout")}>
+        <ShoppingCart className="h-6 w-6" />
+        <span className="sr-only">View Cart</span>
+      </Button>
+
+      {/* User Dropdown */}
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Avatar className="bg-black cursor-pointer">
+            <AvatarFallback className="bg-black text-white font-extrabold text-lg">
+              {user?.userName[0].toUpperCase()}
+            </AvatarFallback>
+          </Avatar>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end" className="w-56 bg-white border shadow-lg rounded-lg">
+          <DropdownMenuLabel className="px-4 py-2 text-sm text-gray-600">
+            Logged in as <span className="font-semibold">{user?.userName}</span>
+          </DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem onClick={() => navigate('/shop/account')} className="hover:bg-gray-100 cursor-pointer">
+            <UserRound className="mr-2 h-4 w-4" />
+            User Account
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem onClick={handleLogout} className="bg-red-500 cursor-pointer text-white">
+            <LogOut className="mr-2 h-4 w-4" />
+            Logout
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </div>
+  );
 }
 
 function ShoppingHeader() {

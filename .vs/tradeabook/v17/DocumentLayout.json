@@ -134,8 +134,7 @@
               "RelativeToolTip": "backend\\server.js",
               "ViewState": "AgIAACgAAAAAAAAAAAAAACoAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2025-03-27T15:10:23.743Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-27T15:10:23.743Z"
             },
             {
               "$type": "Document",
@@ -147,8 +146,7 @@
               "RelativeToolTip": "frontend\\src\\store\\auth-slice\\index.js",
               "ViewState": "AgIAADMAAAAAAAAAAAAswD0AAAAgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2025-03-27T15:10:19.144Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-27T15:10:19.144Z"
             },
             {
               "$type": "Document",
@@ -160,8 +158,7 @@
               "RelativeToolTip": "backend\\helpers\\cloudinary.js",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAHAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2025-03-27T15:10:14.347Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-27T15:10:14.347Z"
             },
             {
               "$type": "Document",
@@ -171,7 +168,7 @@
               "RelativeDocumentMoniker": "frontend\\src\\pages\\shopping-view\\checkout.jsx",
               "ToolTip": "C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\frontend\\src\\pages\\shopping-view\\checkout.jsx",
               "RelativeToolTip": "frontend\\src\\pages\\shopping-view\\checkout.jsx",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAAA8AAAAMAAAAAAAAAA==",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
               "WhenOpened": "2025-03-27T13:44:06.133Z",
               "EditorCaption": ""
@@ -198,8 +195,7 @@
               "RelativeToolTip": "frontend\\index.html",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAnAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2025-03-18T04:25:46.513Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-18T04:25:46.513Z"
             },
             {
               "$type": "Document",
@@ -211,8 +207,7 @@
               "RelativeToolTip": "frontend\\src\\store\\admin\\products-slice\\index.js",
               "ViewState": "AgIAACMAAAAAAAAAAAAWwC0AAABEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2025-03-01T11:21:39.743Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-01T11:21:39.743Z"
             },
             {
               "$type": "Document",
@@ -248,8 +243,7 @@
               "RelativeToolTip": "frontend\\src\\pages\\shopping-view\\product-details.jsx",
               "ViewState": "AgIAAHcAAAAAAAAAAAAWwIAAAABDAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
-              "WhenOpened": "2025-03-09T02:42:53.371Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-09T02:42:53.371Z"
             },
             {
               "$type": "Document",
@@ -285,8 +279,7 @@
               "RelativeToolTip": "frontend\\src\\store\\shop\\products-slice\\index.js",
               "ViewState": "AgIAAAsAAAAAAAAAAAAAABYAAABBAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2025-03-02T01:37:08.47Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-02T01:37:08.47Z"
             },
             {
               "$type": "Document",
@@ -334,8 +327,7 @@
               "RelativeToolTip": "frontend\\src\\pages\\shopping-view\\sellerExchangeOffers.jsx",
               "ViewState": "AgIAADAAAAAAAAAAAAAAADgAAAA9AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
-              "WhenOpened": "2025-03-19T15:03:53.557Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-19T15:03:53.557Z"
             },
             {
               "$type": "Document",
@@ -443,8 +435,7 @@
               "RelativeToolTip": "frontend\\src\\components\\admin-view\\image-upload.jsx",
               "ViewState": "AgIAACsAAAAAAAAAAAAWwDQAAAAgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
-              "WhenOpened": "2025-02-23T13:57:23.978Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-23T13:57:23.978Z"
             }
           ]
         }

@@ -1,98 +1,110 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\",
+  "WorkspaceRootPath": "C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\pages\\shopping-view\\checkout.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\frontend\\src\\pages\\shopping-view\\checkout.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\pages\\shopping-view\\checkout.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\App.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\App.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\frontend\\src\\components\\admin-view\\image-upload.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\components\\admin-view\\image-upload.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\components\\ui\\card.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\components\\ui\\card.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\backend\\helpers\\cloudinary.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:backend\\helpers\\cloudinary.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\pages\\shopping-view\\product-tile.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\pages\\shopping-view\\product-tile.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\frontend\\src\\store\\auth-slice\\index.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\store\\auth-slice\\index.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\pages\\shopping-view\\listing.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\pages\\shopping-view\\listing.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\backend\\server.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:backend\\server.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\pages\\shopping-view\\home.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\pages\\shopping-view\\home.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\pages\\admin-view\\products.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\pages\\admin-view\\products.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\store\\shop\\products-slice\\index.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\store\\shop\\products-slice\\index.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\store\\admin\\products-slice\\index.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\store\\admin\\products-slice\\index.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\components\\ui\\button.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\components\\ui\\button.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\backend\\controllers\\shop\\products-controller.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:backend\\controllers\\shop\\products-controller.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\pages\\shopping-view\\sellerExchangeOffers.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\pages\\shopping-view\\sellerExchangeOffers.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\pages\\shopping-view\\product-details.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\pages\\shopping-view\\product-details.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\pages\\shopping-view\\header.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\pages\\shopping-view\\header.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\pages\\auth\\login.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\pages\\auth\\login.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\components\\auth\\layout.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\components\\auth\\layout.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\index.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\frontend\\index.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\index.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\backend\\controllers\\admin\\products-controller.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\frontend\\src\\pages\\shopping-view\\product-details.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\pages\\shopping-view\\product-details.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\frontend\\src\\pages\\shopping-view\\sellerExchangeOffers.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\pages\\shopping-view\\sellerExchangeOffers.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\frontend\\src\\store\\admin\\products-slice\\index.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\store\\admin\\products-slice\\index.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\frontend\\src\\store\\shop\\products-slice\\index.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\store\\shop\\products-slice\\index.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\frontend\\src\\App.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\App.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\frontend\\src\\components\\ui\\card.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\components\\ui\\card.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\frontend\\src\\pages\\shopping-view\\product-tile.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\pages\\shopping-view\\product-tile.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\frontend\\src\\pages\\shopping-view\\listing.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\pages\\shopping-view\\listing.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\frontend\\src\\pages\\shopping-view\\home.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\pages\\shopping-view\\home.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\frontend\\src\\pages\\admin-view\\products.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\pages\\admin-view\\products.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\frontend\\src\\components\\ui\\button.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\components\\ui\\button.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\backend\\controllers\\shop\\products-controller.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:backend\\controllers\\shop\\products-controller.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\frontend\\src\\pages\\shopping-view\\header.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\pages\\shopping-view\\header.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\frontend\\src\\pages\\auth\\login.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\pages\\auth\\login.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\frontend\\src\\components\\auth\\layout.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\components\\auth\\layout.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\backend\\controllers\\admin\\products-controller.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:backend\\controllers\\admin\\products-controller.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\backend\\models\\Product.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\backend\\models\\Product.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:backend\\models\\Product.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\backend\\routes\\shop\\products-routes.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\backend\\routes\\shop\\products-routes.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:backend\\routes\\shop\\products-routes.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\components\\admin-view\\product-tile.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\frontend\\src\\components\\admin-view\\product-tile.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\components\\admin-view\\product-tile.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\config\\index.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\frontend\\src\\config\\index.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\config\\index.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\components\\admin-view\\image-upload.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\components\\admin-view\\image-upload.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     }
   ],
   "DocumentGroupContainers": [
@@ -102,69 +114,113 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
             },
             {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{b1e99781-ab81-11d0-b683-00aa00a3ee26}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "server.js",
+              "DocumentMoniker": "C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\backend\\server.js",
+              "RelativeDocumentMoniker": "backend\\server.js",
+              "ToolTip": "C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\backend\\server.js",
+              "RelativeToolTip": "backend\\server.js",
+              "ViewState": "AgIAACgAAAAAAAAAAAAAACoAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2025-03-27T15:10:23.743Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "index.js",
+              "DocumentMoniker": "C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\frontend\\src\\store\\auth-slice\\index.js",
+              "RelativeDocumentMoniker": "frontend\\src\\store\\auth-slice\\index.js",
+              "ToolTip": "C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\frontend\\src\\store\\auth-slice\\index.js",
+              "RelativeToolTip": "frontend\\src\\store\\auth-slice\\index.js",
+              "ViewState": "AgIAADMAAAAAAAAAAAAswD0AAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2025-03-27T15:10:19.144Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "cloudinary.js",
+              "DocumentMoniker": "C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\backend\\helpers\\cloudinary.js",
+              "RelativeDocumentMoniker": "backend\\helpers\\cloudinary.js",
+              "ToolTip": "C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\backend\\helpers\\cloudinary.js",
+              "RelativeToolTip": "backend\\helpers\\cloudinary.js",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2025-03-27T15:10:14.347Z",
+              "EditorCaption": ""
+            },
+            {
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "checkout.jsx",
-              "DocumentMoniker": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\pages\\shopping-view\\checkout.jsx",
+              "DocumentMoniker": "C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\frontend\\src\\pages\\shopping-view\\checkout.jsx",
               "RelativeDocumentMoniker": "frontend\\src\\pages\\shopping-view\\checkout.jsx",
-              "ToolTip": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\pages\\shopping-view\\checkout.jsx",
+              "ToolTip": "C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\frontend\\src\\pages\\shopping-view\\checkout.jsx",
               "RelativeToolTip": "frontend\\src\\pages\\shopping-view\\checkout.jsx",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAKAAAAAAAAAA==",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAA8AAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
               "WhenOpened": "2025-03-27T13:44:06.133Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 11,
               "Title": "card.jsx",
-              "DocumentMoniker": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\components\\ui\\card.jsx",
+              "DocumentMoniker": "C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\frontend\\src\\components\\ui\\card.jsx",
               "RelativeDocumentMoniker": "frontend\\src\\components\\ui\\card.jsx",
-              "ToolTip": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\components\\ui\\card.jsx",
+              "ToolTip": "C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\frontend\\src\\components\\ui\\card.jsx",
               "RelativeToolTip": "frontend\\src\\components\\ui\\card.jsx",
               "ViewState": "AgIAAAEAAAAAAAAAAAAAAAoAAAAZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
-              "WhenOpened": "2025-03-21T20:16:23.827Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-21T20:16:23.827Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 5,
               "Title": "index.html",
-              "DocumentMoniker": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\index.html",
+              "DocumentMoniker": "C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\frontend\\index.html",
               "RelativeDocumentMoniker": "frontend\\index.html",
-              "ToolTip": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\index.html",
+              "ToolTip": "C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\frontend\\index.html",
               "RelativeToolTip": "frontend\\index.html",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAA1AAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAnAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2025-03-18T04:25:46.513Z"
+              "WhenOpened": "2025-03-18T04:25:46.513Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 8,
               "Title": "index.js",
-              "DocumentMoniker": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\store\\admin\\products-slice\\index.js",
+              "DocumentMoniker": "C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\frontend\\src\\store\\admin\\products-slice\\index.js",
               "RelativeDocumentMoniker": "frontend\\src\\store\\admin\\products-slice\\index.js",
-              "ToolTip": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\store\\admin\\products-slice\\index.js",
+              "ToolTip": "C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\frontend\\src\\store\\admin\\products-slice\\index.js",
               "RelativeToolTip": "frontend\\src\\store\\admin\\products-slice\\index.js",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAPAAAAAAAAAA==",
+              "ViewState": "AgIAACMAAAAAAAAAAAAWwC0AAABEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2025-03-01T11:21:39.743Z"
+              "WhenOpened": "2025-03-01T11:21:39.743Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 15,
               "Title": "products.jsx",
-              "DocumentMoniker": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\pages\\admin-view\\products.jsx",
+              "DocumentMoniker": "C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\frontend\\src\\pages\\admin-view\\products.jsx",
               "RelativeDocumentMoniker": "frontend\\src\\pages\\admin-view\\products.jsx",
-              "ToolTip": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\pages\\admin-view\\products.jsx",
+              "ToolTip": "C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\frontend\\src\\pages\\admin-view\\products.jsx",
               "RelativeToolTip": "frontend\\src\\pages\\admin-view\\products.jsx",
               "ViewState": "AgIAABkAAAAAAAAAAAD4vyYAAAAZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
@@ -172,11 +228,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 17,
               "Title": "products-controller.js",
-              "DocumentMoniker": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\backend\\controllers\\shop\\products-controller.js",
+              "DocumentMoniker": "C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\backend\\controllers\\shop\\products-controller.js",
               "RelativeDocumentMoniker": "backend\\controllers\\shop\\products-controller.js",
-              "ToolTip": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\backend\\controllers\\shop\\products-controller.js",
+              "ToolTip": "C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\backend\\controllers\\shop\\products-controller.js",
               "RelativeToolTip": "backend\\controllers\\shop\\products-controller.js",
               "ViewState": "AgIAAJwAAAAAAAAAAAAAAKkAAAA1AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
@@ -184,23 +240,24 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 6,
               "Title": "product-details.jsx",
-              "DocumentMoniker": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\pages\\shopping-view\\product-details.jsx",
+              "DocumentMoniker": "C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\frontend\\src\\pages\\shopping-view\\product-details.jsx",
               "RelativeDocumentMoniker": "frontend\\src\\pages\\shopping-view\\product-details.jsx",
-              "ToolTip": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\pages\\shopping-view\\product-details.jsx",
+              "ToolTip": "C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\frontend\\src\\pages\\shopping-view\\product-details.jsx",
               "RelativeToolTip": "frontend\\src\\pages\\shopping-view\\product-details.jsx",
-              "ViewState": "AgIAAKYAAAAAAAAAAAAAALoAAAAoAAAAAAAAAA==",
+              "ViewState": "AgIAAHcAAAAAAAAAAAAWwIAAAABDAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
-              "WhenOpened": "2025-03-09T02:42:53.371Z"
+              "WhenOpened": "2025-03-09T02:42:53.371Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 13,
               "Title": "listing.jsx",
-              "DocumentMoniker": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\pages\\shopping-view\\listing.jsx",
+              "DocumentMoniker": "C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\frontend\\src\\pages\\shopping-view\\listing.jsx",
               "RelativeDocumentMoniker": "frontend\\src\\pages\\shopping-view\\listing.jsx",
-              "ToolTip": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\pages\\shopping-view\\listing.jsx",
+              "ToolTip": "C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\frontend\\src\\pages\\shopping-view\\listing.jsx",
               "RelativeToolTip": "frontend\\src\\pages\\shopping-view\\listing.jsx",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
@@ -208,11 +265,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 14,
               "Title": "home.jsx",
-              "DocumentMoniker": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\pages\\shopping-view\\home.jsx",
+              "DocumentMoniker": "C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\frontend\\src\\pages\\shopping-view\\home.jsx",
               "RelativeDocumentMoniker": "frontend\\src\\pages\\shopping-view\\home.jsx",
-              "ToolTip": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\pages\\shopping-view\\home.jsx",
+              "ToolTip": "C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\frontend\\src\\pages\\shopping-view\\home.jsx",
               "RelativeToolTip": "frontend\\src\\pages\\shopping-view\\home.jsx",
               "ViewState": "AgIAACQAAAAAAAAAAAAAADEAAAAnAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
@@ -220,23 +277,24 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 9,
               "Title": "index.js",
-              "DocumentMoniker": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\store\\shop\\products-slice\\index.js",
+              "DocumentMoniker": "C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\frontend\\src\\store\\shop\\products-slice\\index.js",
               "RelativeDocumentMoniker": "frontend\\src\\store\\shop\\products-slice\\index.js",
-              "ToolTip": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\store\\shop\\products-slice\\index.js",
+              "ToolTip": "C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\frontend\\src\\store\\shop\\products-slice\\index.js",
               "RelativeToolTip": "frontend\\src\\store\\shop\\products-slice\\index.js",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAPAAAAAAAAAA==",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAAABYAAABBAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2025-03-02T01:37:08.47Z"
+              "WhenOpened": "2025-03-02T01:37:08.47Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 12,
               "Title": "product-tile.jsx",
-              "DocumentMoniker": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\pages\\shopping-view\\product-tile.jsx",
+              "DocumentMoniker": "C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\frontend\\src\\pages\\shopping-view\\product-tile.jsx",
               "RelativeDocumentMoniker": "frontend\\src\\pages\\shopping-view\\product-tile.jsx",
-              "ToolTip": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\pages\\shopping-view\\product-tile.jsx",
+              "ToolTip": "C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\frontend\\src\\pages\\shopping-view\\product-tile.jsx",
               "RelativeToolTip": "frontend\\src\\pages\\shopping-view\\product-tile.jsx",
               "ViewState": "AgIAAA0AAAAAAAAAAAAAABMAAAA/AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
@@ -244,11 +302,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 16,
               "Title": "button.jsx",
-              "DocumentMoniker": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\components\\ui\\button.jsx",
+              "DocumentMoniker": "C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\frontend\\src\\components\\ui\\button.jsx",
               "RelativeDocumentMoniker": "frontend\\src\\components\\ui\\button.jsx",
-              "ToolTip": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\components\\ui\\button.jsx",
+              "ToolTip": "C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\frontend\\src\\components\\ui\\button.jsx",
               "RelativeToolTip": "frontend\\src\\components\\ui\\button.jsx",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAvAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
@@ -256,11 +314,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 20,
               "Title": "layout.jsx",
-              "DocumentMoniker": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\components\\auth\\layout.jsx",
+              "DocumentMoniker": "C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\frontend\\src\\components\\auth\\layout.jsx",
               "RelativeDocumentMoniker": "frontend\\src\\components\\auth\\layout.jsx",
-              "ToolTip": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\components\\auth\\layout.jsx",
+              "ToolTip": "C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\frontend\\src\\components\\auth\\layout.jsx",
               "RelativeToolTip": "frontend\\src\\components\\auth\\layout.jsx",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAABcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
@@ -268,23 +326,24 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 7,
               "Title": "sellerExchangeOffers.jsx",
-              "DocumentMoniker": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\pages\\shopping-view\\sellerExchangeOffers.jsx",
+              "DocumentMoniker": "C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\frontend\\src\\pages\\shopping-view\\sellerExchangeOffers.jsx",
               "RelativeDocumentMoniker": "frontend\\src\\pages\\shopping-view\\sellerExchangeOffers.jsx",
-              "ToolTip": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\pages\\shopping-view\\sellerExchangeOffers.jsx",
+              "ToolTip": "C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\frontend\\src\\pages\\shopping-view\\sellerExchangeOffers.jsx",
               "RelativeToolTip": "frontend\\src\\pages\\shopping-view\\sellerExchangeOffers.jsx",
-              "ViewState": "AgIAADEAAAAAAAAAAAAkwEYAAABMAAAAAAAAAA==",
+              "ViewState": "AgIAADAAAAAAAAAAAAAAADgAAAA9AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
-              "WhenOpened": "2025-03-19T15:03:53.557Z"
+              "WhenOpened": "2025-03-19T15:03:53.557Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 19,
               "Title": "login.jsx",
-              "DocumentMoniker": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\pages\\auth\\login.jsx",
+              "DocumentMoniker": "C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\frontend\\src\\pages\\auth\\login.jsx",
               "RelativeDocumentMoniker": "frontend\\src\\pages\\auth\\login.jsx",
-              "ToolTip": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\pages\\auth\\login.jsx",
+              "ToolTip": "C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\frontend\\src\\pages\\auth\\login.jsx",
               "RelativeToolTip": "frontend\\src\\pages\\auth\\login.jsx",
               "ViewState": "AgIAADgAAAAAAAAAAAD4v0MAAAAOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
@@ -292,11 +351,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 21,
               "Title": "products-controller.js",
-              "DocumentMoniker": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\backend\\controllers\\admin\\products-controller.js",
+              "DocumentMoniker": "C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\backend\\controllers\\admin\\products-controller.js",
               "RelativeDocumentMoniker": "backend\\controllers\\admin\\products-controller.js",
-              "ToolTip": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\backend\\controllers\\admin\\products-controller.js",
+              "ToolTip": "C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\backend\\controllers\\admin\\products-controller.js",
               "RelativeToolTip": "backend\\controllers\\admin\\products-controller.js",
               "ViewState": "AgIAAE4AAAAAAAAAAAAIwFoAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
@@ -304,11 +363,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 18,
               "Title": "header.jsx",
-              "DocumentMoniker": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\pages\\shopping-view\\header.jsx",
+              "DocumentMoniker": "C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\frontend\\src\\pages\\shopping-view\\header.jsx",
               "RelativeDocumentMoniker": "frontend\\src\\pages\\shopping-view\\header.jsx",
-              "ToolTip": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\pages\\shopping-view\\header.jsx",
+              "ToolTip": "C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\frontend\\src\\pages\\shopping-view\\header.jsx",
               "RelativeToolTip": "frontend\\src\\pages\\shopping-view\\header.jsx",
               "ViewState": "AgIAAEcAAAAAAAAAAAAAAE0AAAAgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
@@ -316,11 +375,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 24,
               "Title": "product-tile.jsx",
-              "DocumentMoniker": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\components\\admin-view\\product-tile.jsx",
+              "DocumentMoniker": "C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\frontend\\src\\components\\admin-view\\product-tile.jsx",
               "RelativeDocumentMoniker": "frontend\\src\\components\\admin-view\\product-tile.jsx",
-              "ToolTip": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\components\\admin-view\\product-tile.jsx",
+              "ToolTip": "C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\frontend\\src\\components\\admin-view\\product-tile.jsx",
               "RelativeToolTip": "frontend\\src\\components\\admin-view\\product-tile.jsx",
               "ViewState": "AgIAABMAAAAAAAAAAAAAAB4AAAA4AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
@@ -328,11 +387,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 22,
               "Title": "Product.js",
-              "DocumentMoniker": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\backend\\models\\Product.js",
+              "DocumentMoniker": "C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\backend\\models\\Product.js",
               "RelativeDocumentMoniker": "backend\\models\\Product.js",
-              "ToolTip": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\backend\\models\\Product.js",
+              "ToolTip": "C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\backend\\models\\Product.js",
               "RelativeToolTip": "backend\\models\\Product.js",
               "ViewState": "AgIAAAIAAAAAAAAAAAAAAA4AAAAPAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
@@ -340,24 +399,23 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 10,
               "Title": "App.jsx",
-              "DocumentMoniker": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\App.jsx",
+              "DocumentMoniker": "C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\frontend\\src\\App.jsx",
               "RelativeDocumentMoniker": "frontend\\src\\App.jsx",
-              "ToolTip": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\App.jsx",
+              "ToolTip": "C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\frontend\\src\\App.jsx",
               "RelativeToolTip": "frontend\\src\\App.jsx",
               "ViewState": "AgIAAAIAAAAAAAAAAAAswA0AAAA8AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
-              "WhenOpened": "2025-03-08T14:35:48.465Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-08T14:35:48.465Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 23,
               "Title": "products-routes.js",
-              "DocumentMoniker": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\backend\\routes\\shop\\products-routes.js",
+              "DocumentMoniker": "C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\backend\\routes\\shop\\products-routes.js",
               "RelativeDocumentMoniker": "backend\\routes\\shop\\products-routes.js",
-              "ToolTip": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\backend\\routes\\shop\\products-routes.js",
+              "ToolTip": "C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\backend\\routes\\shop\\products-routes.js",
               "RelativeToolTip": "backend\\routes\\shop\\products-routes.js",
               "ViewState": "AgIAABEAAAAAAAAAAAAAABEAAAAoAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
@@ -365,11 +423,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 25,
               "Title": "index.js",
-              "DocumentMoniker": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\config\\index.js",
+              "DocumentMoniker": "C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\frontend\\src\\config\\index.js",
               "RelativeDocumentMoniker": "frontend\\src\\config\\index.js",
-              "ToolTip": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\config\\index.js",
+              "ToolTip": "C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\frontend\\src\\config\\index.js",
               "RelativeToolTip": "frontend\\src\\config\\index.js",
               "ViewState": "AgIAADYAAAAAAAAAAAAAAEEAAAAEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
@@ -377,15 +435,16 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 1,
               "Title": "image-upload.jsx",
-              "DocumentMoniker": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\components\\admin-view\\image-upload.jsx",
+              "DocumentMoniker": "C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\frontend\\src\\components\\admin-view\\image-upload.jsx",
               "RelativeDocumentMoniker": "frontend\\src\\components\\admin-view\\image-upload.jsx",
-              "ToolTip": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\components\\admin-view\\image-upload.jsx",
+              "ToolTip": "C:\\Users\\LENOVO\\Desktop\\FYP Versions\\FYP Latest\\tradeabook\\frontend\\src\\components\\admin-view\\image-upload.jsx",
               "RelativeToolTip": "frontend\\src\\components\\admin-view\\image-upload.jsx",
-              "ViewState": "AgIAAAEAAAAAAAAAAAAuwA0AAAACAAAAAAAAAA==",
+              "ViewState": "AgIAACsAAAAAAAAAAAAWwDQAAAAgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
-              "WhenOpened": "2025-02-23T13:57:23.978Z"
+              "WhenOpened": "2025-02-23T13:57:23.978Z",
+              "EditorCaption": ""
             }
           ]
         }

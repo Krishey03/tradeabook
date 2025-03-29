@@ -4,87 +4,23 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTitle, DialogHeader } from "@/components/ui/dialog";
 import { toast } from "react-hot-toast";
+import useExchangeOffers from "@/hooks/useExchangeOffers";
 
 function SellerExchangeOffers() {
-  const [exchangeOffers, setExchangeOffers] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [selectedOffer, setSelectedOffer] = useState(null);
-  const [offerDetailsOpen, setOfferDetailsOpen] = useState(false);
+  
 
-  // Get current user email from redux state
   const userEmail = useSelector((state) => state.auth.user?.email);
 
-  useEffect(() => {
-    if (!userEmail) return;
-
-    const fetchExchangeOffers = async () => {
-      setLoading(true);
-      try {
-        const response = await fetch(`http://localhost:5000/api/shop/products/exchangeOffers/${userEmail}`);
-
-        if (!response.ok) {
-          throw new Error("Failed to fetch exchange offers");
-        }
-
-        const data = await response.json();
-        console.log("Exchange offers data:", data);
-        setExchangeOffers(data.data || []);
-      } catch (error) {
-        console.error("Error fetching exchange offers:", error);
-        toast.error("Failed to load exchange offers");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchExchangeOffers();
-  }, [userEmail]);
-
-  const handleViewDetails = (offer) => {
-    setSelectedOffer(offer);
-    setOfferDetailsOpen(true);
-  };
-
-  const handleAcceptOffer = async (offerId) => {
-    // Implement accept exchange offer functionality
-    toast.success("Exchange offer accepted!");
-    setOfferDetailsOpen(false);
-    // You would need to create a new endpoint for accepting offers
-  };
-
-  const handleRejectOffer = async (offerId) => {
-    try {
-        // Send PATCH request to backend to decline the offer
-        const response = await fetch(`http://localhost:5000/api/shop/products/exchangeOffers/${offerId}`, {
-            method: "PATCH", // Use PATCH method instead of DELETE
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                offerStatus: "declined", // Update offerStatus to declined
-            }),
-        });
-
-        // Check if the response is successful
-        if (!response.ok) {
-            throw new Error("Failed to reject exchange offer");
-        }
-
-        // Update the status of the offer in state to "declined"
-        setExchangeOffers((prevOffers) =>
-            prevOffers.map((offer) =>
-                offer._id === offerId ? { ...offer, offerStatus: "declined" } : offer
-            )
-        );
-
-        // Show success message
-        toast.success("Exchange offer declined");
-        setOfferDetailsOpen(false);
-    } catch (error) {
-        console.error("Error rejecting exchange offer:", error);
-        toast.error("Failed to reject exchange offer");
-    }
-};
+  const {
+    exchangeOffers,
+    loading,
+    selectedOffer,
+    offerDetailsOpen,
+    handleViewDetails,
+    handleAcceptOffer,
+    handleRejectOffer,
+    setOfferDetailsOpen,
+  } = useExchangeOffers(userEmail);
 
 
   return (

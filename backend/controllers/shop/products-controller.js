@@ -45,6 +45,9 @@ const getProductDetails = async (req, res) => {
     }
 }
 
+
+
+//Bidding controller
 const placeBid = async (req, res) => {
     try {
         const { productId, bidAmount, bidderEmail } = req.body;
@@ -97,6 +100,34 @@ const placeBid = async (req, res) => {
     }
 };
 
+const getCartItems = async (req, res) => {
+    try {
+        const { email } = req.params;
+        console.log("Fetching cart items for:", email);
+
+        // Find products where the auction has ended, and the user won
+        const wonItems = await Product.find({
+            bidderEmail: email, 
+            // endTime: { $lt: new Date() }
+        });
+
+        res.status(200).json({
+            success: true,
+            data: wonItems
+        });
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            success: false,
+            message: "An error occurred while fetching cart items."
+        });
+    }
+};
+
+
+
+// Exchange Offer Controller
 const offerExchange = async (req, res) => {
     try {
         const { productId, userEmail, exchangeOffer } = req.body;
@@ -202,33 +233,6 @@ const declineExchangeOffer = async (req, res) => {
     }
 };
 
-
-
-const getCartItems = async (req, res) => {
-    try {
-        const { email } = req.params;
-        console.log("Fetching cart items for:", email);
-
-        // Find products where the auction has ended, and the user won
-        const wonItems = await Product.find({
-            bidderEmail: email, 
-            // endTime: { $lt: new Date() }
-        });
-
-        res.status(200).json({
-            success: true,
-            data: wonItems
-        });
-
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({
-            success: false,
-            message: "An error occurred while fetching cart items."
-        });
-    }
-};
-
 const acceptExchangeOffer = async (req, res) => {
     try {
         const { offerId } = req.params;
@@ -269,5 +273,37 @@ const acceptExchangeOffer = async (req, res) => {
     }
 };
 
+const getUserExchangeOffers = async (req, res) => {
+    try {
+        const { userEmail } = req.params; // Retrieve the email parameter from the URL
+        console.log("Fetching exchange offers for user:", userEmail);
 
-module.exports = { getProducts, getProductDetails, placeBid, offerExchange, getSellerExchangeOffers, declineExchangeOffer, getCartItems, acceptExchangeOffer };
+        // Fetch all exchange offers where the user made the offer
+        const userOffers = await eProduct.find({ userEmail })
+            .populate('productId', 'title image') // Populate productId field with title and image
+            .exec();
+
+        if (!userOffers || userOffers.length === 0) {
+            return res.status(200).json({
+                success: true,
+                message: "No exchange offers found for this user",
+                data: []
+            });
+        }
+
+        // Send back the fetched data with offers and related product info
+        res.status(200).json({
+            success: true,
+            data: userOffers // Send user offers as data
+        });
+    } catch (error) {
+        console.error("Error fetching user exchange offers:", error); // Log the error
+        res.status(500).json({
+            success: false,
+            message: 'Server Error' // Send a general error message if something goes wrong
+        });
+    }
+};
+
+
+module.exports = { getProducts, getProductDetails, placeBid, offerExchange, getSellerExchangeOffers, declineExchangeOffer, getCartItems, acceptExchangeOffer, getUserExchangeOffers };
