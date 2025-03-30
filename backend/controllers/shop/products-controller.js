@@ -65,7 +65,6 @@ const placeBid = async (req, res) => {
             return res.status(404).json({ message: "Product not found." });
         }
 
-        // 🚀 **NEW: Check if auction has ended**
         if (new Date() > product.endTime) {
             return res.status(400).json({ message: "Bidding has ended for this product." });
         }

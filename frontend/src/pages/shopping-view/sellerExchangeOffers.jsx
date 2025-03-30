@@ -7,12 +7,11 @@ import { toast } from "react-hot-toast";
 import useExchangeOffers from "@/hooks/useExchangeOffers";
 
 function SellerExchangeOffers() {
-  
-
   const userEmail = useSelector((state) => state.auth.user?.email);
 
   const {
-    exchangeOffers,
+    incomingOffers, // Changed from exchangeOffers to incomingOffers
+    outgoingOffers, // You might want to use this too
     loading,
     selectedOffer,
     offerDetailsOpen,
@@ -22,14 +21,16 @@ function SellerExchangeOffers() {
     setOfferDetailsOpen,
   } = useExchangeOffers(userEmail);
 
+  // Determine if we're still loading
+  const isLoading = loading.incoming || loading.outgoing;
 
   return (
     <div className="p-4">
       <h2 className="text-2xl font-bold mb-4">Exchange Offers</h2>
 
-      {loading ? (
+      {isLoading ? (
         <p>Loading exchange offers...</p>
-      ) : exchangeOffers.length === 0 ? (
+      ) : incomingOffers.length === 0 ? (
         <Card>
           <CardContent className="p-6">
             <p className="text-muted-foreground">You have no exchange offers yet.</p>
@@ -37,7 +38,7 @@ function SellerExchangeOffers() {
         </Card>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {exchangeOffers.map(
+          {incomingOffers.map(
             (offer) =>
               offer.offerStatus !== "declined" && ( // Don't display declined offers
                 <Card key={offer._id} className="overflow-hidden">

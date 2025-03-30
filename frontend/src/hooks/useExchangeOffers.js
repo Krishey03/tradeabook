@@ -21,6 +21,11 @@ const useExchangeOffers = (userEmail) => {
       try {
         const response = await fetch(`http://localhost:5000/api/shop/products/exchangeOffers/${userEmail}`);
         
+        // const result = await response.json();
+        // console.log("Fetched Exchange Offers:", result);
+        // setIncomingOffers(result.data || []);
+        
+        
         if (!response.ok) {
           throw new Error("Failed to fetch incoming exchange offers");
         }
@@ -40,6 +45,7 @@ const useExchangeOffers = (userEmail) => {
       setLoading(prev => ({ ...prev, outgoing: true }));
       try {
         const response = await fetch(`http://localhost:5000/api/shop/products/exchangeOffers/user/${userEmail}`);
+
         
         if (!response.ok) {
           throw new Error("Failed to fetch outgoing exchange offers");
