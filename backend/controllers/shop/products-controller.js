@@ -236,8 +236,9 @@ const declineExchangeOffer = async (req, res) => {
 const acceptExchangeOffer = async (req, res) => {
     try {
         const { offerId } = req.params;
+        const io = req.app.get("io"); // Get io from req.app
         
-        // Find the exchange offer by ID
+        // Rest of your function remains the same
         const exchangeOffer = await eProduct.findById(offerId);
         if (!exchangeOffer) {
             return res.status(404).json({ success: false, message: "Exchange offer not found" });
@@ -249,17 +250,20 @@ const acceptExchangeOffer = async (req, res) => {
             return res.status(404).json({ success: false, message: "Product not found" });
         }
 
-        // Mark the exchange offer as accepted (You can add other logic here, like updating product status)
-        exchangeOffer.status = 'Accepted';
+        // Mark the exchange offer as accepted
+        exchangeOffer.offerStatus = "accepted";
         await exchangeOffer.save();
 
-        // Notify both parties through WebSocket
-        io.emit("exchangeOfferAccepted", {
-            offerId: exchangeOffer._id,
-            productId: exchangeOffer.productId,
-            acceptedBy: exchangeOffer.userEmail,
-            status: exchangeOffer.status
-        });
+        // Now using io from req.app
+        if (io) {
+            io.emit("exchangeOfferAccepted", {
+                offerId: exchangeOffer._id,
+                productId: exchangeOffer.productId,
+                acceptedBy: product.sellerEmail,
+                acceptedFor: exchangeOffer.userEmail,
+                status: exchangeOffer.offerStatus
+            });
+        }
 
         res.status(200).json({
             success: true,
@@ -276,7 +280,7 @@ const acceptExchangeOffer = async (req, res) => {
 const getUserExchangeOffers = async (req, res) => {
     try {
         const { userEmail } = req.params; // Retrieve the email parameter from the URL
-        console.log("Fetching exchange offers for user:", userEmail);
+        // console.log("Fetching exchange offers for user:", userEmail);
 
         // Fetch all exchange offers where the user made the offer
         const userOffers = await eProduct.find({ userEmail })

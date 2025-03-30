@@ -2,34 +2,62 @@ import { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
 
 const useExchangeOffers = (userEmail) => {
-  const [exchangeOffers, setExchangeOffers] = useState([]);
-  const [loading, setLoading] = useState(false);
+  // Separate state for incoming and outgoing offers
+  const [incomingOffers, setIncomingOffers] = useState([]);
+  const [outgoingOffers, setOutgoingOffers] = useState([]);
+  const [loading, setLoading] = useState({
+    incoming: false,
+    outgoing: false
+  });
   const [selectedOffer, setSelectedOffer] = useState(null);
   const [offerDetailsOpen, setOfferDetailsOpen] = useState(false);
 
   useEffect(() => {
     if (!userEmail) return;
 
-    const fetchExchangeOffers = async () => {
-      setLoading(true);
+    // Fetch offers sent to the user (incoming)
+    const fetchIncomingOffers = async () => {
+      setLoading(prev => ({ ...prev, incoming: true }));
+      try {
+        const response = await fetch(`http://localhost:5000/api/shop/products/exchangeOffers/${userEmail}`);
+        
+        if (!response.ok) {
+          throw new Error("Failed to fetch incoming exchange offers");
+        }
+
+        const data = await response.json();
+        setIncomingOffers(data.data || []);
+      } catch (error) {
+        console.error("Error fetching incoming exchange offers:", error);
+        toast.error("Failed to load incoming offers");
+      } finally {
+        setLoading(prev => ({ ...prev, incoming: false }));
+      }
+    };
+
+    // Fetch offers sent by the user (outgoing)
+    const fetchOutgoingOffers = async () => {
+      setLoading(prev => ({ ...prev, outgoing: true }));
       try {
         const response = await fetch(`http://localhost:5000/api/shop/products/exchangeOffers/user/${userEmail}`);
         
         if (!response.ok) {
-          throw new Error("Failed to fetch exchange offers");
+          throw new Error("Failed to fetch outgoing exchange offers");
         }
 
         const data = await response.json();
-        setExchangeOffers(data.data || []);
+        setOutgoingOffers(data.data || []);
       } catch (error) {
-        console.error("Error fetching exchange offers:", error);
-        toast.error("Failed to load exchange offers");
+        console.error("Error fetching outgoing exchange offers:", error);
+        toast.error("Failed to load outgoing offers");
       } finally {
-        setLoading(false);
+        setLoading(prev => ({ ...prev, outgoing: false }));
       }
     };
 
-    fetchExchangeOffers();
+    // Fetch both types of offers
+    fetchIncomingOffers();
+    fetchOutgoingOffers();
   }, [userEmail]);
 
   const handleViewDetails = (offer) => {
@@ -38,9 +66,36 @@ const useExchangeOffers = (userEmail) => {
   };
 
   const handleAcceptOffer = async (offerId) => {
-    toast.success("Exchange offer accepted!");
-    setOfferDetailsOpen(false);
-    // Implement accept logic (e.g., API call)
+    try {
+      const response = await fetch(`http://localhost:5000/api/shop/products/exchangeOffers/accept/${offerId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        }
+      });
+  
+      if (!response.ok) {
+        throw new Error("Failed to accept exchange offer");
+      }
+  
+      const data = await response.json();
+      
+      // Update the local state to reflect the change
+      setIncomingOffers((prevOffers) =>
+        prevOffers.map((offer) =>
+          offer._id === offerId ? { ...offer, offerStatus: "accepted" } : offer
+        )
+      );
+  
+      // Store the accepted offer in localStorage for checkout
+      localStorage.setItem("acceptedExchangeOffer", JSON.stringify(data.exchangeOffer));
+      
+      toast.success("Exchange offer accepted!");
+      setOfferDetailsOpen(false);
+    } catch (error) {
+      console.error("Error accepting exchange offer:", error);
+      toast.error("Failed to accept exchange offer");
+    }
   };
 
   const handleRejectOffer = async (offerId) => {
@@ -49,17 +104,14 @@ const useExchangeOffers = (userEmail) => {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          offerStatus: "declined",
-        }),
+        }
       });
 
       if (!response.ok) {
         throw new Error("Failed to reject exchange offer");
       }
 
-      setExchangeOffers((prevOffers) =>
+      setIncomingOffers((prevOffers) =>
         prevOffers.map((offer) =>
           offer._id === offerId ? { ...offer, offerStatus: "declined" } : offer
         )
@@ -74,14 +126,15 @@ const useExchangeOffers = (userEmail) => {
   };
 
   return {
-    exchangeOffers,
+    incomingOffers,
+    outgoingOffers,
     loading,
     selectedOffer,
     offerDetailsOpen,
     handleViewDetails,
     handleAcceptOffer,
     handleRejectOffer,
-    setOfferDetailsOpen, // Allow closing the offer details dialog
+    setOfferDetailsOpen
   };
 };
 

@@ -42,8 +42,14 @@ function HeaderRightContent() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { exchangeOffers, loading } = useExchangeOffers(user?.email);
-  const [open, setOpen] = useState(false);
+  const { 
+    incomingOffers, 
+    outgoingOffers, 
+    loading 
+  } = useExchangeOffers(user?.email);
+  
+  const [incomingOpen, setIncomingOpen] = useState(false);
+  const [outgoingOpen, setOutgoingOpen] = useState(false);
 
   function handleLogout() {
       dispatch(logoutUser());
@@ -51,38 +57,88 @@ function HeaderRightContent() {
 
   return (
     <div className="flex lg:items-center lg:flex-row flex-col gap-x-2 gap-y-4">
-      {/* Exchange Offers Dropdown */}
-      <DropdownMenu open={open} onOpenChange={setOpen}>
+      {/* Incoming Exchange Offers Dropdown */}
+      <DropdownMenu open={incomingOpen} onOpenChange={setIncomingOpen}>
         <DropdownMenuTrigger asChild>
           <Button variant="outline" size="icon">
             <SquareStack className="h-6 w-6" />
-            {exchangeOffers.length > 0 && ( // Show notification badge if offers exist
+            {incomingOffers.length > 0 && (
               <span className="absolute top-0 right-0 bg-red-500 text-white text-xs px-1.5 py-0.5 rounded-full">
-                {exchangeOffers.length}
+                {incomingOffers.length}
               </span>
             )}
-            <span className="sr-only">View Listings</span>
+            <span className="sr-only">Incoming Offers</span>
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-64 bg-white border shadow-lg rounded-lg">
           <DropdownMenuLabel className="px-4 py-2 text-sm text-gray-600">
-            Exchange Offers
+            Incoming Exchange Offers
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
           
-          {loading ? (
+          {loading.incoming ? (
             <DropdownMenuItem className="text-center">Loading...</DropdownMenuItem>
-          ) : exchangeOffers.length === 0 ? (
-            <DropdownMenuItem className="text-center text-gray-500">No offers available</DropdownMenuItem>
+          ) : incomingOffers.length === 0 ? (
+            <DropdownMenuItem className="text-center text-gray-500">No incoming offers</DropdownMenuItem>
           ) : (
-            exchangeOffers.map((offer) => (
+            incomingOffers.map((offer) => (
               <DropdownMenuItem 
                 key={offer._id} 
                 className="flex justify-between items-center cursor-pointer hover:bg-gray-100"
                 onClick={() => navigate(`/shop/exchange/${offer._id}`)}
               >
-                <span className="text-sm">{offer.bookTitle}</span>
-                <span className={`text-xs font-semibold px-2 py-1 rounded ${offer.offerStatus === 'pending' ? 'bg-yellow-300' : 'bg-green-300'}`}>
+                <span className="text-sm truncate max-w-[150px]">
+                  {offer.productId?.title || 'Unknown Book'}
+                </span>
+                <span className={`text-xs font-semibold px-2 py-1 rounded ${
+                  offer.offerStatus === 'pending' ? 'bg-yellow-300' : 
+                  offer.offerStatus === 'accepted' ? 'bg-green-300' : 'bg-red-300'
+                }`}>
+                  {offer.offerStatus}
+                </span>
+              </DropdownMenuItem>
+            ))
+          )}
+        </DropdownMenuContent>
+      </DropdownMenu>
+
+      {/* Outgoing Exchange Offers Dropdown */}
+      <DropdownMenu open={outgoingOpen} onOpenChange={setOutgoingOpen}>
+        <DropdownMenuTrigger asChild>
+          <Button variant="outline" size="icon">
+            <UserCog className="h-6 w-6" />
+            {outgoingOffers.length > 0 && (
+              <span className="absolute top-0 right-0 bg-blue-500 text-white text-xs px-1.5 py-0.5 rounded-full">
+                {outgoingOffers.length}
+              </span>
+            )}
+            <span className="sr-only">Outgoing Offers</span>
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end" className="w-64 bg-white border shadow-lg rounded-lg">
+          <DropdownMenuLabel className="px-4 py-2 text-sm text-gray-600">
+            My Outgoing Offers
+          </DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          
+          {loading.outgoing ? (
+            <DropdownMenuItem className="text-center">Loading...</DropdownMenuItem>
+          ) : outgoingOffers.length === 0 ? (
+            <DropdownMenuItem className="text-center text-gray-500">No outgoing offers</DropdownMenuItem>
+          ) : (
+            outgoingOffers.map((offer) => (
+              <DropdownMenuItem 
+                key={offer._id} 
+                className="flex justify-between items-center cursor-pointer hover:bg-gray-100"
+                onClick={() => navigate(`/shop/exchange/${offer._id}`)}
+              >
+                <span className="text-sm truncate max-w-[150px]">
+                  {offer.exchangeOffer?.eTitle || 'Your Book Offer'}
+                </span>
+                <span className={`text-xs font-semibold px-2 py-1 rounded ${
+                  offer.offerStatus === 'pending' ? 'bg-yellow-300' : 
+                  offer.offerStatus === 'accepted' ? 'bg-green-300' : 'bg-red-300'
+                }`}>
                   {offer.offerStatus}
                 </span>
               </DropdownMenuItem>

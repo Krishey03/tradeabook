@@ -6,34 +6,59 @@ import { Button } from "@/components/ui/button";
 
 function Checkout() {
   const [activeTab, setActiveTab] = useState("bid"); // Default to bid checkout
-  const [exchangeOffer, setExchangeOffer] = useState(null);
+  const [acceptedExchanges, setAcceptedExchanges] = useState([]);
+  const [userExchanges, setUserExchanges] = useState([]);
   const [bidDetails, setBidDetails] = useState(null);
   const [cartItems, setCartItems] = useState([]); 
+  const [loading, setLoading] = useState(true);
 
   // Get logged-in user's email from Redux store
   const { user } = useSelector((state) => state.auth);
   const email = user?.email; 
 
   useEffect(() => {
-    const storedExchangeOffer = localStorage.getItem("acceptedExchangeOffer");
-    const storedBidDetails = localStorage.getItem("acceptedBid");
+    if (!email) return;
 
-    if (storedExchangeOffer) {
-      setExchangeOffer(JSON.parse(storedExchangeOffer));
-    }
-    if (storedBidDetails) {
-      setBidDetails(JSON.parse(storedBidDetails));
-    }
+    // Fetch cart items (auction wins)
+    const fetchCartItems = async () => {
+      try {
+        const response = await fetch(`http://localhost:5000/api/shop/products/cart/${email}`);
+        const data = await response.json();
+        setCartItems(data.data || []);
+      } catch (error) {
+        console.error("Error fetching cart items:", error);
+      }
+    };
 
-    if (email) {
-      fetch(`http://localhost:5000/api/shop/products/cart/${email}`)
-        .then(response => response.json())
-        .then(data => {
-          console.log("Cart Items:", data);
-          setCartItems(data.data || []);
-        })
-        .catch(error => console.error("Error fetching cart items:", error));
-    }
+    // Fetch exchanges where user is the seller
+    const fetchSellerExchanges = async () => {
+      try {
+        const response = await fetch(`http://localhost:5000/api/shop/products/exchangeOffers/${email}`);
+        const data = await response.json();
+        // Filter for accepted exchanges only
+        const accepted = data.data.filter(offer => offer.offerStatus === "accepted");
+        setAcceptedExchanges(accepted);
+      } catch (error) {
+        console.error("Error fetching seller exchanges:", error);
+      }
+    };
+
+    // Fetch exchanges where user made the offer
+    const fetchUserExchanges = async () => {
+      try {
+        const response = await fetch(`http://localhost:5000/api/shop/products/exchangeOffers/user/${email}`);
+        const data = await response.json();
+        // Filter for accepted exchanges only
+        const accepted = data.data.filter(offer => offer.offerStatus === "accepted");
+        setUserExchanges(accepted);
+      } catch (error) {
+        console.error("Error fetching user exchanges:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    Promise.all([fetchCartItems(), fetchSellerExchanges(), fetchUserExchanges()]);
   }, [email]);
 
   return (
@@ -80,7 +105,99 @@ function Checkout() {
               <h3 className="text-lg font-bold">Exchange Checkout</h3>
             </CardHeader>
             <CardContent>
+              {loading ? (
+                <p>Loading exchanges...</p>
+              ) : (
+                <>
+                  {/* Exchanges where you are the seller */}
+                  {acceptedExchanges.length > 0 && (
+                    <div className="mb-6">
+                      <h4 className="text-md font-semibold mb-2">Books You're Exchanging</h4>
+                      <div className="grid grid-cols-1 gap-4">
+                        {acceptedExchanges.map((exchange) => (
+                          <div key={exchange._id} className="border rounded-lg p-4">
+                            <div className="flex gap-4">
+                              <div className="w-1/2">
+                                <h5 className="font-semibold">Your Book</h5>
+                                <div className="border rounded p-2 my-2 bg-gray-100 h-32 flex items-center justify-center">
+                                  {exchange.productId?.image ? (
+                                    <img 
+                                      src={exchange.productId.image} 
+                                      alt={exchange.productId.title}
+                                      className="max-h-full max-w-full object-contain" 
+                                    />
+                                  ) : (
+                                    <p className="text-center text-gray-500">Book Image</p>
+                                  )}
+                                </div>
+                                <p>{exchange.productId?.title || "Product"}</p>
+                              </div>
+                              <div className="w-1/2">
+                                <h5 className="font-semibold">You'll Receive</h5>
+                                <div className="border rounded p-2 my-2 bg-gray-100 h-32 flex items-center justify-center">
+                                  <p className="text-center text-gray-500">Exchange Item</p>
+                                </div>
+                                <p>{exchange.exchangeOffer.eTitle}</p>
+                              </div>
+                            </div>
+                            <div className="mt-2 text-sm">
+                              <p><span className="font-semibold">Status:</span> <span className="text-green-600">Accepted</span></p>
+                              <p><span className="font-semibold">Contact:</span> {exchange.userEmail}</p>
+                            </div>
+                            <Button className="mt-4 w-full text-white">Arrange Exchange</Button>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
 
+                  {/* Exchanges where you are the offerer */}
+                  {userExchanges.length > 0 && (
+                    <div>
+                      <h4 className="text-md font-semibold mb-2">Books You're Receiving</h4>
+                      <div className="grid grid-cols-1 gap-4">
+                        {userExchanges.map((exchange) => (
+                          <div key={exchange._id} className="border rounded-lg p-4">
+                            <div className="flex gap-4">
+                              <div className="w-1/2">
+                                <h5 className="font-semibold">You'll Receive</h5>
+                                <div className="border rounded p-2 my-2 bg-gray-100 h-32 flex items-center justify-center">
+                                  {exchange.productId?.image ? (
+                                    <img 
+                                      src={exchange.productId.image} 
+                                      alt={exchange.productId.title}
+                                      className="max-h-full max-w-full object-contain" 
+                                    />
+                                  ) : (
+                                    <p className="text-center text-gray-500">Book Image</p>
+                                  )}
+                                </div>
+                                <p>{exchange.productId?.title || "Product"}</p>
+                              </div>
+                              <div className="w-1/2">
+                                <h5 className="font-semibold">Your Book</h5>
+                                <div className="border rounded p-2 my-2 bg-gray-100 h-32 flex items-center justify-center">
+                                  <p className="text-center text-gray-500">Your Exchange Item</p>
+                                </div>
+                                <p>{exchange.exchangeOffer.eTitle}</p>
+                              </div>
+                            </div>
+                            <div className="mt-2 text-sm">
+                              <p><span className="font-semibold">Status:</span> <span className="text-green-600">Accepted</span></p>
+                              <p><span className="font-semibold">Contact Seller:</span> Check product details</p>
+                            </div>
+                            <Button className="mt-4 w-full text-white">Arrange Exchange</Button>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {acceptedExchanges.length === 0 && userExchanges.length === 0 && (
+                    <p className="text-muted-foreground">No accepted exchanges found.</p>
+                  )}
+                </>
+              )}
             </CardContent>
           </Card>
         </TabsContent>
