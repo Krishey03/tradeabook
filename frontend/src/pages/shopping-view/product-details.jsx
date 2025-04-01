@@ -9,6 +9,8 @@ import { toast } from "react-hot-toast"
 import { exchangeProductFormElements } from "@/config"
 import "@fontsource/nunito-sans"
 import useTimeLeft from "@/hooks/useTimeLeft"
+import { Sheet, SheetContent, SheetHeader } from "@/components/ui/sheet" // Import Sheet components
+import { ChatIcon } from '@heroicons/react/outline'; 
 
 let socket = null
 
@@ -17,7 +19,7 @@ function ProductDetailsDialog({ open, setOpen, productDetails, setProductDetails
     const [bidAmount, setBidAmount] = useState("")
     const [errorMessage, setErrorMessage] = useState("")
     const dispatch = useDispatch()
-    const [isExchangeFormOpen, setIsExchangeFormOpen] = useState(false)
+    const [isExchangeSidebarOpen, setIsExchangeSidebarOpen] = useState(false) // For the sidebar
     const [exchangeFormData, setExchangeFormData] = useState({})
     const timeLeft = useTimeLeft(productDetails?.endTime)
 
@@ -113,19 +115,16 @@ function ProductDetailsDialog({ open, setOpen, productDetails, setProductDetails
         }
     }, [open])
 
-    //Exchange
+    // Exchange Form
     const handleExchangeFormChange = (e) => {
         setExchangeFormData({ ...exchangeFormData, [e.target.name]: e.target.value });
     };
 
     const handleExchangeSubmit = async () => {
-        // Validate exchange form fields
         if (!exchangeFormData.eTitle || !exchangeFormData.eDescription) {
             toast.error("Please fill out all required fields.");
             return;
         }
-
-        console.log('Exchange Form Data:', exchangeFormData); // Log to check what you're sending
 
         try {
             const response = await fetch("http://localhost:5000/api/shop/products/offerExchange", {
@@ -139,17 +138,14 @@ function ProductDetailsDialog({ open, setOpen, productDetails, setProductDetails
             });
 
             if (!response.ok) {
-                const text = await response.text(); // Get raw response
+                const text = await response.text();
                 throw new Error(`Failed to submit exchange. Server response: ${text}`);
             }
 
             const data = await response.json();
-            console.log("Exchange Offer Response:", data);
-
-            setIsExchangeFormOpen(false);
+            setIsExchangeSidebarOpen(false);
             toast.success("Exchange request sent!");
         } catch (error) {
-            console.error("Error submitting exchange:", error);
             toast.error(error.message);
         }
     };
@@ -157,7 +153,8 @@ function ProductDetailsDialog({ open, setOpen, productDetails, setProductDetails
     return (
         <>
             <Dialog open={open} onOpenChange={setOpen}>
-                <DialogContent className="grid grid-cols-2 gap-8 sm:p-12 max-w-[90vw] sm:max-w-[80vw] lg:max-w-[70vw]">
+            <DialogContent className="grid grid-cols-2 gap-8 sm:p-12 max-w-[110vw] sm:max-w-[100vw] lg:max-w-[90vw] scale-[0.8]">
+
                     <div className="relative overflow-hidden rounded-lg">
                         <img
                             src={productDetails?.image}
@@ -168,10 +165,10 @@ function ProductDetailsDialog({ open, setOpen, productDetails, setProductDetails
                         />
                     </div>
 
-                    <div className="grid gap-6 font-nunito">
+                    <div className="grid gap-6 font-nunito ">
                         <div className="flex justify-between items-center">
                             <h1 className="text-3xl font-extrabold">{productDetails?.title}</h1>
-                            <span className="text-xl font-sans text-primary">Time Left: {timeLeft}</span> {/* Display time left here */}
+                            <span className="text-xl font-sans text-primary">Time Left: {timeLeft}</span>
                         </div>
                         <p className="text-lg font-bold text-muted-foreground">Author: {productDetails?.author}</p>
                         <p className="text-lg font-semibold text-muted-foreground">ISBN: {productDetails?.isbn}</p>
@@ -188,11 +185,29 @@ function ProductDetailsDialog({ open, setOpen, productDetails, setProductDetails
                                 {isCardOpen ? "Close Bid Form" : "Place a Bid"}
                             </Button>
 
-                            <Button className='text-white font-nunito h-[50px] w-[150px]' onClick={() => setIsExchangeFormOpen(true)}>
+                            <Button className='text-white font-nunito h-[50px] w-[150px]' onClick={() => setIsExchangeSidebarOpen(true)}>
                                 Offer an exchange
                             </Button>
-                        </div>
 
+
+                            {/* WhatsApp Message Icon */}
+                            <Button
+                                className="text-white font-nunito items-center h-[50px] w-[150px] items-center justify-center"
+                                onClick={() => {
+                                const phoneNumber = productDetails?.sellerPhone; // Ensure this field is available
+                                if (!phoneNumber) {
+                                    toast.error("Seller's phone number is not available.");
+                                    return;
+                                }
+                                const message = encodeURIComponent(`Hello, I'm interested in your book: ${productDetails?.title}`);
+                                const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
+                                window.open(whatsappUrl, "_blank");
+                                }}
+                            >
+                                <ChatIcon  /> {/* Chat Icon */}
+                                Chat on WhatsApp
+                            </Button>
+                        </div>
 
                         {isCardOpen && (
                             <Card className="w-96 p-4 mt-4">
@@ -217,28 +232,33 @@ function ProductDetailsDialog({ open, setOpen, productDetails, setProductDetails
                 </DialogContent>
             </Dialog>
 
-{/* Exchange */}
-            <Dialog open={isExchangeFormOpen} onOpenChange={setIsExchangeFormOpen}>
-                <DialogContent className="p-6 max-w-md">
-                    <h2 className="text-xl font-bold">Offer an Exchange</h2>
-                    {exchangeProductFormElements.map((field) => (
-                        <div key={field.name} className="mb-4">
-                            <label className="block font-medium">{field.label}</label>
-                            <input
-                                type={field.type}
-                                name={field.name}
-                                placeholder={field.placeholder}
-                                onChange={handleExchangeFormChange}
-                                className="w-full p-2 border rounded-md bg-white"
-                            />
-                        </div>
-                    ))}
-                    <Button className="mt-4 w-full" onClick={handleExchangeSubmit}>
-                        Submit Exchange Offer
-                    </Button>
-                </DialogContent>
-            </Dialog>
-            
+            {/* Exchange Sidebar */}
+            <Sheet open={isExchangeSidebarOpen} onOpenChange={() => setIsExchangeSidebarOpen(false)}>
+                <SheetContent side="right" className="overflow-auto bg-slate-200 dark:ring-offset-white p-6 rounded-lg shadow-xl transition-all duration-300">
+                    <SheetHeader className="text-xl font-semibold text-gray-900 dark:text-black">
+                        Offer an Exchange
+                    </SheetHeader>
+                    <div className="border-b border-gray-300 dark:border-gray-700 my-4"></div>
+
+                    <div className="flex flex-col gap-4">
+                        {exchangeProductFormElements.map((field) => (
+                            <div key={field.name} className="mb-4">
+                                <label className="block font-medium">{field.label}</label>
+                                <input
+                                    type={field.type}
+                                    name={field.name}
+                                    placeholder={field.placeholder}
+                                    onChange={handleExchangeFormChange}
+                                    className="w-full p-2 border rounded-md bg-white"
+                                />
+                            </div>
+                        ))}
+                        <Button className="mt-4 w-full" onClick={handleExchangeSubmit}>
+                            Submit Exchange Offer
+                        </Button>
+                    </div>
+                </SheetContent>
+            </Sheet>
         </>
     )
 }

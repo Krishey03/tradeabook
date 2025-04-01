@@ -13,6 +13,7 @@ const ProductSchema = new mongoose.Schema(
     minBid: Number,
     seller: String,
     sellerEmail: String,
+    sellerPhone: Number,
     currentBid: Number,
     bidderEmail: String,
     winnerEmail: String,

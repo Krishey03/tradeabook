@@ -26,9 +26,9 @@ const handleImageUpload = async(req, res)=>{
 //add a new product
 const addProduct = async (req, res) => {
     try {
-        const { title, author, isbn, publisher, publicationDate, edition, description, image, minBid, seller, sellerEmail } = req.body;
+        const { title, author, isbn, publisher, publicationDate, edition, description, image, minBid, seller, sellerEmail, sellerPhone  } = req.body;
 
-        const endTime = new Date(Date.now() + 1 * 60 * 60 * 1000); // Testing: Ends in 30 seconds
+        const endTime = new Date(Date.now() + 60 * 60 * 1000); // Testing: Ends in 30 seconds
 
         const newlyCreatedProduct = new Product({
             title,
@@ -42,6 +42,7 @@ const addProduct = async (req, res) => {
             minBid,
             seller,
             sellerEmail,
+            sellerPhone,
             currentBid: minBid,
             bidderEmail: "",
             winnerEmail: "",
@@ -94,7 +95,7 @@ const fetchAllProducts = async(req,res)=>{
 const editProduct = async (req, res) => {
     try {
         const { id } = req.params;
-        const { title, author, isbn, publisher, publicationDate, edition, description, image, minBid, seller, sellerEmail } = req.body;
+        const { title, author, isbn, publisher, publicationDate, edition, description, image, minBid, seller, sellerEmail, sellerPhone } = req.body;
         const findProduct = await Product.findById(id);
 
         if (!findProduct) {
@@ -114,6 +115,7 @@ const editProduct = async (req, res) => {
         findProduct.image = image || findProduct.image;
         findProduct.seller = seller || findProduct.seller;
         findProduct.sellerEmail = sellerEmail || findProduct.sellerEmail;
+        findProduct.sellerPhone = sellerPhone || findProduct.sellerPhone;
         findProduct.minBid = minBid || findProduct.minBid;
 
         await findProduct.save();

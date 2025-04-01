@@ -192,7 +192,7 @@ const getSellerExchangeOffers = async (req, res) => {
             productId: { $in: productIds }
         }).populate('productId', 'title image'); 
         
-        console.log("Found exchange offers:", exchangeOffers); // Add this for debugging
+        console.log("Found exchange offers:", exchangeOffers); //for debugging
         
         res.status(200).json({
             success: true,
@@ -212,16 +212,13 @@ const declineExchangeOffer = async (req, res) => {
     try {
         const { offerId } = req.params;
 
-        // Find the offer by ID
         const offer = await eProduct.findById(offerId);
         if (!offer) {
             return res.status(404).json({ success: false, message: "Exchange offer not found" });
         }
 
-        // Update the offerStatus to "declined"
         offer.offerStatus = "declined";
 
-        // Save the updated offer
         await offer.save();
 
         res.status(200).json({ success: true, message: "Exchange offer declined successfully" });
@@ -235,25 +232,21 @@ const declineExchangeOffer = async (req, res) => {
 const acceptExchangeOffer = async (req, res) => {
     try {
         const { offerId } = req.params;
-        const io = req.app.get("io"); // Get io from req.app
+        const io = req.app.get("io"); 
         
-        // Rest of your function remains the same
         const exchangeOffer = await eProduct.findById(offerId);
         if (!exchangeOffer) {
             return res.status(404).json({ success: false, message: "Exchange offer not found" });
         }
 
-        // Get the product that the seller has listed for exchange
         const product = await Product.findById(exchangeOffer.productId);
         if (!product) {
             return res.status(404).json({ success: false, message: "Product not found" });
         }
 
-        // Mark the exchange offer as accepted
         exchangeOffer.offerStatus = "accepted";
         await exchangeOffer.save();
 
-        // Now using io from req.app
         if (io) {
             io.emit("exchangeOfferAccepted", {
                 offerId: exchangeOffer._id,
@@ -278,12 +271,10 @@ const acceptExchangeOffer = async (req, res) => {
 
 const getUserExchangeOffers = async (req, res) => {
     try {
-        const { userEmail } = req.params; // Retrieve the email parameter from the URL
-        // console.log("Fetching exchange offers for user:", userEmail);
+        const { userEmail } = req.params; 
 
-        // Fetch all exchange offers where the user made the offer
         const userOffers = await eProduct.find({ userEmail })
-            .populate('productId', 'title image') // Populate productId field with title and image
+            .populate('productId', 'title image') 
             .exec();
 
         if (!userOffers || userOffers.length === 0) {
@@ -294,16 +285,15 @@ const getUserExchangeOffers = async (req, res) => {
             });
         }
 
-        // Send back the fetched data with offers and related product info
         res.status(200).json({
             success: true,
-            data: userOffers // Send user offers as data
+            data: userOffers 
         });
     } catch (error) {
-        console.error("Error fetching user exchange offers:", error); // Log the error
+        console.error("Error fetching user exchange offers:", error); 
         res.status(500).json({
             success: false,
-            message: 'Server Error' // Send a general error message if something goes wrong
+            message: 'Server Error' 
         });
     }
 };

@@ -86,7 +86,11 @@ const loginUser = async (req, res) => {
 
         // Generate JWT token
         const token = jwt.sign(
-            { id: checkUser.id, role: checkUser.role, email: checkUser.email, userName: checkUser.userName },
+            { id: checkUser.id, 
+                role: checkUser.role, 
+                email: checkUser.email, 
+                userName: checkUser.userName, 
+            },
             'CLIENT_SECRET_KEY', 
             { expiresIn: '60m' }
         );
@@ -102,6 +106,8 @@ const loginUser = async (req, res) => {
                     email: checkUser.email,
                     role: checkUser.role,
                     userName: checkUser.userName,
+                    phone: checkUser.phone,
+                    address: checkUser.address,
                 },
             });
 
@@ -113,6 +119,8 @@ const loginUser = async (req, res) => {
         });
     }
 };
+
+
 
 // Logout User
 const logoutUser = (req, res) => {

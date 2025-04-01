@@ -13,6 +13,7 @@ function AdminProducts() {
 
     const { user } = useSelector((state) => state.auth);
     const { userEmail } = useSelector((state) => state.auth);
+    const { userPhone } = useSelector((state) => state.auth);
 
   const initialFormData = {
     title: '',
@@ -25,6 +26,7 @@ function AdminProducts() {
     minBid: '',
     seller: user?.userName,
     sellerEmail: userEmail?.email,
+    sellerPhone: userPhone?.phone,
     currentBid: '',
     image: null,
   }

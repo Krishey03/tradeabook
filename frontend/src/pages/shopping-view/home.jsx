@@ -33,9 +33,13 @@ function AdminProducts() {
     minBid: "",
     seller: user?.userName || "",
     sellerEmail: user?.email || "",
+    sellerPhone: user?.phone || "",
     image: null,
     endTime: new Date(Date.now() + 2 * 1000),
   };
+
+  console.log("User Phone Number:", user?.phone);
+  console.log(user, "user")
 
   const [openCreateProductsDialog, setOpenCreateProductsDialog] = useState(false);
   const [formData, setFormData] = useState(initialFormData);
