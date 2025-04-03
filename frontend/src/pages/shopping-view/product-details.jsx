@@ -22,6 +22,7 @@ function ProductDetailsDialog({ open, setOpen, productDetails, setProductDetails
     const [isExchangeSidebarOpen, setIsExchangeSidebarOpen] = useState(false) // For the sidebar
     const [exchangeFormData, setExchangeFormData] = useState({})
     const timeLeft = useTimeLeft(productDetails?.endTime)
+    console.log("Time left:", timeLeft);
 
     const userEmail = useSelector((state) => state.auth.user?.email)
 
@@ -52,11 +53,12 @@ function ProductDetailsDialog({ open, setOpen, productDetails, setProductDetails
     }
 
     const handleSubmitBid = async () => {
-        const parsedBid = parseFloat(bidAmount)
+        const parsedBid = parseFloat(bidAmount);
         if (isNaN(parsedBid) || parsedBid <= productDetails?.currentBid || parsedBid < productDetails?.minBid) {
-            setErrorMessage("Your bid must be higher than the current bid and meet the minimum bid requirement.")
-            return
+            setErrorMessage("Your bid must be higher than the current bid and meet the minimum bid requirement.");
+            return;
         }
+
 
         try {
             const response = await fetch("http://localhost:5000/api/shop/products/placeBid", {
@@ -181,11 +183,18 @@ function ProductDetailsDialog({ open, setOpen, productDetails, setProductDetails
                         <p className="text-2xl font-extrabold text-primary">Current Bid: Rs. {productDetails?.currentBid}</p>
 
                         <div className="flex space-x-4">
-                            <Button className='text-white font-nunito h-[50px] w-[150px]' onClick={() => setIsCardOpen(!isCardOpen)}>
-                                {isCardOpen ? "Close Bid Form" : "Place a Bid"}
-                            </Button>
+                        <Button
+                            className="text-white font-nunito h-[50px] w-[150px]"
+                            onClick={() => setIsCardOpen(!isCardOpen)}
+                            disabled={timeLeft === "Bidding Ended"}
+                        >
+                            {isCardOpen ? "Close Bid Form" : "Place a Bid"}
+                        </Button>
 
-                            <Button className='text-white font-nunito h-[50px] w-[150px]' onClick={() => setIsExchangeSidebarOpen(true)}>
+                            <Button className='text-white font-nunito h-[50px] w-[150px]' 
+                                onClick={() => setIsExchangeSidebarOpen(true)}
+                                disabled={timeLeft === "Bidding Ended"}
+                            >
                                 Offer an exchange
                             </Button>
 
@@ -203,6 +212,7 @@ function ProductDetailsDialog({ open, setOpen, productDetails, setProductDetails
                                 const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
                                 window.open(whatsappUrl, "_blank");
                                 }}
+                                disabled={timeLeft === "Bidding Ended"}
                             >
                                 <ChatIcon  /> {/* Chat Icon */}
                                 Chat on WhatsApp
