@@ -183,20 +183,64 @@ function ProductDetailsDialog({ open, setOpen, productDetails, setProductDetails
                         <p className="text-2xl font-extrabold text-primary">Current Bid: Rs. {productDetails?.currentBid}</p>
 
                         <div className="flex space-x-4">
-                        <Button
+                        {/* <Button
                             className="text-white font-nunito h-[50px] w-[150px]"
                             onClick={() => setIsCardOpen(!isCardOpen)}
                             disabled={timeLeft === "Bidding Ended"}
                         >
                             {isCardOpen ? "Close Bid Form" : "Place a Bid"}
+                        </Button> */}
+
+
+                        {/* Fancy Button */}
+                        <Button className="p-0 overflow-hidden rounded-md text-white font-nunito h-[50px] w-[150px]"
+                        onClick={() => setIsCardOpen(!isCardOpen)}
+                        disabled={timeLeft === "Bidding Ended"}>
+                            <div className="flex w-full h-full text-sm font-medium">
+                                {/* Left Side */}
+                                <div className="bg-orange-500 text-white px-4 py-2 flex items-center">
+                                    {/* {isCardOpen ? "Close" : "Place a Bid"} */}
+                                    Place a Bid
+                                </div>
+
+                                {/* Vertical Divider */}
+                                <div className="w-px bg-white opacity-50 my-0" />
+
+                                {/* Right Side */}
+                                <div className="bg-white text-orange-500 px-4 py-2 flex items-center">
+                                &gt;
+                                </div>
+                            </div>
                         </Button>
 
-                            <Button className='text-white font-nunito h-[50px] w-[150px]' 
+
+                        {/* EXCHANGE */}
+                            {/* <Button className='text-white font-nunito h-[50px] w-[150px]' 
                                 onClick={() => setIsExchangeSidebarOpen(true)}
                                 disabled={timeLeft === "Bidding Ended"}
                             >
                                 Offer an exchange
-                            </Button>
+                            </Button> */}
+
+                            <Button className="p-0 overflow-hidden rounded-md text-white font-nunito h-[50px] w-[150px]"
+                                onClick={() => setIsExchangeSidebarOpen(true)}
+                                disabled={timeLeft === "Bidding Ended"}>
+                            <div className="flex w-full h-full text-sm font-medium">
+                                {/* Left Side */}
+                                <div className="bg-orange-500 text-white px-4 py-2 flex items-center">
+                                    {/* {isCardOpen ? "Close" : "Place a Bid"} */}
+                                    Offer Exchange
+                                </div>
+
+                                {/* Vertical Divider */}
+                                <div className="w-px bg-white opacity-50 my-0" />
+
+                                {/* Right Side */}
+                                <div className="bg-white text-orange-500 px-4 py-2 flex items-center">
+                                &gt;
+                                </div>
+                            </div>
+                        </Button>
 
 
                             {/* WhatsApp Message Icon */}
@@ -215,8 +259,9 @@ function ProductDetailsDialog({ open, setOpen, productDetails, setProductDetails
                                 disabled={timeLeft === "Bidding Ended"}
                             >
                                 <ChatIcon  /> {/* Chat Icon */}
-                                Chat on WhatsApp
+                                Chat with seller
                             </Button>
+
                         </div>
 
                         {isCardOpen && (

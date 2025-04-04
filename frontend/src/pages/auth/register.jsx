@@ -4,7 +4,7 @@ import CommonForm from "@/components/common/form";
 import { registerFormControls } from "@/config";
 import { registerUser } from "@/store/auth-slice";
 import { useDispatch } from 'react-redux';
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
