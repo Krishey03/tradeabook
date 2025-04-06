@@ -12,6 +12,9 @@ function Checkout() {
   const [cartItems, setCartItems] = useState([]); 
   const [loading, setLoading] = useState(true);
 
+  const [selectedExchange, setSelectedExchange] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+
   // Get logged-in user's email from Redux store
   const { user } = useSelector((state) => state.auth);
   const email = user?.email; 
@@ -60,6 +63,7 @@ function Checkout() {
 
     Promise.all([fetchCartItems(), fetchSellerExchanges(), fetchUserExchanges()]);
   }, [email]);
+
 
   return (
     <div className="p-6 max-w-3xl mx-auto">
@@ -144,7 +148,7 @@ function Checkout() {
                               <p><span className="font-semibold">Status:</span> <span className="text-green-600">Accepted</span></p>
                               <p><span className="font-semibold">Contact:</span> {exchange.userEmail}</p>
                             </div>
-                            <Button className="mt-4 w-full text-white">Arrange Exchange</Button>
+                            <Button className="mt-4 w-full text-white">View Exchange</Button>
                           </div>
                         ))}
                       </div>
@@ -156,39 +160,94 @@ function Checkout() {
                     <div>
                       <h4 className="text-md font-semibold mb-2">Books You're Receiving</h4>
                       <div className="grid grid-cols-1 gap-4">
-                        {userExchanges.map((exchange) => (
-                          <div key={exchange._id} className="border rounded-lg p-4">
-                            <div className="flex gap-4">
-                              <div className="w-1/2">
-                                <h5 className="font-semibold">You'll Receive</h5>
-                                <div className="border rounded p-2 my-2 bg-gray-100 h-32 flex items-center justify-center">
-                                  {exchange.productId?.image ? (
-                                    <img 
-                                      src={exchange.productId.image} 
-                                      alt={exchange.productId.title}
-                                      className="max-h-full max-w-full object-contain" 
-                                    />
-                                  ) : (
-                                    <p className="text-center text-gray-500">Book Image</p>
-                                  )}
-                                </div>
-                                <p>{exchange.productId?.title || "Product"}</p>
-                              </div>
-                              <div className="w-1/2">
-                                <h5 className="font-semibold">Your Book</h5>
-                                <div className="border rounded p-2 my-2 bg-gray-100 h-32 flex items-center justify-center">
-                                  <p className="text-center text-gray-500">Your Exchange Item</p>
-                                </div>
-                                <p>{exchange.exchangeOffer.eTitle}</p>
-                              </div>
-                            </div>
-                            <div className="mt-2 text-sm">
-                              <p><span className="font-semibold">Status:</span> <span className="text-green-600">Accepted</span></p>
-                              <p><span className="font-semibold">Contact Seller:</span> Check product details</p>
-                            </div>
-                            <Button className="mt-4 w-full text-white">Arrange Exchange</Button>
-                          </div>
-                        ))}
+                      {userExchanges.map((exchange) => (
+  <div key={exchange._id} className="border rounded-lg p-4">
+    <div className="flex gap-4">
+      <div className="w-1/2">
+        <h5 className="font-semibold">You'll Receive</h5>
+        <div className="border rounded p-2 my-2 bg-gray-100 h-32 flex items-center justify-center">
+          {exchange.productId?.image ? (
+            <img 
+              src={exchange.productId.image} 
+              alt={exchange.productId.title}
+              className="max-h-full max-w-full object-contain" 
+            />
+          ) : (
+            <p className="text-center text-gray-500">Book Image</p>
+          )}
+        </div>
+        <p>{exchange.productId?.title || "Product"}</p>
+      </div>
+      <div className="w-1/2">
+        <h5 className="font-semibold">Your Book</h5>
+        <div className="border rounded p-2 my-2 bg-gray-100 h-32 flex items-center justify-center">
+          <p className="text-center text-gray-500">Your Exchange Item</p>
+        </div>
+        <p>{exchange.exchangeOffer.eTitle}</p>
+      </div>
+    </div>
+
+    <div className="mt-2 text-sm">
+      <p><span className="font-semibold">Status:</span> <span className="text-green-600">Accepted</span></p>
+      <p><span className="font-semibold">Contact Seller:</span> Check product details</p>
+    </div>
+
+    <Button 
+      className="mt-4 w-full text-white"
+      onClick={() => {
+        setSelectedExchange(exchange);
+        setShowModal(true);
+      }}
+    >
+      Arrange Exchange
+    </Button>
+  </div>
+))}
+
+{/* Popup Modal */}
+{showModal && selectedExchange && (
+  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+    <div className="bg-white p-6 rounded-xl w-full max-w-md shadow-xl">
+      <h3 className="text-xl font-bold mb-4">Exchange Details</h3>
+      
+      <div className="flex gap-4">
+        <div className="w-1/2">
+          <p className="font-semibold">You'll Receive:</p>
+          <div className="border rounded p-2 my-2 bg-gray-100 h-32 flex items-center justify-center">
+            {selectedExchange.productId?.image ? (
+              <img 
+                src={selectedExchange.productId.image} 
+                alt={selectedExchange.productId.title}
+                className="max-h-full max-w-full object-contain" 
+              />
+            ) : (
+              <p className="text-gray-500">Image</p>
+            )}
+          </div>
+          <p>{selectedExchange.productId?.title}</p>
+        </div>
+        <div className="w-1/2">
+          <p className="font-semibold">Your Book:</p>
+          <div className="border rounded p-2 my-2 bg-gray-100 h-32 flex items-center justify-center">
+            <p className="text-gray-500 text-center">{selectedExchange.exchangeOffer?.eTitle}</p>
+          </div>
+        </div>
+      </div>
+
+      <div className="mt-4">
+        <p><span className="font-semibold">Status:</span> Accepted</p>
+        <p><span className="font-semibold">Seller Contact:</span> {selectedExchange.productId?.sellerEmail || "N/A"}</p>
+      </div>
+
+      <div className="flex justify-end gap-4 mt-6">
+        <Button variant="outline" onClick={() => setShowModal(false)}>Cancel</Button>
+        <Button className="text-white">Pay</Button>
+      </div>
+    </div>
+  </div>
+)}
+
+
                       </div>
                     </div>
                   )}

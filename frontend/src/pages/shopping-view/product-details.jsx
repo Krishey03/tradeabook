@@ -228,7 +228,6 @@ function ProductDetailsDialog({ open, setOpen, productDetails, setProductDetails
                             <div className="flex w-full h-full text-sm font-medium">
                                 {/* Left Side */}
                                 <div className="bg-orange-500 text-white px-4 py-2 flex items-center">
-                                    {/* {isCardOpen ? "Close" : "Place a Bid"} */}
                                     Offer Exchange
                                 </div>
 
