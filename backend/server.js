@@ -8,6 +8,11 @@ const adminProductsRouter = require('./routes/admin/products-routes');
 const shopProductsRouter = require('./routes/shop/products-routes');
 const http = require('http');
 const { Server } = require('socket.io');
+const { initializeKhaltiPayment, verifyKhaltiPayment } = require("./khalti");
+const Payment = require("./models/paymentModel");
+const PurchasedItem = require("./models/purchasedItemModel");
+const Item = require("./models/itemModel");
+
 
 const app = express();
 const server = http.createServer(app);  // Create the HTTP server using Express
@@ -34,10 +39,75 @@ const corsOptions = {
     credentials: true,
 };
 
+
+app.use(express.json());
+
+app.post("/initialize-khali", async (req, res) => {
+    console.log("body", req.body);
+    try {
+      //try catch for error handling
+      const { itemId, totalPrice, website_url } = req.body;
+      
+      const itemData = await Item.findOne({
+        _id: itemId,
+        price: Number(totalPrice),
+      });
+  
+      if (!itemData) {
+        return res.status(400).send({
+          success: false,
+          message: "item not found",
+        });
+      }
+      // creating a purchase document to store purchase info
+      const purchasedItemData = await PurchasedItem.create({
+        item: itemId,
+        paymentMethod: "khalti",
+        totalPrice: totalPrice * 100,
+      });
+  
+      const paymentInitate = await initializeKhaltiPayment({
+        amount: totalPrice * 100, // amount should be in paisa (Rs * 100)
+        purchase_order_id: purchasedItemData._id, // purchase_order_id because we need to verify it later
+        purchase_order_name: itemData.name,
+        return_url: `${process.env.BACKEND_URI}/complete-khalti-payment`, // it can be even managed from frontedn
+        website_url,
+      });
+  
+      res.json({
+        success: true,
+        purchasedItemData,
+        payment: paymentInitate,
+      });
+    } catch (error) {
+      res.json({
+        success: false,
+        error,
+      });
+    }
+  });
+
+  app.get("/create-item", async (req, res) => {
+    let itemData = await Item.create({
+      name: "Headphone",
+      price: 500,
+      inStock: true,
+      category: "vayo pardaina",
+    });
+    res.json({
+      success: true,
+      item: itemData,
+    });
+  });
+  
+
+
+
+
 app.use(cors(corsOptions)); // Apply CORS settings
 
 app.use(cookieParser());
-app.use(express.json());
+
 app.use("/api/auth", authRouter);
 app.use('/api/admin/products', adminProductsRouter);
 app.use('/api/shop/products', shopProductsRouter);
