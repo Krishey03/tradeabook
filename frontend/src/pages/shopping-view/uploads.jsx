@@ -1,0 +1,87 @@
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { useSelector } from "react-redux";
+
+function ShoppingUploads() {
+  const [products, setProducts] = useState([]);
+  const userEmail = "bhattaraikrish478@gmail.com"; // Replace this with dynamic data
+  const { user } = useSelector((state) => state.auth); // Get user from Redux
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const res = await axios.get("http://localhost:5000/api/shop/products/get");
+        console.log("Response from backend:", res.data);
+
+        const allProducts = res.data?.data;
+        if (!Array.isArray(allProducts)) {
+          console.error("Expected an array but got:", allProducts);
+          return;
+        }
+
+        // Filter the products by the logged-in user's email
+        const userProducts = allProducts.filter(
+          (product) => product.sellerEmail?.trim().toLowerCase() === user.email.trim().toLowerCase()
+        );
+        console.log("Filtered products:", userProducts);
+
+        setProducts(userProducts);
+      } catch (err) {
+        console.error("Error fetching products", err);
+      }
+    };
+
+    fetchProducts();
+  }, [user]);
+
+  // Delete product function
+  const deleteProduct = async (productId) => {
+    try {
+      const response = await axios.delete(`http://localhost:5000/api/shop/products/delete/${productId}`);
+      if (response.status === 200) {
+        setProducts((prevProducts) => prevProducts.filter((product) => product._id !== productId));
+        alert("Product deleted successfully");
+      }
+    } catch (err) {
+      console.error("Error deleting product", err);
+      alert("Failed to delete product");
+    }
+  };
+
+  return (
+    <div className="max-w-4xl mx-auto px-4 py-6">
+      <h2 className="text-center text-2xl font-semibold mb-6">Your Listed Products</h2>
+      {products.length === 0 ? (
+        <p className="text-center">You have not listed any products yet.</p>
+      ) : (
+        <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          {products.map((product) => (
+            <li key={product._id} className="p-4 border rounded-lg shadow-md bg-white">
+              <div className="relative w-full h-48 overflow-hidden rounded-lg mb-2">
+                <img
+                  src={product.image}
+                  alt={product.title}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="text-center">
+                <strong>{product.title}</strong> by {product.author} <br />
+                Minimum Bid: ${product.minBid} <br />
+                Current Bid: ${product.currentBid ?? "None yet"}
+                <div className="mt-4">
+                  <button 
+                    className="text-white font-semibold" 
+                    onClick={() => deleteProduct(product._id)}>
+                    Delete
+                  </button>
+                </div>
+              </div>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+}
+
+export default ShoppingUploads;

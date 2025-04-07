@@ -11,6 +11,7 @@ import NotFound from "./pages/not-found";
 import ShoppingLayout from "./pages/shopping-view/layout";
 import ShoppingHome from "./pages/shopping-view/home";
 import ShoppingAccount from "./pages/shopping-view/account";
+import ShoppingUploads from "./pages/shopping-view/uploads";
 import ShoppingCheckout from "./pages/shopping-view/checkout";
 import ShoppingListing from "./pages/shopping-view/listing";
 import CheckAuth from "./components/common/check-auth";
@@ -69,6 +70,7 @@ function App() {
                     <Route path="account" element={<ShoppingAccount />} />
                     <Route path="checkout" element={<ShoppingCheckout />} />
                     <Route path="listing" element={<ShoppingListing />} />
+                    <Route path="uploads" element={<ShoppingUploads />} />
                 </Route>
 
                 {/* Unauthorized Page */}

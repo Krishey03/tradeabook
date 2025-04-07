@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { SheetTrigger, Sheet, SheetContent } from "@/components/ui/sheet";
 import { shoppingViewHeaderMenuItems } from "@/config";
-import { House, Menu, ShoppingCart, UserCog, LogOut, UserRound, SquareStack } from "lucide-react";
+import { House, Menu, ShoppingCart, UserCog, LogOut, UserRound, SquareStack, ScrollText } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import "@fontsource/inspiration"; 
 import "@fontsource/inika"; 
@@ -146,6 +146,11 @@ function HeaderRightContent() {
           )}
         </DropdownMenuContent>
       </DropdownMenu>
+
+      <Button variant="outline" size="icon" onClick={() => navigate("/shop/uploads")}>
+        <ScrollText className="h-6 w-6" />
+        <span className="sr-only">View Uploads</span>
+      </Button>
 
       {/* Cart */}
       <Button variant="outline" size="icon" onClick={() => navigate("/shop/checkout")}>

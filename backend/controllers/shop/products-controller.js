@@ -186,13 +186,13 @@ const getSellerExchangeOffers = async (req, res) => {
         
         const productIds = sellerProducts.map(product => product._id);
         
-        console.log("Found product IDs:", productIds);
+        //console.log("Found product IDs:", productIds);
         
         const exchangeOffers = await eProduct.find({
             productId: { $in: productIds }
         }).populate('productId', 'title image'); 
         
-        console.log("Found exchange offers:", exchangeOffers); //for debugging
+        //console.log("Found exchange offers:", exchangeOffers);
         
         res.status(200).json({
             success: true,
