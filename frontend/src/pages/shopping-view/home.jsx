@@ -34,7 +34,8 @@ function AdminProducts() {
     seller: user?.userName || "",
     sellerEmail: user?.email || "",
     sellerPhone: user?.phone || "",
-    image: null,
+     image: null,
+    offerTime: { type: Date, default: Date.now },
     endTime: new Date(Date.now() + 2 * 1000),
   };
 

@@ -66,17 +66,22 @@ function ShoppingListing() {
                     <div className="text-center text-xl text-gray-500">Loading...</div>
                 ) : activeTab === "products" ? (
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 ">
-                        {productList && productList.length > 0 ? (
-                            productList.map((productItem) => (
-                                <ShoppingProductTile
-                                    key={productItem._id}
-                                    handleGetProductDetails={handleGetProductDetails}
-                                    product={productItem}
-                                />
-                            ))
-                        ) : (
-                            <p className="col-span-full text-center text-gray-400">No products available</p>
-                        )}
+                            {productList && productList.length > 0 ? (
+                                productList
+                                    .filter((productItem) => {
+                                        const hoursPassed = (Date.now() - new Date(productItem.offerTime)) / (1000 * 60 * 60);
+                                        return hoursPassed < 4;
+                                    })
+                                    .map((productItem) => (
+                                        <ShoppingProductTile
+                                            key={productItem._id}
+                                            handleGetProductDetails={handleGetProductDetails}
+                                            product={productItem}
+                                        />
+                                    ))
+                            ) : (
+                                <p className="col-span-full text-center text-gray-400">No products available</p>
+                            )}
                     </div>
                 ) : (
                     <SellerExchangeOffers />

@@ -14,6 +14,7 @@ import ShoppingAccount from "./pages/shopping-view/account";
 import ShoppingUploads from "./pages/shopping-view/uploads";
 import ShoppingCheckout from "./pages/shopping-view/checkout";
 import ShoppingListing from "./pages/shopping-view/listing";
+import ShoppingAbout from "./pages/shopping-view/about";
 import CheckAuth from "./components/common/check-auth";
 import UnauthPage from "./pages/unauth-page";
 import { useDispatch, useSelector } from "react-redux";
@@ -71,6 +72,7 @@ function App() {
                     <Route path="checkout" element={<ShoppingCheckout />} />
                     <Route path="listing" element={<ShoppingListing />} />
                     <Route path="uploads" element={<ShoppingUploads />} />
+                    <Route path="about" element={<ShoppingAbout />} />
                 </Route>
 
                 {/* Unauthorized Page */}

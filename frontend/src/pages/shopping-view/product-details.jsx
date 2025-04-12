@@ -181,17 +181,8 @@ function ProductDetailsDialog({ open, setOpen, productDetails, setProductDetails
                         <p className="text-lg font-bold text-muted-foreground">Seller: {productDetails?.seller}</p>
                         <p className="text-3xl font-extrabold text-primary">Minimum Bid: Rs. {productDetails?.minBid}</p>
                         <p className="text-2xl font-extrabold text-primary">Current Bid: Rs. {productDetails?.currentBid}</p>
-
+                        
                         <div className="flex space-x-4">
-                        {/* <Button
-                            className="text-white font-nunito h-[50px] w-[150px]"
-                            onClick={() => setIsCardOpen(!isCardOpen)}
-                            disabled={timeLeft === "Bidding Ended"}
-                        >
-                            {isCardOpen ? "Close Bid Form" : "Place a Bid"}
-                        </Button> */}
-
-
                         {/* Fancy Button */}
                         <Button className="p-0 overflow-hidden rounded-md text-white font-nunito h-[50px] w-[150px]"
                         onClick={() => setIsCardOpen(!isCardOpen)}
@@ -244,7 +235,7 @@ function ProductDetailsDialog({ open, setOpen, productDetails, setProductDetails
 
                             {/* WhatsApp Message Icon */}
                             <Button
-                                className="text-white font-nunito items-center h-[50px] w-[150px] items-center justify-center"
+                                className="text-white font-nunito items-center h-[50px] w-[150px] justify-center"
                                 onClick={() => {
                                 const phoneNumber = productDetails?.sellerPhone; // Ensure this field is available
                                 if (!phoneNumber) {
@@ -262,29 +253,36 @@ function ProductDetailsDialog({ open, setOpen, productDetails, setProductDetails
                             </Button>
 
                         </div>
-
-                        {isCardOpen && (
-                            <Card className="w-96 p-4 mt-4">
-                                <CardContent className="space-y-4">
-                                    <input
-                                        type="number"
-                                        value={bidAmount}
-                                        onChange={handleBidChange}
-                                        placeholder="Enter your bid amount..."
-                                        className="w-full p-2 border rounded-md bg-white"
-                                        min={productDetails?.minBid}
-                                        step="0.01"
-                                    />
-                                    {errorMessage && <p className="text-red-500">{errorMessage}</p>}
-                                    <Button className="text-white" onClick={handleSubmitBid}>
-                                        Submit Bid
-                                    </Button>
-                                </CardContent>
-                            </Card>
-                        )}
                     </div>
                 </DialogContent>
             </Dialog>
+
+
+<Dialog open={isCardOpen} onOpenChange={setIsCardOpen}>
+    <DialogContent className="max-w-md">
+        <div className="space-y-4">
+            <h2 className="text-xl font-bold">Place Your Bid</h2>
+            <input
+                type="number"
+                value={bidAmount}
+                onChange={handleBidChange}
+                placeholder="Enter your bid amount..."
+                className="w-full p-2 border rounded-md bg-white"
+                min={productDetails?.minBid}
+                step="0.01"
+            />
+            {errorMessage && <p className="text-red-500">{errorMessage}</p>}
+            <div className="flex justify-end space-x-2">
+                <Button variant="outline" onClick={() => setIsCardOpen(false)}>
+                    Cancel
+                </Button>
+                <Button className="text-white" onClick={handleSubmitBid}>
+                    Submit Bid
+                </Button>
+            </div>
+        </div>
+    </DialogContent>
+</Dialog>
 
             {/* Exchange Sidebar */}
             <Sheet open={isExchangeSidebarOpen} onOpenChange={() => setIsExchangeSidebarOpen(false)}>
