@@ -3,8 +3,32 @@
   "WorkspaceRootPath": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\pages\\admin-view\\user.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\pages\\admin-view\\user.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\store\\admin\\user-slice\\index.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\store\\admin\\user-slice\\index.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\backend\\controllers\\admin\\admin-controller.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:backend\\controllers\\admin\\admin-controller.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\backend\\routes\\admin\\admin-routes.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:backend\\routes\\admin\\admin-routes.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\pages\\shopping-view\\listing.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\pages\\shopping-view\\listing.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\store\\auth-slice\\index.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\store\\auth-slice\\index.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\backend\\controllers\\auth\\auth-controller.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:backend\\controllers\\auth\\auth-controller.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\pages\\admin-view\\products.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
@@ -61,10 +85,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\backend\\helpers\\cloudinary.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:backend\\helpers\\cloudinary.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\store\\auth-slice\\index.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\store\\auth-slice\\index.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\backend\\server.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
@@ -126,7 +146,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 15,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Bookmark",
@@ -138,7 +158,72 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 1,
+              "Title": "index.js",
+              "DocumentMoniker": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\store\\admin\\user-slice\\index.js",
+              "RelativeDocumentMoniker": "frontend\\src\\store\\admin\\user-slice\\index.js",
+              "ToolTip": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\store\\admin\\user-slice\\index.js*",
+              "RelativeToolTip": "frontend\\src\\store\\admin\\user-slice\\index.js*",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2025-04-12T18:42:36.696Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "admin-routes.js",
+              "DocumentMoniker": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\backend\\routes\\admin\\admin-routes.js",
+              "RelativeDocumentMoniker": "backend\\routes\\admin\\admin-routes.js",
+              "ToolTip": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\backend\\routes\\admin\\admin-routes.js",
+              "RelativeToolTip": "backend\\routes\\admin\\admin-routes.js",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2025-04-12T17:46:17.154Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "admin-controller.js",
+              "DocumentMoniker": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\backend\\controllers\\admin\\admin-controller.js",
+              "RelativeDocumentMoniker": "backend\\controllers\\admin\\admin-controller.js",
+              "ToolTip": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\backend\\controllers\\admin\\admin-controller.js",
+              "RelativeToolTip": "backend\\controllers\\admin\\admin-controller.js",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAACAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2025-04-12T17:45:10.791Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "user.jsx",
+              "DocumentMoniker": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\pages\\admin-view\\user.jsx",
+              "RelativeDocumentMoniker": "frontend\\src\\pages\\admin-view\\user.jsx",
+              "ToolTip": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\pages\\admin-view\\user.jsx",
+              "RelativeToolTip": "frontend\\src\\pages\\admin-view\\user.jsx",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAAABIAAABOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
+              "WhenOpened": "2025-04-12T10:45:18.447Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "auth-controller.js",
+              "DocumentMoniker": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\backend\\controllers\\auth\\auth-controller.js",
+              "RelativeDocumentMoniker": "backend\\controllers\\auth\\auth-controller.js",
+              "ToolTip": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\backend\\controllers\\auth\\auth-controller.js",
+              "RelativeToolTip": "backend\\controllers\\auth\\auth-controller.js",
+              "ViewState": "AgIAAI0AAAAAAAAAAAAAAI0AAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2025-04-12T10:28:22.169Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
               "Title": "useTimeLeft.js",
               "DocumentMoniker": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\hooks\\useTimeLeft.js",
               "RelativeDocumentMoniker": "frontend\\src\\hooks\\useTimeLeft.js",
@@ -150,7 +235,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 15,
               "Title": "use-toast.js",
               "DocumentMoniker": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\hooks\\use-toast.js",
               "RelativeDocumentMoniker": "frontend\\src\\hooks\\use-toast.js",
@@ -162,7 +247,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 14,
               "Title": "use-toast.js",
               "DocumentMoniker": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\components\\ui\\use-toast.js",
               "RelativeDocumentMoniker": "frontend\\src\\components\\ui\\use-toast.js",
@@ -174,7 +259,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 21,
               "Title": "server.js",
               "DocumentMoniker": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\backend\\server.js",
               "RelativeDocumentMoniker": "backend\\server.js",
@@ -186,19 +271,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 5,
               "Title": "index.js",
               "DocumentMoniker": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\store\\auth-slice\\index.js",
               "RelativeDocumentMoniker": "frontend\\src\\store\\auth-slice\\index.js",
               "ToolTip": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\store\\auth-slice\\index.js",
               "RelativeToolTip": "frontend\\src\\store\\auth-slice\\index.js",
-              "ViewState": "AgIAADMAAAAAAAAAAAAswD0AAAAgAAAAAAAAAA==",
+              "ViewState": "AgIAACIAAAAAAAAAAAAAACMAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2025-03-27T15:10:19.144Z"
+              "WhenOpened": "2025-03-27T15:10:19.144Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 20,
               "Title": "cloudinary.js",
               "DocumentMoniker": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\backend\\helpers\\cloudinary.js",
               "RelativeDocumentMoniker": "backend\\helpers\\cloudinary.js",
@@ -210,7 +296,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 17,
               "Title": "checkout.jsx",
               "DocumentMoniker": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\pages\\shopping-view\\checkout.jsx",
               "RelativeDocumentMoniker": "frontend\\src\\pages\\shopping-view\\checkout.jsx",
@@ -222,7 +308,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 26,
               "Title": "card.jsx",
               "DocumentMoniker": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\components\\ui\\card.jsx",
               "RelativeDocumentMoniker": "frontend\\src\\components\\ui\\card.jsx",
@@ -234,7 +320,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 22,
               "Title": "index.html",
               "DocumentMoniker": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\index.html",
               "RelativeDocumentMoniker": "frontend\\index.html",
@@ -246,7 +332,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 24,
               "Title": "index.js",
               "DocumentMoniker": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\store\\admin\\products-slice\\index.js",
               "RelativeDocumentMoniker": "frontend\\src\\store\\admin\\products-slice\\index.js",
@@ -258,7 +344,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 7,
               "Title": "products.jsx",
               "DocumentMoniker": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\pages\\admin-view\\products.jsx",
               "RelativeDocumentMoniker": "frontend\\src\\pages\\admin-view\\products.jsx",
@@ -266,12 +352,11 @@
               "RelativeToolTip": "frontend\\src\\pages\\admin-view\\products.jsx",
               "ViewState": "AgIAAHEAAAAAAAAAAAAAAHEAAAAbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
-              "WhenOpened": "2025-02-23T13:57:31.438Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-23T13:57:31.438Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 10,
               "Title": "products-controller.js",
               "DocumentMoniker": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\backend\\controllers\\shop\\products-controller.js",
               "RelativeDocumentMoniker": "backend\\controllers\\shop\\products-controller.js",
@@ -279,12 +364,11 @@
               "RelativeToolTip": "backend\\controllers\\shop\\products-controller.js",
               "ViewState": "AgIAALkAAAAAAAAAAAAAAL8AAAAqAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2025-03-10T02:09:03.923Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-10T02:09:03.923Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 23,
               "Title": "product-details.jsx",
               "DocumentMoniker": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\pages\\shopping-view\\product-details.jsx",
               "RelativeDocumentMoniker": "frontend\\src\\pages\\shopping-view\\product-details.jsx",
@@ -296,20 +380,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 4,
               "Title": "listing.jsx",
               "DocumentMoniker": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\pages\\shopping-view\\listing.jsx",
               "RelativeDocumentMoniker": "frontend\\src\\pages\\shopping-view\\listing.jsx",
               "ToolTip": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\pages\\shopping-view\\listing.jsx",
               "RelativeToolTip": "frontend\\src\\pages\\shopping-view\\listing.jsx",
-              "ViewState": "AgIAAEUAAAAAAAAAAAAAAEcAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAEIAAAAAAAAAAAAwwEcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
               "WhenOpened": "2025-03-08T15:03:46.558Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 8,
               "Title": "home.jsx",
               "DocumentMoniker": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\pages\\shopping-view\\home.jsx",
               "RelativeDocumentMoniker": "frontend\\src\\pages\\shopping-view\\home.jsx",
@@ -317,12 +401,11 @@
               "RelativeToolTip": "frontend\\src\\pages\\shopping-view\\home.jsx",
               "ViewState": "AgIAAFEAAAAAAAAAAAAAAFUAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
-              "WhenOpened": "2025-03-01T11:21:35.124Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-01T11:21:35.124Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 25,
               "Title": "index.js",
               "DocumentMoniker": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\store\\shop\\products-slice\\index.js",
               "RelativeDocumentMoniker": "frontend\\src\\store\\shop\\products-slice\\index.js",
@@ -334,7 +417,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 27,
               "Title": "product-tile.jsx",
               "DocumentMoniker": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\pages\\shopping-view\\product-tile.jsx",
               "RelativeDocumentMoniker": "frontend\\src\\pages\\shopping-view\\product-tile.jsx",
@@ -346,7 +429,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 28,
               "Title": "button.jsx",
               "DocumentMoniker": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\components\\ui\\button.jsx",
               "RelativeDocumentMoniker": "frontend\\src\\components\\ui\\button.jsx",
@@ -358,7 +441,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 26,
+              "DocumentIndex": 31,
               "Title": "layout.jsx",
               "DocumentMoniker": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\components\\auth\\layout.jsx",
               "RelativeDocumentMoniker": "frontend\\src\\components\\auth\\layout.jsx",
@@ -370,7 +453,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 18,
               "Title": "sellerExchangeOffers.jsx",
               "DocumentMoniker": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\pages\\shopping-view\\sellerExchangeOffers.jsx",
               "RelativeDocumentMoniker": "frontend\\src\\pages\\shopping-view\\sellerExchangeOffers.jsx",
@@ -382,7 +465,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 25,
+              "DocumentIndex": 30,
               "Title": "login.jsx",
               "DocumentMoniker": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\pages\\auth\\login.jsx",
               "RelativeDocumentMoniker": "frontend\\src\\pages\\auth\\login.jsx",
@@ -394,7 +477,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 9,
               "Title": "products-controller.js",
               "DocumentMoniker": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\backend\\controllers\\admin\\products-controller.js",
               "RelativeDocumentMoniker": "backend\\controllers\\admin\\products-controller.js",
@@ -402,12 +485,11 @@
               "RelativeToolTip": "backend\\controllers\\admin\\products-controller.js",
               "ViewState": "AgIAADYAAAAAAAAAAAAAAEoAAAACAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2025-02-25T03:26:45.445Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-25T03:26:45.445Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 24,
+              "DocumentIndex": 29,
               "Title": "header.jsx",
               "DocumentMoniker": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\pages\\shopping-view\\header.jsx",
               "RelativeDocumentMoniker": "frontend\\src\\pages\\shopping-view\\header.jsx",
@@ -419,7 +501,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 27,
+              "DocumentIndex": 32,
               "Title": "product-tile.jsx",
               "DocumentMoniker": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\components\\admin-view\\product-tile.jsx",
               "RelativeDocumentMoniker": "frontend\\src\\components\\admin-view\\product-tile.jsx",
@@ -431,7 +513,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 12,
               "Title": "Product.js",
               "DocumentMoniker": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\backend\\models\\Product.js",
               "RelativeDocumentMoniker": "backend\\models\\Product.js",
@@ -443,7 +525,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 11,
               "Title": "App.jsx",
               "DocumentMoniker": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\App.jsx",
               "RelativeDocumentMoniker": "frontend\\src\\App.jsx",
@@ -455,7 +537,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 13,
               "Title": "products-routes.js",
               "DocumentMoniker": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\backend\\routes\\shop\\products-routes.js",
               "RelativeDocumentMoniker": "backend\\routes\\shop\\products-routes.js",
@@ -467,7 +549,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 28,
+              "DocumentIndex": 33,
               "Title": "index.js",
               "DocumentMoniker": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\config\\index.js",
               "RelativeDocumentMoniker": "frontend\\src\\config\\index.js",
@@ -479,7 +561,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 19,
               "Title": "image-upload.jsx",
               "DocumentMoniker": "C:\\Users\\bhatt\\Desktop\\FYP Versions\\FYP latest\\tradeabook\\frontend\\src\\components\\admin-view\\image-upload.jsx",
               "RelativeDocumentMoniker": "frontend\\src\\components\\admin-view\\image-upload.jsx",

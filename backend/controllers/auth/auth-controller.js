@@ -66,12 +66,20 @@ const loginUser = async (req, res) => {
             });
         }
 
-        // Find user by email
+        // ✅ First, find the user
         const checkUser = await User.findOne({ email });
         if (!checkUser) {
             return res.status(401).json({
                 success: false,
                 message: "User does not exist",
+            });
+        }
+
+        // ✅ Then, check if user is blocked
+        if (checkUser.isBlocked) {
+            return res.status(403).json({
+                success: false,
+                message: "Your account has been banned. Please contact support.",
             });
         }
 
@@ -86,16 +94,17 @@ const loginUser = async (req, res) => {
 
         // Generate JWT token
         const token = jwt.sign(
-            { id: checkUser.id, 
-                role: checkUser.role, 
-                email: checkUser.email, 
-                userName: checkUser.userName, 
+            {
+                id: checkUser.id,
+                role: checkUser.role,
+                email: checkUser.email,
+                userName: checkUser.userName,
+                isBlocked: checkUser.isBlocked
             },
-            'CLIENT_SECRET_KEY', 
+            'CLIENT_SECRET_KEY',
             { expiresIn: '60m' }
         );
 
-        // Send response
         return res
             .cookie('token', token, { httpOnly: true, secure: false })
             .json({
@@ -133,7 +142,7 @@ const logoutUser = (req, res) => {
 // Auth Middleware
 const authMiddleware = async (req, res, next) => {
     const token = req.cookies.token;
-    
+
     if (!token) {
         return res.status(401).json({
             success: false,
@@ -143,8 +152,27 @@ const authMiddleware = async (req, res, next) => {
 
     try {
         const decoded = jwt.verify(token, 'CLIENT_SECRET_KEY');
-        req.user = decoded;
+        
+        // 🔍 Fetch the user from DB to get latest info like isBlocked
+        const user = await User.findById(decoded.id);
+
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: "User not found.",
+            });
+        }
+
+        if (user.isBlocked) {
+            return res.status(403).json({
+                success: false,
+                message: "Access denied. Your account is banned.",
+            });
+        }
+
+        req.user = user; // attach full user object if you want later use
         next();
+
     } catch (error) {
         return res.status(401).json({
             success: false,

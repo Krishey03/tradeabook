@@ -12,6 +12,8 @@ const { initializeKhaltiPayment, verifyKhaltiPayment } = require("./khalti");
 const Payment = require("./models/paymentModel");
 const PurchasedItem = require("./models/purchasedItemModel");
 const Item = require("./models/itemModel");
+const adminRoutes = require('./routes/admin/admin-routes');
+
 
 
 const app = express();
@@ -111,6 +113,7 @@ app.use(cookieParser());
 app.use("/api/auth", authRouter);
 app.use('/api/admin/products', adminProductsRouter);
 app.use('/api/shop/products', shopProductsRouter);
+app.use('/api/admin', adminRoutes);
 
 // Pass 'io' to your routes, where necessary
 app.set('io', io);
