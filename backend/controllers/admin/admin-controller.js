@@ -36,7 +36,7 @@ const toggleBlockUser = async (req, res) => {
         user,
       });
     } catch (err) {
-      console.error("❌ Error toggling block status:", err);
+      console.error("Error toggling block status:", err);
       res.status(500).json({
         success: false,
         message: "Failed to toggle block status.",

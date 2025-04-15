@@ -2,6 +2,7 @@ const axios = require("axios");
 require('dotenv').config();
 
 // Function to verify Khalti Payment
+// Debug the verification request
 async function verifyKhaltiPayment(pidx) {
   const headersList = {
     "Authorization": `Key ${process.env.KHALTI_SECRET_KEY}`,
@@ -9,6 +10,10 @@ async function verifyKhaltiPayment(pidx) {
   };
 
   const bodyContent = JSON.stringify({ pidx });
+  
+  console.log("Making verification request with pidx:", pidx);
+  console.log("Using secret key:", process.env.KHALTI_SECRET_KEY);
+  console.log("Using URL:", `${process.env.KHALTI_GATEWAY_URL}/api/v2/epayment/lookup/`);
 
   const reqOptions = {
     url: `${process.env.KHALTI_GATEWAY_URL}/api/v2/epayment/lookup/`,
@@ -19,9 +24,10 @@ async function verifyKhaltiPayment(pidx) {
 
   try {
     const response = await axios.request(reqOptions);
+    console.log("Full verification response:", JSON.stringify(response.data, null, 2));
     return response.data;
   } catch (error) {
-    console.error("Error verifying Khalti payment:", error);
+    console.error("Error verifying Khalti payment:", error.response?.data || error.message);
     throw error;
   }
 }
@@ -33,20 +39,31 @@ async function initializeKhaltiPayment(details) {
     "Content-Type": "application/json",
   };
 
-  const bodyContent = JSON.stringify(details);
+  // Ensure purchase_order_id is included correctly
+  const payload = {
+    ...details,
+    purchase_order_id: details.purchase_order_id.toString(), // Ensure it's a string
+    purchase_order_name: details.purchase_order_name,
+    amount: details.amount,
+    return_url: details.return_url,
+    website_url: details.website_url,
+  };
+
+  console.log("Initializing Khalti payment with payload:", JSON.stringify(payload, null, 2));
 
   const reqOptions = {
     url: `${process.env.KHALTI_GATEWAY_URL}/api/v2/epayment/initiate/`,
     method: "POST",
     headers: headersList,
-    data: bodyContent,
+    data: JSON.stringify(payload),
   };
 
   try {
     const response = await axios.request(reqOptions);
+    console.log("Khalti initialization response:", JSON.stringify(response.data, null, 2));
     return response.data;
   } catch (error) {
-    console.error("Error initializing Khalti payment:", error);
+    console.error("Error initializing Khalti payment:", error.response?.data || error.message);
     throw error;
   }
 }

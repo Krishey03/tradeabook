@@ -19,6 +19,19 @@ const ProductSchema = new mongoose.Schema(
     winnerEmail: String,
     offerTime: { type: Date, default: Date.now },
     endTime: { type: Date, required: true },
+    // New payment-related fields
+    paymentStatus: { 
+      type: String, 
+      enum: ["pending", "paid", "failed", "refunded"], 
+      default: "pending" 
+    },
+    paymentId: { 
+      type: mongoose.Schema.Types.ObjectId, 
+      ref: "PaymentTransaction" 
+    },
+    paymentDate: { 
+      type: Date 
+    }
   }
 );
 

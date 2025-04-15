@@ -6,4 +6,6 @@ const { authMiddleware } = require('../../controllers/auth/auth-controller');
 router.get('/users', authMiddleware, getAllUsers);
 router.put('/users/:id/block', authMiddleware, toggleBlockUser);
 
+
+
 module.exports = router;

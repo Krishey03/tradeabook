@@ -10,17 +10,16 @@ const http = require('http');
 const { Server } = require('socket.io');
 const { initializeKhaltiPayment, verifyKhaltiPayment } = require("./khalti");
 const Payment = require("./models/paymentModel");
-const PurchasedItem = require("./models/purchasedItemModel");
-const Item = require("./models/itemModel");
+const Product = require("./models/Product");
+const eProduct = require("./models/Exchange");
 const adminRoutes = require('./routes/admin/admin-routes');
-
-
+require('dotenv').config();
 
 const app = express();
-const server = http.createServer(app);  // Create the HTTP server using Express
+const server = http.createServer(app);
 const io = new Server(server, {
     cors: {
-        origin: "http://localhost:5173",  // Your front-end URL
+        origin: "http://localhost:5173",
         methods: ["GET", "POST"],
         allowedHeaders: ["Content-Type", "Authorization"],
         credentials: true,
@@ -41,84 +40,230 @@ const corsOptions = {
     credentials: true,
 };
 
-
 app.use(express.json());
-
-app.post("/initialize-khali", async (req, res) => {
-    console.log("body", req.body);
-    try {
-      //try catch for error handling
-      const { itemId, totalPrice, website_url } = req.body;
-      
-      const itemData = await Item.findOne({
-        _id: itemId,
-        price: Number(totalPrice),
-      });
-  
-      if (!itemData) {
-        return res.status(400).send({
-          success: false,
-          message: "item not found",
-        });
-      }
-      // creating a purchase document to store purchase info
-      const purchasedItemData = await PurchasedItem.create({
-        item: itemId,
-        paymentMethod: "khalti",
-        totalPrice: totalPrice * 100,
-      });
-  
-      const paymentInitate = await initializeKhaltiPayment({
-        amount: totalPrice * 100, // amount should be in paisa (Rs * 100)
-        purchase_order_id: purchasedItemData._id, // purchase_order_id because we need to verify it later
-        purchase_order_name: itemData.name,
-        return_url: `${process.env.BACKEND_URI}/complete-khalti-payment`, // it can be even managed from frontedn
-        website_url,
-      });
-  
-      res.json({
-        success: true,
-        purchasedItemData,
-        payment: paymentInitate,
-      });
-    } catch (error) {
-      res.json({
-        success: false,
-        error,
-      });
-    }
-  });
-
-  app.get("/create-item", async (req, res) => {
-    let itemData = await Item.create({
-      name: "Headphone",
-      price: 500,
-      inStock: true,
-      category: "vayo pardaina",
-    });
-    res.json({
-      success: true,
-      item: itemData,
-    });
-  });
-  
-
-
-
-
-app.use(cors(corsOptions)); // Apply CORS settings
-
+app.use(cors(corsOptions));
 app.use(cookieParser());
 
+// Create payment model for tracking payments
+const paymentSchema = new mongoose.Schema({
+  productId: { type: mongoose.Schema.Types.ObjectId, refPath: 'productModel' },
+  productModel: { type: String, enum: ['Product', 'eProduct'], required: true },
+  amount: { type: Number, required: true },
+  paymentMethod: { type: String, enum: ["khalti"], required: true },
+  status: { type: String, enum: ["pending", "completed", "refunded"], default: "pending" },
+  pidx: { type: String },
+  transactionDetails: { type: Object },
+  createdAt: { type: Date, default: Date.now }
+});
+
+const PaymentTransaction = mongoose.model("PaymentTransaction", paymentSchema);
+
+// Initialize Khalti payment for products
+app.post("/api/initialize-product-payment", async (req, res) => {
+  try {
+    const { productId, productType, website_url } = req.body;
+    
+    let productData;
+    let productName;
+    let amount;
+    
+    if (productType === 'Product') {
+      productData = await Product.findById(productId);
+      if (!productData) {
+        return res.status(404).json({
+          success: false,
+          message: "Product not found"
+        });
+      }
+      productName = productData.title;
+      amount = productData.currentBid || productData.minBid;
+    } else if (productType === 'eProduct') {
+      productData = await eProduct.findById(productId);
+      if (!productData) {
+        return res.status(404).json({
+          success: false,
+          message: "Exchange product not found"
+        });
+      }
+      
+      // Get the original product to get its price
+      const originalProduct = await Product.findById(productData.productId);
+      if (!originalProduct) {
+        return res.status(404).json({
+          success: false,
+          message: "Original product not found"
+        });
+      }
+      
+      productName = originalProduct.title;
+      // For exchange products, you might charge a service fee or other amount
+      amount = 100; // Example: Nominal fee for exchange processing (Rs. 1)
+    } else {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid product type"
+      });
+    }
+    
+    // Convert to paisa (Khalti uses paisa as base unit)
+    const amountInPaisa = amount * 100;
+    
+    // Create a payment record
+    const paymentRecord = await PaymentTransaction.create({
+      productId: productId,
+      productModel: productType,
+      amount: amountInPaisa,
+      paymentMethod: "khalti"
+    });
+    
+    // Initialize payment with Khalti
+    const paymentInitiate = await initializeKhaltiPayment({
+      amount: amountInPaisa,
+      purchase_order_id: paymentRecord._id.toString(),
+      purchase_order_name: productName,
+      return_url: `${process.env.BACKEND_URI}/api/complete-khalti-payment`,
+      website_url,
+    });
+    
+    res.json({
+      success: true,
+      payment: paymentInitiate,
+      paymentRecord
+    });
+  } catch (error) {
+    console.error("Payment initialization error:", error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to initialize payment",
+      error: error.message
+    });
+  }
+});
+
+// Handle Khalti payment verification callback
+app.get("/api/complete-khalti-payment", async (req, res) => {
+  try {
+    const { pidx } = req.query;
+    
+    if (!pidx) {
+      console.error("Missing pidx in callback");
+      return res.status(400).json({
+        success: false,
+        message: "Payment verification failed: Missing payment identifier"
+      });
+    }
+    
+    console.log("Verifying payment with pidx:", pidx);
+    
+    // Verify the payment with Khalti
+    const verificationResponse = await verifyKhaltiPayment(pidx);
+    console.log("Khalti verification response:", JSON.stringify(verificationResponse, null, 2));
+    
+    // The transaction_id field might be in a different location or named differently
+    // Let's look for it in various possible locations
+    let purchaseOrderId;
+    
+    if (verificationResponse.purchase_order_id) {
+      purchaseOrderId = verificationResponse.purchase_order_id;
+    } else if (verificationResponse.purchase_order) {
+      purchaseOrderId = verificationResponse.purchase_order;
+    } else if (verificationResponse.payment && verificationResponse.payment.purchase_order_id) {
+      purchaseOrderId = verificationResponse.payment.purchase_order_id;
+    } else if (verificationResponse.merchant_reference) {
+      purchaseOrderId = verificationResponse.merchant_reference;
+    } else if (verificationResponse.transaction_id) {
+      purchaseOrderId = verificationResponse.transaction_id;
+    }
+    
+    console.log("Extracted purchase order ID:", purchaseOrderId);
+    
+    if (!purchaseOrderId) {
+      // If we can't find the purchase_order_id, try to find the payment by pidx
+      const paymentRecord = await PaymentTransaction.findOne({ pidx: pidx });
+      
+      if (!paymentRecord) {
+        console.error("Cannot find payment record by pidx or purchase order ID");
+        return res.redirect(`http://localhost:5173/payment-failed?reason=record_not_found`);
+      }
+      
+      purchaseOrderId = paymentRecord._id;
+    }
+    
+    // Now find the payment record
+    const paymentRecord = await PaymentTransaction.findById(purchaseOrderId);
+    
+    if (!paymentRecord) {
+      console.error("Payment record not found for purchase_order_id:", purchaseOrderId);
+      return res.redirect(`http://localhost:5173/payment-failed?reason=record_not_found`);
+    }
+    
+    // Update payment record
+    paymentRecord.status = "completed";
+    paymentRecord.pidx = pidx;
+    paymentRecord.transactionDetails = verificationResponse;
+    await paymentRecord.save();
+    
+    // Update product or eProduct status based on payment
+    if (paymentRecord.productModel === 'Product') {
+      await Product.findByIdAndUpdate(paymentRecord.productId, {
+        $set: {
+          paymentStatus: "paid",
+          paymentDate: new Date(),
+          paymentId: paymentRecord._id
+        }
+      });
+    } else if (paymentRecord.productModel === 'eProduct') {
+      await eProduct.findByIdAndUpdate(paymentRecord.productId, {
+        $set: {
+          offerStatus: "accepted",
+          paymentStatus: "paid",
+          paymentDate: new Date(),
+          paymentId: paymentRecord._id
+        }
+      });
+    }
+    
+    // Redirect to success page with the correct parameter
+    return res.redirect(`http://localhost:5173/payment-success?purchase_order_id=${paymentRecord._id}`);
+  } catch (error) {
+    console.error("Payment verification error:", error);
+    return res.redirect(`http://localhost:5173/payment-failed?reason=verification_error`);
+  }
+});
+
+// Get payment status
+app.get("/api/payment/:paymentId", async (req, res) => {
+  try {
+    const { paymentId } = req.params;
+    const payment = await PaymentTransaction.findById(paymentId);
+    
+    if (!payment) {
+      return res.status(404).json({
+        success: false,
+        message: "Payment not found"
+      });
+    }
+    
+    res.json({
+      success: true,
+      payment
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Failed to get payment details",
+      error: error.message
+    });
+  }
+});
+
+// Existing routes
 app.use("/api/auth", authRouter);
 app.use('/api/admin/products', adminProductsRouter);
 app.use('/api/shop/products', shopProductsRouter);
 app.use('/api/admin', adminRoutes);
 
-// Pass 'io' to your routes, where necessary
 app.set('io', io);
+app.options('*', cors(corsOptions));
 
-app.options('*', cors(corsOptions));  // Preflight requests for all routes
-
-// Start the server
 server.listen(PORT, () => console.log(`Server is now running on port ${PORT}`));

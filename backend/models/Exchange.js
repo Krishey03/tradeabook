@@ -12,6 +12,7 @@ const eProductSchema = new mongoose.Schema(
       ePublicationDate: { type: String, required: true },
       eEdition: { type: String, required: true },
       eDescription: { type: String, required: true },
+      eBuyerPhone: { type: Number, required: true },
     },
     offerStatus: {
       type: String,

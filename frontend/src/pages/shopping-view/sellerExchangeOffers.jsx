@@ -40,7 +40,7 @@ function SellerExchangeOffers() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {incomingOffers.map(
             (offer) =>
-              offer.offerStatus !== "declined" && ( // Don't display declined offers
+              offer.offerStatus !== "declined" && offer.offerStatus !== "accepted" && (
                 <Card key={offer._id} className="overflow-hidden">
                   <CardHeader className="p-4">
                     <CardTitle className="text-lg">Exchange Offer for: {offer.productId?.title || "Product"}</CardTitle>

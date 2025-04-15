@@ -1,4 +1,4 @@
-import { ChartNoAxesCombined, BadgeCheck, LayoutDashboard, ShoppingBasket, Sheet } from "lucide-react";
+import { ChartNoAxesCombined, BadgeCheck, LayoutDashboard, ShoppingBasket, Sheet, UserRoundCog } from "lucide-react";
 import { Fragment } from "react";
 import { useNavigate } from "react-router-dom";
 import { SheetContent, SheetHeader, SheetTitle } from "../ui/sheet";
@@ -21,7 +21,13 @@ const adminSideBarMenuItems = [
         label: 'Orders',
         path: '/admin/orders',
         icon: <BadgeCheck/>
-    }
+    },
+    {
+        id: 'user',
+        label: 'Users',
+        path: '/admin/user',
+        icon: <UserRoundCog />
+    },
 ]
 
 

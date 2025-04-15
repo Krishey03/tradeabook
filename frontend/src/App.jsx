@@ -22,6 +22,8 @@ import { useEffect } from "react";
 import { checkAuth } from "./store/auth-slice";
 import { Skeleton } from "@/components/ui/skeleton"
 import AdminUser from "./pages/admin-view/user";
+import PaymentSuccess from "./pages/paymentSuccess";
+import PaymentFailed from "./pages/paymentFailed";
 
 
 function App() {
@@ -61,6 +63,8 @@ function App() {
                     <Route path="orders" element={<AdminOrders />} />
                     <Route path="user" element={<AdminUser />} />
                 </Route>
+                <Route path="/payment-success" element={<PaymentSuccess />} />  
+                <Route path="/payment-failed" element={<PaymentFailed />} />  
 
                 {/* Shopping Layout */}
                 <Route path="/shop" element={
@@ -71,7 +75,7 @@ function App() {
                     <Route path="home" element={<ShoppingHome />} />
                     <Route path="account" element={<ShoppingAccount />} />
                     <Route path="checkout" element={<ShoppingCheckout />} />
-                    <Route path="listing" element={<ShoppingListing />} />
+<Route path="listing" element={<ShoppingListing />} />
                     <Route path="uploads" element={<ShoppingUploads />} />
                     <Route path="about" element={<ShoppingAbout />} />
                 </Route>
