@@ -15,18 +15,18 @@ function PaymentSuccess() {
       try {
         // Parse the query parameters from URL
         const params = new URLSearchParams(location.search);
-        const txnId = params.get("purchase_order_id") || params.get("txnId");
+        const pidx = params.get("purchase_order_id") || params.get("pidx");
         
-        if (!txnId) {
+        if (!pidx) {
           setError("Transaction ID not found");
           setLoading(false);
           return;
         }
         
-        console.log("Fetching payment details for transaction ID:", txnId);
+        console.log("Fetching payment details for transaction ID:", pidx);
         
         // Fetch payment details from your backend
-        const response = await axios.get(`http://localhost:5000/api/payment/${txnId}`);
+        const response = await axios.get(`http://localhost:5000/api/payment/${pidx}`);
         
         if (response.data.success) {
           setPaymentDetails(response.data.payment);

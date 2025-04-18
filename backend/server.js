@@ -125,6 +125,12 @@ app.post("/api/initialize-product-payment", async (req, res) => {
       website_url,
     });
     
+// Update the payment record with the pidx
+await PaymentTransaction.findByIdAndUpdate(
+  paymentRecord._id,
+  { pidx: paymentInitiate.pidx }
+);
+
     res.json({
       success: true,
       payment: paymentInitiate,
@@ -159,47 +165,16 @@ app.get("/api/complete-khalti-payment", async (req, res) => {
     const verificationResponse = await verifyKhaltiPayment(pidx);
     console.log("Khalti verification response:", JSON.stringify(verificationResponse, null, 2));
     
-    // The transaction_id field might be in a different location or named differently
-    // Let's look for it in various possible locations
-    let purchaseOrderId;
-    
-    if (verificationResponse.purchase_order_id) {
-      purchaseOrderId = verificationResponse.purchase_order_id;
-    } else if (verificationResponse.purchase_order) {
-      purchaseOrderId = verificationResponse.purchase_order;
-    } else if (verificationResponse.payment && verificationResponse.payment.purchase_order_id) {
-      purchaseOrderId = verificationResponse.payment.purchase_order_id;
-    } else if (verificationResponse.merchant_reference) {
-      purchaseOrderId = verificationResponse.merchant_reference;
-    } else if (verificationResponse.transaction_id) {
-      purchaseOrderId = verificationResponse.transaction_id;
-    }
-    
-    console.log("Extracted purchase order ID:", purchaseOrderId);
-    
-    if (!purchaseOrderId) {
-      // If we can't find the purchase_order_id, try to find the payment by pidx
-      const paymentRecord = await PaymentTransaction.findOne({ pidx: pidx });
-      
-      if (!paymentRecord) {
-        console.error("Cannot find payment record by pidx or purchase order ID");
-        return res.redirect(`http://localhost:5173/payment-failed?reason=record_not_found`);
-      }
-      
-      purchaseOrderId = paymentRecord._id;
-    }
-    
-    // Now find the payment record
-    const paymentRecord = await PaymentTransaction.findById(purchaseOrderId);
-    
+    // Find the payment record by pidx
+    const paymentRecord = await PaymentTransaction.findOne({ pidx: pidx });
+
     if (!paymentRecord) {
-      console.error("Payment record not found for purchase_order_id:", purchaseOrderId);
+      console.error("Payment record not found for pidx:", pidx);
       return res.redirect(`http://localhost:5173/payment-failed?reason=record_not_found`);
     }
     
-    // Update payment record
+    // Update the payment record
     paymentRecord.status = "completed";
-    paymentRecord.pidx = pidx;
     paymentRecord.transactionDetails = verificationResponse;
     await paymentRecord.save();
     
