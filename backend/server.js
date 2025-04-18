@@ -257,7 +257,6 @@ app.get("/api/payment/:paymentId", async (req, res) => {
   }
 });
 
-// Existing routes
 app.use("/api/auth", authRouter);
 app.use('/api/admin/products', adminProductsRouter);
 app.use('/api/shop/products', shopProductsRouter);

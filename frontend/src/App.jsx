@@ -24,6 +24,7 @@ import { Skeleton } from "@/components/ui/skeleton"
 import AdminUser from "./pages/admin-view/user";
 import PaymentSuccess from "./pages/paymentSuccess";
 import PaymentFailed from "./pages/paymentFailed";
+import TermsAndConditions from "./pages/terms";
 
 
 function App() {
@@ -84,6 +85,7 @@ function App() {
                 <Route path="/unauth-page" element={<UnauthPage />} />
 
                 {/* No Page Found */}
+                <Route path="/terms" element={<TermsAndConditions />} />
                 <Route path="*" element={<NotFound />} />
             </Routes>
             </div>

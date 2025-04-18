@@ -181,4 +181,83 @@ const authMiddleware = async (req, res, next) => {
     }
 };
 
-module.exports = { registerUser, loginUser, logoutUser, authMiddleware };
+// Get User Profile
+const getUserProfile = async (req, res) => {
+    try {
+        const user = req.user; // From authMiddleware
+        
+        // Return user data (excluding sensitive fields)
+        res.status(200).json({
+            success: true,
+            user: {
+                userName: user.userName,
+                email: user.email,
+                phone: user.phone,
+                address: user.address,
+                role: user.role
+            }
+        });
+    } catch (e) {
+        console.error("❌ Profile Fetch Error:", e);
+        res.status(500).json({
+            success: false,
+            message: "An error occurred while fetching profile.",
+        });
+    }
+};
+
+// Update User Profile
+const updateUserProfile = async (req, res) => {
+    try {
+        const user = req.user; // From authMiddleware
+        const { userName, phone, address, currentPassword, newPassword } = req.body;
+
+        // Find the user in DB
+        const userToUpdate = await User.findById(user.id);
+        if (!userToUpdate) {
+            return res.status(404).json({
+                success: false,
+                message: "User not found.",
+            });
+        }
+
+        // Update basic info
+        if (userName) userToUpdate.userName = userName;
+        if (phone) userToUpdate.phone = phone;
+        if (address) userToUpdate.address = address;
+
+        // Update password if provided
+        if (currentPassword && newPassword) {
+            const isPasswordMatch = await bcrypt.compare(currentPassword, userToUpdate.password);
+            if (!isPasswordMatch) {
+                return res.status(401).json({
+                    success: false,
+                    message: "Current password is incorrect.",
+                });
+            }
+            userToUpdate.password = await bcrypt.hash(newPassword, 12);
+        }
+
+        await userToUpdate.save();
+
+        res.status(200).json({
+            success: true,
+            message: "Profile updated successfully!",
+            user: {
+                userName: userToUpdate.userName,
+                email: userToUpdate.email,
+                phone: userToUpdate.phone,
+                address: userToUpdate.address,
+                role: userToUpdate.role
+            }
+        });
+    } catch (e) {
+        console.error("❌ Profile Update Error:", e);
+        res.status(500).json({
+            success: false,
+            message: "An error occurred while updating profile.",
+        });
+    }
+};
+
+module.exports = { registerUser, loginUser, logoutUser, authMiddleware, getUserProfile, updateUserProfile };

@@ -29,6 +29,9 @@ function AdminProducts() {
     sellerPhone: userPhone?.phone,
     currentBid: '',
     image: null,
+    bidderEmail: '',
+    winnerEmail: '',
+    
   }
 
       const [openCreateProductsDialog, setOpenCreateProductsDialog] =
@@ -92,7 +95,21 @@ function AdminProducts() {
       }
     
       function isFormValid() {
-        return Object.keys(formData)
+        const requiredFields = [
+          'title',
+          'author',
+          'isbn',
+          'publisher',
+          'publicationDate',
+          'edition',
+          'description',
+          'minBid',
+          'seller',
+          'sellerEmail',
+          'sellerPhone'
+        ];
+        
+        return requiredFields
           .map((key) => formData[key] !== "")
           .every((item) => item);
       }

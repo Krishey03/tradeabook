@@ -45,8 +45,6 @@ const getProductDetails = async (req, res) => {
     }
 }
 
-
-
 //Bidding controller
 const placeBid = async (req, res) => {
     try {
@@ -78,7 +76,11 @@ const placeBid = async (req, res) => {
 
         await product.save();
 
-        console.log("Updated product:", product);
+        io.emit("newBid", {
+            productId: product._id,
+            currentBid: product.currentBid,
+            bidderEmail: product.bidderEmail
+        });
 
         // Notify all clients via WebSockets
         io.emit("newBid", {
@@ -86,6 +88,8 @@ const placeBid = async (req, res) => {
             currentBid: product.currentBid,
             bidderEmail: product.bidderEmail
         });
+
+        io.emit("productUpdated", { productId: product._id });
 
         res.status(200).json({
             message: "Bid placed successfully",
@@ -107,7 +111,7 @@ const getCartItems = async (req, res) => {
         // Find products where the auction has ended, and the user won
         const wonItems = await Product.find({
             bidderEmail: email, 
-            // endTime: { $lt: new Date() }
+            endTime: { $lt: new Date() }
         });
 
         res.status(200).json({

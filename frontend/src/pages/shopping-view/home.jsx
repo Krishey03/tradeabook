@@ -36,7 +36,6 @@ function AdminProducts() {
     sellerPhone: user?.phone || "",
      image: null,
     offerTime: { type: Date, default: Date.now },
-    endTime: new Date(Date.now() + 2 * 1000),
   };
 
   console.log("User Phone Number:", user?.phone);

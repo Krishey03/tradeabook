@@ -34,20 +34,6 @@ function ShoppingUploads() {
     fetchProducts();
   }, [user]);
 
-  // Delete product function
-  const deleteProduct = async (productId) => {
-    try {
-      const response = await axios.delete(`http://localhost:5000/api/shop/products/delete/${productId}`);
-      if (response.status === 200) {
-        setProducts((prevProducts) => prevProducts.filter((product) => product._id !== productId));
-        alert("Product deleted successfully");
-      }
-    } catch (err) {
-      console.error("Error deleting product", err);
-      alert("Failed to delete product");
-    }
-  };
-
   return (
     <div className="max-w-4xl mx-auto px-4 py-6">
       <h2 className="text-center text-2xl font-semibold mb-6">Your Listed Products</h2>
@@ -65,16 +51,10 @@ function ShoppingUploads() {
                 />
               </div>
               <div className="text-center">
-                <strong>{product.title}</strong> by {product.author} <br />
+                <strong>{product.title}</strong>
+                <br/>
                 Minimum Bid: ${product.minBid} <br />
-                Current Bid: ${product.currentBid ?? "None yet"}
-                <div className="mt-4">
-                  <button 
-                    className="text-white font-semibold" 
-                    onClick={() => deleteProduct(product._id)}>
-                    Delete
-                  </button>
-                </div>
+                UsersBid: ${product.currentBid ?? "None yet"}
               </div>
             </li>
           ))}

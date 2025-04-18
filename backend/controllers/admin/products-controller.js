@@ -1,9 +1,6 @@
 const { imageUploadUtil } = require("../../helpers/cloudinary")
 const Product = require("../../models/Product")
 
-
-
-
 const handleImageUpload = async(req, res)=>{
     try{
         const b64 = Buffer.from(req.file.buffer).toString('base64')
@@ -28,7 +25,7 @@ const addProduct = async (req, res) => {
     try {
         const { title, author, isbn, publisher, publicationDate, edition, description, image, minBid, seller, sellerEmail, sellerPhone  } = req.body;
 
-        const endTime = new Date(Date.now() + 60 * 60 * 1000); // Testing: Ends in 30 seconds
+        const endTime = new Date(Date.now() + 120 * 1000);
 
         const newlyCreatedProduct = new Product({
             title,
@@ -50,6 +47,8 @@ const addProduct = async (req, res) => {
         });
 
         await newlyCreatedProduct.save();
+        const io = req.app.get("io");
+        io.emit("newProductAdded", newlyCreatedProduct);
 
         // Auto-assign the winner when the bidding ends
         setTimeout(async () => {
@@ -59,7 +58,7 @@ const addProduct = async (req, res) => {
                 await product.save();
                 console.log(`Bidding ended. Winner: ${product.winnerEmail}`);
             }
-        }, 30 * 1000); // 30 seconds for testing
+        }, 120 * 1000);
 
         res.status(201).json({
             success: true,
@@ -133,8 +132,6 @@ const editProduct = async (req, res) => {
     }
 };
 
-
-
 //delete a product
 const deleteProduct = async(req,res)=>{
     try{
@@ -160,9 +157,8 @@ const deleteProduct = async(req,res)=>{
 
 const getCartItems = async (req, res) => {
     try {
-        const userEmail = req.user.email; // Assuming the user is authenticated
+        const userEmail = req.user.email;
 
-        // Fetch products where the user is the winner
         const cartItems = await Product.find({ winnerEmail: userEmail });
 
         res.status(200).json({
