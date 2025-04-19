@@ -1,5 +1,6 @@
 const Product = require('../../models/Product')
 const eProduct = require('../../models/Exchange')
+const PaymentTransaction = require('../../models/paymentTransaction')
 const { io } = require('../../server');
 const { log } = require('node:console');
 
@@ -57,6 +58,18 @@ const placeBid = async (req, res) => {
             return res.status(400).json({ message: "All fields are required." });
         }
 
+        // Check for existing accepted exchange offer
+        const existingExchange = await eProduct.findOne({
+            productId,
+            offerStatus: "accepted"
+        });
+
+        if (existingExchange) {
+            return res.status(400).json({ 
+                message: "Bidding closed - item exchanged" 
+            });
+        }
+
         const product = await Product.findById(productId);
 
         if (!product) {
@@ -76,13 +89,7 @@ const placeBid = async (req, res) => {
 
         await product.save();
 
-        io.emit("newBid", {
-            productId: product._id,
-            currentBid: product.currentBid,
-            bidderEmail: product.bidderEmail
-        });
-
-        // Notify all clients via WebSockets
+        // Single WebSocket emit (removed duplicate)
         io.emit("newBid", {
             productId: product._id,
             currentBid: product.currentBid,
@@ -103,16 +110,75 @@ const placeBid = async (req, res) => {
     }
 };
 
+// const getCartItems = async (req, res) => {
+//     try {
+//         const { email } = req.params;
+//         console.log("Fetching cart items for:", email);
+
+//         // Find products where the auction has ended, and the user won
+//         const wonItems = await Product.find({
+//             bidderEmail: email, 
+//             endTime: { $lt: new Date() }
+//         });
+
+//         res.status(200).json({
+//             success: true,
+//             data: wonItems
+//         });
+
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).json({
+//             success: false,
+//             message: "An error occurred while fetching cart items."
+//         });
+//     }
+// };
+
+
+
+// Exchange Offer Controller
 const getCartItems = async (req, res) => {
     try {
         const { email } = req.params;
         console.log("Fetching cart items for:", email);
 
-        // Find products where the auction has ended, and the user won
-        const wonItems = await Product.find({
-            bidderEmail: email, 
-            endTime: { $lt: new Date() }
-        });
+        // Get products that meet basic criteria
+        const wonItems = await Product.aggregate([
+            {
+                $match: {
+                    bidderEmail: email,
+                    endTime: { $lt: new Date() },
+                    paymentStatus: { $nin: ["paid", "refunded"] }
+                }
+            },
+            {
+                $lookup: {
+                    from: "eproducts",
+                    localField: "_id",
+                    foreignField: "productId",
+                    as: "exchangeOffers"
+                }
+            },
+            {
+                $addFields: {
+                    hasAcceptedExchange: {
+                        $anyElementTrue: {
+                            $map: {
+                                input: "$exchangeOffers",
+                                as: "offer",
+                                in: { $eq: ["$$offer.offerStatus", "accepted"] }
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                $match: {
+                    hasAcceptedExchange: false
+                }
+            }
+        ]);
 
         res.status(200).json({
             success: true,
@@ -128,9 +194,6 @@ const getCartItems = async (req, res) => {
     }
 };
 
-
-
-// Exchange Offer Controller
 const offerExchange = async (req, res) => {
     try {
         const { productId, userEmail, exchangeOffer } = req.body;
@@ -173,6 +236,7 @@ const getSellerExchangeOffers = async (req, res) => {
     try {
         const { sellerEmail } = req.params;
         
+        // Get all products where the seller is the owner
         const sellerProducts = await Product.find({ 
             $or: [
                 { sellerEmail: sellerEmail },
@@ -190,13 +254,11 @@ const getSellerExchangeOffers = async (req, res) => {
         
         const productIds = sellerProducts.map(product => product._id);
         
-        //console.log("Found product IDs:", productIds);
-        
+        // Get exchange offers for these products that AREN'T from the seller
         const exchangeOffers = await eProduct.find({
-            productId: { $in: productIds }
+            productId: { $in: productIds },
+            userEmail: { $ne: sellerEmail } // Exclude offers made by seller
         }).populate('productId', 'title image'); 
-        
-        //console.log("Found exchange offers:", exchangeOffers);
         
         res.status(200).json({
             success: true,
@@ -248,23 +310,42 @@ const acceptExchangeOffer = async (req, res) => {
             return res.status(404).json({ success: false, message: "Product not found" });
         }
 
+        // Prevent acceptance if auction has ended
+        if (new Date() > product.endTime) {
+            return res.status(400).json({
+                success: false,
+                message: "Cannot accept offer - auction has ended"
+            });
+        }
+
         exchangeOffer.offerStatus = "accepted";
         await exchangeOffer.save();
 
+        // Close the auction and invalidate bids
+        const updatedProduct = await Product.findByIdAndUpdate(
+            product._id,
+            {
+                endTime: new Date(), // Immediately end auction
+                currentBid: null,
+                bidderEmail: null
+            },
+            { new: true }
+        );
+
         if (io) {
             io.emit("exchangeOfferAccepted", {
-                offerId: exchangeOffer._id,
-                productId: exchangeOffer.productId,
-                acceptedBy: product.sellerEmail,
-                acceptedFor: exchangeOffer.userEmail,
-                status: exchangeOffer.offerStatus
+                productId: updatedProduct._id,
+                endTime: updatedProduct.endTime,
+                currentBid: null,
+                bidderEmail: null
             });
         }
 
         res.status(200).json({
             success: true,
             message: "Exchange offer accepted successfully",
-            exchangeOffer
+            exchangeOffer,
+            product: updatedProduct
         });
 
     } catch (error) {
@@ -277,9 +358,14 @@ const getUserExchangeOffers = async (req, res) => {
     try {
         const { userEmail } = req.params; 
 
-        const userOffers = await eProduct.find({ userEmail })
-            .populate('productId', 'title image') 
-            .exec();
+        // Modified query to filter out paid exchanges and only show accepted ones
+        const userOffers = await eProduct.find({ 
+            userEmail,
+            offerStatus: "accepted",  // Only accepted offers
+            paymentStatus: { $ne: "paid" }  // Exclude paid exchanges
+        })
+        .populate('productId', 'title image') 
+        .exec();
 
         if (!userOffers || userOffers.length === 0) {
             return res.status(200).json({
@@ -302,5 +388,65 @@ const getUserExchangeOffers = async (req, res) => {
     }
 };
 
+const getUserOrders = async (req, res) => {
+    try {
+      const { userEmail } = req.params;
+      console.log(`[1/5] Starting order fetch for: ${userEmail}`);
+  
+      // 1. Get all completed payments
+      const payments = await PaymentTransaction.find({ status: 'completed' }).lean();
+      console.log(`[2/5] Found ${payments.length} completed payments`);
+  
+      // 2. Extract product IDs and types
+      const productDetails = payments.map(p => ({
+        id: p.productId,
+        type: p.productModel
+      }));
+      console.log('[3/5] Product details:', productDetails);
+  
+      // 3. Fetch products in parallel
+      const [products, eProducts] = await Promise.all([
+        Product.find({ _id: { $in: productDetails.filter(p => p.type === 'Product').map(p => p.id) } }).lean(),
+        eProduct.find({ _id: { $in: productDetails.filter(p => p.type === 'eProduct').map(p => p.id) } }).lean()
+      ]);
+      console.log(`[4/5] Found ${products.length} products and ${eProducts.length} eProducts`);
+  
+      // 4. Filter and format orders
+      const allProducts = [...products, ...eProducts];
+      const userOrders = payments.filter(payment => {
+        const product = allProducts.find(p => p._id.equals(payment.productId));
+        return product && (
+          product.bidderEmail === userEmail ||
+          product.winnerEmail === userEmail ||
+          product.userEmail === userEmail
+        );
+      });
+      console.log(`[5/5] Found ${userOrders.length} orders for user`);
+  
+      res.status(200).json({
+        success: true,
+        data: userOrders.map(order => ({
+          paymentId: order._id,
+          amount: order.amount,
+          status: order.status,
+          product: allProducts.find(p => p._id.equals(order.productId)),
+          createdAt: order.createdAt,
+          paymentMethod: order.paymentMethod
+        }))
+      });
+  
+    } catch (error) {
+      console.error('Controller Error:', {
+        message: error.message,
+        stack: error.stack
+      });
+      res.status(500).json({
+        success: false,
+        message: 'Failed to fetch orders',
+        error: error.message
+      });
+    }
+  };
 
-module.exports = { getProducts, getProductDetails, placeBid, offerExchange, getSellerExchangeOffers, declineExchangeOffer, getCartItems, acceptExchangeOffer, getUserExchangeOffers };
+
+module.exports = { getProducts, getProductDetails, placeBid, offerExchange, getSellerExchangeOffers, getUserOrders, declineExchangeOffer, getCartItems, acceptExchangeOffer, getUserExchangeOffers };

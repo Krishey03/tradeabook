@@ -6,12 +6,19 @@ import { Dialog, DialogContent, DialogTitle, DialogHeader } from "@/components/u
 import { toast } from "react-hot-toast";
 import useExchangeOffers from "@/hooks/useExchangeOffers";
 
+const isAcceptDisabled = (product) => {
+  if (!product) return false;
+  const biddingEnded = new Date(product.endTime) < new Date();
+  const hasBids = !!product.bidderEmail;
+  return biddingEnded && hasBids;
+};
+
 function SellerExchangeOffers() {
   const userEmail = useSelector((state) => state.auth.user?.email);
 
   const {
-    incomingOffers, // Changed from exchangeOffers to incomingOffers
-    outgoingOffers, // You might want to use this too
+    incomingOffers, 
+    outgoingOffers, 
     loading,
     selectedOffer,
     offerDetailsOpen,
@@ -21,7 +28,6 @@ function SellerExchangeOffers() {
     setOfferDetailsOpen,
   } = useExchangeOffers(userEmail);
 
-  // Determine if we're still loading
   const isLoading = loading.incoming || loading.outgoing;
 
   return (
@@ -38,28 +44,41 @@ function SellerExchangeOffers() {
         </Card>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {incomingOffers.map(
-            (offer) =>
+          {incomingOffers.map((offer) => {
+            const disabled = isAcceptDisabled(offer.productId);
+            
+            return (
               offer.offerStatus !== "declined" && offer.offerStatus !== "accepted" && (
-                <Card key={offer._id} className="overflow-hidden">
+                <Card key={offer._id} className="overflow-hidden relative">
+                  {disabled && (
+                    <div className="absolute top-2 right-2 bg-red-100 text-red-800 px-2 py-1 rounded-full text-xs">
+                      Auction Closed
+                    </div>
+                  )}
                   <CardHeader className="p-4">
-                    <CardTitle className="text-lg">Exchange Offer for: {offer.productId?.title || "Product"}</CardTitle>
+                    <CardTitle className="text-lg">
+                      Exchange Offer for: {offer.productId?.title || "Product"}
+                      {disabled && " (Closed)"}
+                    </CardTitle>
                   </CardHeader>
                   <CardContent className="p-4">
                     <p className="mb-2"><strong>Offered Item:</strong> {offer.exchangeOffer.eTitle}</p>
                     <p className="mb-2 truncate"><strong>From:</strong> {offer.userEmail}</p>
                     <p className="mb-4 line-clamp-2"><strong>Description:</strong> {offer.exchangeOffer.eDescription}</p>
-                    <Button className="w-full text-white" onClick={() => handleViewDetails(offer)}>
+                    <Button 
+                      className="w-full text-white" 
+                      onClick={() => handleViewDetails(offer)}
+                    >
                       View Details
                     </Button>
                   </CardContent>
                 </Card>
               )
-          )}
+            );
+          })}
         </div>
       )}
 
-      {/* Offer Details Dialog */}
       <Dialog open={offerDetailsOpen} onOpenChange={setOfferDetailsOpen}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
@@ -107,20 +126,29 @@ function SellerExchangeOffers() {
                 <p className="text-muted-foreground">{selectedOffer.userEmail}</p>
               </div>
 
-              <div className="flex gap-2 pt-4">
-                <Button
-                  variant="outline"
-                  className="flex-1"
-                  onClick={() => handleRejectOffer(selectedOffer._id)}
-                >
-                  Reject
-                </Button>
-                <Button
-                  className="flex-1 text-white"
-                  onClick={() => handleAcceptOffer(selectedOffer._id)}
-                >
-                  Accept
-                </Button>
+              <div className="flex gap-2 pt-4 flex-col">
+                {isAcceptDisabled(selectedOffer.productId) ? (
+                  <div className="text-red-600 text-sm text-center">
+                    This offer can't be accepted - auction ended with winning bid
+                  </div>
+                ) : (
+                  <div className="flex gap-2">
+                    <Button
+                      variant="outline"
+                      className="flex-1"
+                      onClick={() => handleRejectOffer(selectedOffer._id)}
+                    >
+                      Reject
+                    </Button>
+                    <Button
+                      className="flex-1 text-white"
+                      onClick={() => handleAcceptOffer(selectedOffer._id)}
+                      disabled={isAcceptDisabled(selectedOffer.productId)}
+                    >
+                      Accept
+                    </Button>
+                  </div>
+                )}
               </div>
             </div>
           )}

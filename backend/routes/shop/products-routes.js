@@ -8,7 +8,8 @@ const {
   declineExchangeOffer ,
   getCartItems,
   acceptExchangeOffer,
-  getUserExchangeOffers
+  getUserExchangeOffers,
+  getUserOrders
 } = require('../../controllers/shop/products-controller')
 
 const { upload } = require("../../helpers/cloudinary");
@@ -24,5 +25,6 @@ router.patch("/exchangeOffers/:offerId", declineExchangeOffer)
 router.put('/exchangeOffers/accept/:offerId', acceptExchangeOffer);
 router.get("/cart/:email", getCartItems)
 router.get("/exchangeOffers/user/:userEmail", getUserExchangeOffers);
+router.get('/:userEmail', getUserOrders);
 
 module.exports = router

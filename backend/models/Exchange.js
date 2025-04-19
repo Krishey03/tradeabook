@@ -20,7 +20,20 @@ const eProductSchema = new mongoose.Schema(
       default: "pending", 
     },
     dateOffered: { type: Date, default: Date.now }, 
-  }
+    paymentStatus: { 
+      type: String, 
+      enum: ["pending", "paid", "failed", "refunded"], 
+      default: "pending" 
+    },
+    paymentId: { 
+      type: mongoose.Schema.Types.ObjectId, 
+      ref: "PaymentTransaction" 
+    },
+    paymentDate: Date,
+    paymentExpiresAt: Date
+  },
+
+
 );
 
 module.exports = mongoose.model("eProduct", eProductSchema);

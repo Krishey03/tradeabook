@@ -1,5 +1,6 @@
 const { imageUploadUtil } = require("../../helpers/cloudinary")
 const Product = require("../../models/Product")
+const eProduct = require("../../models/Exchange")
 
 const handleImageUpload = async(req, res)=>{
     try{
@@ -174,4 +175,26 @@ const getCartItems = async (req, res) => {
     }
 };
 
-module.exports = { handleImageUpload, addProduct, editProduct, deleteProduct, fetchAllProducts, getCartItems };
+const getAllExchanges = async (req, res) => {
+    console.log('GET /exchanges hit');
+    try {
+      const exchanges = await eProduct.find()
+        .populate('productId', 'title author')
+        .populate('paymentId', 'amount status');
+      res.json(exchanges);
+    } catch (error) {
+      res.status(500).json({ message: 'Server Error' });
+    }
+  };
+  
+  // Delete exchange by ID
+const deleteExchange = async (req, res) => {
+    try {
+      await eProduct.findByIdAndDelete(req.params.id);
+      res.json({ message: 'Exchange deleted successfully' });
+    } catch (error) {
+      res.status(500).json({ message: 'Server Error' });
+    }
+  };
+
+module.exports = { handleImageUpload, addProduct, editProduct, deleteProduct, fetchAllProducts, getCartItems, getAllExchanges, deleteExchange };

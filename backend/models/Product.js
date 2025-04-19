@@ -31,7 +31,8 @@ const ProductSchema = new mongoose.Schema(
     },
     paymentDate: { 
       type: Date 
-    }
+    },
+    paymentExpiresAt: Date
   }
 );
 

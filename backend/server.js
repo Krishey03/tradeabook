@@ -13,6 +13,9 @@ const Payment = require("./models/paymentModel");
 const Product = require("./models/Product");
 const eProduct = require("./models/Exchange");
 const adminRoutes = require('./routes/admin/admin-routes');
+const PaymentTransaction = require('./models/paymentTransaction');
+const orderRoutes = require('./routes/shop/products-routes');
+const productRoutes = require("./routes/shop/products-routes");
 require('dotenv').config();
 
 const app = express();
@@ -43,20 +46,6 @@ const corsOptions = {
 app.use(express.json());
 app.use(cors(corsOptions));
 app.use(cookieParser());
-
-// Create payment model for tracking payments
-const paymentSchema = new mongoose.Schema({
-  productId: { type: mongoose.Schema.Types.ObjectId, refPath: 'productModel' },
-  productModel: { type: String, enum: ['Product', 'eProduct'], required: true },
-  amount: { type: Number, required: true },
-  paymentMethod: { type: String, enum: ["khalti"], required: true },
-  status: { type: String, enum: ["pending", "completed", "refunded"], default: "pending" },
-  pidx: { type: String },
-  transactionDetails: { type: Object },
-  createdAt: { type: Date, default: Date.now }
-});
-
-const PaymentTransaction = mongoose.model("PaymentTransaction", paymentSchema);
 
 // Initialize Khalti payment for products
 app.post("/api/initialize-product-payment", async (req, res) => {
@@ -97,7 +86,7 @@ app.post("/api/initialize-product-payment", async (req, res) => {
       
       productName = originalProduct.title;
       // For exchange products, you might charge a service fee or other amount
-      amount = 100; // Example: Nominal fee for exchange processing (Rs. 1)
+      amount = 1; // Example: Nominal fee for exchange processing (Rs. 1)
     } else {
       return res.status(400).json({
         success: false,
@@ -125,11 +114,11 @@ app.post("/api/initialize-product-payment", async (req, res) => {
       website_url,
     });
     
-// Update the payment record with the pidx
-await PaymentTransaction.findByIdAndUpdate(
-  paymentRecord._id,
-  { pidx: paymentInitiate.pidx }
-);
+    // Update the payment record with the pidx
+    await PaymentTransaction.findByIdAndUpdate(
+      paymentRecord._id,
+      { pidx: paymentInitiate.pidx }
+    );
 
     res.json({
       success: true,
@@ -232,10 +221,13 @@ app.get("/api/payment/:paymentId", async (req, res) => {
   }
 });
 
+
 app.use("/api/auth", authRouter);
 app.use('/api/admin/products', adminProductsRouter);
 app.use('/api/shop/products', shopProductsRouter);
 app.use('/api/admin', adminRoutes);
+app.use("/api/shop/products", productRoutes);
+app.use('/api/shop/orders', orderRoutes);
 
 app.set('io', io);
 app.options('*', cors(corsOptions));

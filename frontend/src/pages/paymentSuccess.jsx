@@ -128,11 +128,9 @@ function PaymentSuccess() {
         </CardContent>
         
         <CardFooter className="flex justify-center space-x-4 pt-2">
-          <Link to="/">
-            <Button variant="outline">Back to Home</Button>
-          </Link>
-          <Link to="/dashboard">
-            <Button>Go to Dashboard</Button>
+
+          <Link to="/shop/home">
+            <Button>Go to Home</Button>
           </Link>
         </CardFooter>
       </Card>

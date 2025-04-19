@@ -25,6 +25,7 @@ import AdminUser from "./pages/admin-view/user";
 import PaymentSuccess from "./pages/paymentSuccess";
 import PaymentFailed from "./pages/paymentFailed";
 import TermsAndConditions from "./pages/terms";
+import UserOrders from "./pages/shopping-view/orders";
 
 
 function App() {
@@ -60,8 +61,8 @@ function App() {
                     </CheckAuth>
                 }>
                     <Route path="dashboard" element={<AdminDashboard />} />
-                    <Route path="products" element={<AdminProducts />} />
-                    <Route path="orders" element={<AdminOrders />} />
+                    <Route path="auctions" element={<AdminProducts />} />
+                    <Route path="exchange" element={<AdminOrders />} />
                     <Route path="user" element={<AdminUser />} />
                 </Route>
                 <Route path="/payment-success" element={<PaymentSuccess />} />  
@@ -76,9 +77,10 @@ function App() {
                     <Route path="home" element={<ShoppingHome />} />
                     <Route path="account" element={<ShoppingAccount />} />
                     <Route path="checkout" element={<ShoppingCheckout />} />
-<Route path="listing" element={<ShoppingListing />} />
+                    <Route path="listing" element={<ShoppingListing />} />
                     <Route path="uploads" element={<ShoppingUploads />} />
                     <Route path="about" element={<ShoppingAbout />} />
+                    <Route path="orders" element={<UserOrders />} />
                 </Route>
 
                 {/* Unauthorized Page */}
