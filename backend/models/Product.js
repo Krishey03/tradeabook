@@ -32,8 +32,13 @@ const ProductSchema = new mongoose.Schema(
     paymentDate: { 
       type: Date 
     },
-    paymentExpiresAt: Date
+    paymentExpiresAt: Date,
+    exchangeOffers: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'eProduct'
+  }],
   }
+
 );
 
 module.exports = mongoose.model("Product", ProductSchema);

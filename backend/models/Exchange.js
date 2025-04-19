@@ -6,6 +6,7 @@ const eProductSchema = new mongoose.Schema(
     userEmail: { type: String, required: true }, 
     exchangeOffer: {
       eTitle: { type: String, required: true },
+      eImage: { type: String, required: true },
       eAuthor: { type: String, required: true },
       eIsbn: { type: String, required: true },
       ePublisher: { type: String, required: true },

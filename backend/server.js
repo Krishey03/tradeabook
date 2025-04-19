@@ -52,10 +52,15 @@ app.post("/api/initialize-product-payment", async (req, res) => {
   try {
     const { productId, productType, website_url } = req.body;
     
+    // Add fee constants
+    const PROCESSING_FEE = 25;
+    const DELIVERY_FEE = 50;
+    
     let productData;
     let productName;
-    let amount;
-    
+    let baseAmount;
+    let totalAmount;
+
     if (productType === 'Product') {
       productData = await Product.findById(productId);
       if (!productData) {
@@ -65,7 +70,10 @@ app.post("/api/initialize-product-payment", async (req, res) => {
         });
       }
       productName = productData.title;
-      amount = productData.currentBid || productData.minBid;
+      baseAmount = productData.currentBid || productData.minBid;
+      // Calculate total with fees
+      totalAmount = baseAmount + PROCESSING_FEE + DELIVERY_FEE;
+
     } else if (productType === 'eProduct') {
       productData = await eProduct.findById(productId);
       if (!productData) {
@@ -75,7 +83,6 @@ app.post("/api/initialize-product-payment", async (req, res) => {
         });
       }
       
-      // Get the original product to get its price
       const originalProduct = await Product.findById(productData.productId);
       if (!originalProduct) {
         return res.status(404).json({
@@ -85,23 +92,22 @@ app.post("/api/initialize-product-payment", async (req, res) => {
       }
       
       productName = originalProduct.title;
-      // For exchange products, you might charge a service fee or other amount
-      amount = 1; // Example: Nominal fee for exchange processing (Rs. 1)
-    } else {
-      return res.status(400).json({
-        success: false,
-        message: "Invalid product type"
-      });
+      // Exchange processing fee only
+      baseAmount = 0; // Or your base amount for exchanges
+      totalAmount = baseAmount + PROCESSING_FEE;
     }
-    
+
     // Convert to paisa (Khalti uses paisa as base unit)
-    const amountInPaisa = amount * 100;
+    const amountInPaisa = totalAmount * 100;
     
-    // Create a payment record
+    // Create payment record with fee breakdown
     const paymentRecord = await PaymentTransaction.create({
       productId: productId,
       productModel: productType,
-      amount: amountInPaisa,
+      baseAmount: baseAmount,
+      processingFee: PROCESSING_FEE,
+      deliveryFee: productType === 'Product' ? DELIVERY_FEE : 0,
+      amount: totalAmount,
       paymentMethod: "khalti"
     });
     
@@ -113,8 +119,8 @@ app.post("/api/initialize-product-payment", async (req, res) => {
       return_url: `${process.env.BACKEND_URI}/api/complete-khalti-payment`,
       website_url,
     });
-    
-    // Update the payment record with the pidx
+
+    // Update payment record with pidx
     await PaymentTransaction.findByIdAndUpdate(
       paymentRecord._id,
       { pidx: paymentInitiate.pidx }
@@ -123,7 +129,12 @@ app.post("/api/initialize-product-payment", async (req, res) => {
     res.json({
       success: true,
       payment: paymentInitiate,
-      paymentRecord
+      paymentRecord,
+      feeBreakdown: {
+        baseAmount,
+        processingFee: PROCESSING_FEE,
+        deliveryFee: productType === 'Product' ? DELIVERY_FEE : 0
+      }
     });
   } catch (error) {
     console.error("Payment initialization error:", error);

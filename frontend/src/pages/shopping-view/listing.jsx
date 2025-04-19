@@ -111,14 +111,13 @@ function ShoppingListing() {
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 ">
                         {productList && productList.length > 0 ? (
                             productList
-                                .filter((productItem) => {
-                                    const hoursPassed =
-                                        (Date.now() -
-                                            new Date(
-                                                productItem.offerTime
-                                            )) /
-                                        (1000 * 60 * 60);
-                                    return hoursPassed < 4;
+                                    .filter((productItem) => {
+                                    //productFilterTIme
+                                    const daysPassed =
+                                        (Date.now() - new Date(productItem.offerTime)) / (1000 * 60 * 60 * 24);
+
+                                    return daysPassed < 4;
+
                                 })
                                 .map((productItem) => (
                                     <ShoppingProductTile

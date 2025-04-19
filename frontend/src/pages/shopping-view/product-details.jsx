@@ -12,6 +12,7 @@ import useTimeLeft from "@/hooks/useTimeLeft"
 import { Sheet, SheetContent, SheetHeader } from "@/components/ui/sheet"
 import { ChatIcon } from '@heroicons/react/outline'
 import { useNavigate } from "react-router-dom"
+import ProductImageUpload from "@/components/admin-view/image-upload"
 
 let socket = null
 
@@ -24,6 +25,12 @@ function ProductDetailsDialog({ open, setOpen, productDetails, setProductDetails
     const [exchangeFormData, setExchangeFormData] = useState({})
     const timeLeft = useTimeLeft(productDetails?.endTime)
     const navigate = useNavigate()
+    const [imageFile, setImageFile] = useState(null);
+    const [uploadedImageUrl, setUploadedImageUrl] = useState("");
+    const [imageLoadingState, setImageLoadingState] = useState(false);
+    const [exchangeImageFile, setExchangeImageFile] = useState(null);
+    const [exchangeUploadedImageUrl, setExchangeUploadedImageUrl] = useState("");
+    const [exchangeImageLoadingState, setExchangeImageLoadingState] = useState(false);
 
     const userEmail = useSelector((state) => state.auth.user?.email)
     const { user } = useSelector((state) => state.auth)
@@ -52,6 +59,15 @@ function ProductDetailsDialog({ open, setOpen, productDetails, setProductDetails
             }
         }
     }, [productDetails?._id, dispatch, setProductDetails])
+
+    // Reset exchange form and image state when sidebar closes
+    useEffect(() => {
+        if (!isExchangeSidebarOpen) {
+            // Don't reset the form data as user might want to keep their inputs
+            // But do reset the loading state to prevent auto-uploads
+            setExchangeImageLoadingState(false);
+        }
+    }, [isExchangeSidebarOpen]);
 
     const handleBidChange = (e) => {
         setBidAmount(e.target.value)
@@ -126,8 +142,24 @@ function ProductDetailsDialog({ open, setOpen, productDetails, setProductDetails
     };
 
     const handleExchangeSubmit = async () => {
+        const requiredFields = [
+            'eTitle', 'eAuthor', 'eIsbn', 'ePublisher',
+            'ePublicationDate', 'eEdition', 'eDescription'
+        ];
+    
+        const missingFields = requiredFields.filter(field => !exchangeFormData[field]);
+    
+        if (missingFields.length > 0) {
+            toast.error(`Missing required fields: ${missingFields.join(', ')}`);
+            return;
+        }
         if (!exchangeFormData.eTitle || !exchangeFormData.eDescription) {
             toast.error("Please fill out all required fields.");
+            return;
+        }
+
+        if (!exchangeUploadedImageUrl) {
+            toast.error("Please upload an image of the book you're offering");
             return;
         }
     
@@ -145,6 +177,7 @@ function ProductDetailsDialog({ open, setOpen, productDetails, setProductDetails
                     userEmail: user?.email,
                     exchangeOffer: {
                         ...exchangeFormData,
+                        eImage: exchangeUploadedImageUrl,
                         eBuyerPhone: user.phone,
                     },
                 }),
@@ -158,6 +191,11 @@ function ProductDetailsDialog({ open, setOpen, productDetails, setProductDetails
             const data = await response.json();
             setIsExchangeSidebarOpen(false);
             toast.success("Exchange request sent!");
+            
+            // Reset form data and image states after successful submission
+            setExchangeFormData({});
+            setExchangeImageFile(null);
+            setExchangeUploadedImageUrl("");
         } catch (error) {
             toast.error(error.message);
         }
@@ -166,6 +204,12 @@ function ProductDetailsDialog({ open, setOpen, productDetails, setProductDetails
     const handleViewMyListings = () => {
         setOpen(false);
         navigate("/shop/uploads");
+    };
+
+    // Handle sidebar open - reset loading state to prevent auto-upload
+    const handleOpenExchangeSidebar = () => {
+        setExchangeImageLoadingState(false);
+        setIsExchangeSidebarOpen(true);
     };
 
     return (
@@ -234,8 +278,8 @@ function ProductDetailsDialog({ open, setOpen, productDetails, setProductDetails
                                         ? 'bg-gray-400 cursor-not-allowed' 
                                         : 'bg-purple-600 hover:bg-purple-700 hover:shadow-lg'}
                                     flex items-center justify-center gap-2 h-[50px] w-[180px]`}
-                                    onClick={() => setIsExchangeSidebarOpen(true)}
-                                    disabled={timeLeft === "Bidding Ended"}
+                                    onClick={handleOpenExchangeSidebar}
+                                    // disabled={timeLeft === "Bidding Ended"}
                                 >
                                     Send offer
                                     {timeLeft !== "Bidding Ended" && (
@@ -300,14 +344,31 @@ function ProductDetailsDialog({ open, setOpen, productDetails, setProductDetails
                 </DialogContent>
             </Dialog>
 
-            <Sheet open={isExchangeSidebarOpen} onOpenChange={() => setIsExchangeSidebarOpen(false)}>
+            <Sheet 
+                open={isExchangeSidebarOpen} 
+                onOpenChange={(open) => {
+                    if (!open) {
+                        // Reset loading state when closing the sheet to prevent auto-upload
+                        setExchangeImageLoadingState(false);
+                    }
+                    setIsExchangeSidebarOpen(open);
+                }}
+            >
                 <SheetContent side="right" className="overflow-auto bg-slate-200 dark:ring-offset-white p-6 rounded-lg shadow-xl transition-all duration-300">
                     <SheetHeader className="text-xl font-semibold text-gray-900 dark:text-black">
                         Offer an Exchange
                     </SheetHeader>
                     <div className="border-b border-gray-300 dark:border-gray-700 my-4"></div>
-
                     <div className="flex flex-col gap-4">
+                    <ProductImageUpload
+                        imageFile={exchangeImageFile}
+                        setImageFile={setExchangeImageFile}
+                        uploadedImageUrl={exchangeUploadedImageUrl}
+                        setUploadedImageUrl={setExchangeUploadedImageUrl}
+                        setImageLoadingState={setExchangeImageLoadingState}
+                        imageLoadingState={exchangeImageLoadingState}
+                        isCustomStyling={true}
+                        />
                         {exchangeProductFormElements.map((field) => (
                             <div key={field.name} className="mb-4">
                                 <label className="block font-medium">{field.label}</label>
@@ -316,12 +377,17 @@ function ProductDetailsDialog({ open, setOpen, productDetails, setProductDetails
                                     name={field.name}
                                     placeholder={field.placeholder}
                                     onChange={handleExchangeFormChange}
+                                    value={exchangeFormData[field.name] || ""}
                                     className="w-full p-2 border rounded-md bg-white"
                                 />
                             </div>
                         ))}
-                        <Button className="text-white mt-4 w-full" onClick={handleExchangeSubmit}>
-                            Submit Exchange Offer
+                        <Button 
+                        className="text-white mt-4 w-full" 
+                        onClick={handleExchangeSubmit}
+                        disabled={exchangeImageLoadingState || !exchangeUploadedImageUrl}
+                        >
+                        {exchangeImageLoadingState ? "Uploading Image..." : "Submit Exchange Offer"}
                         </Button>
                     </div>
                 </SheetContent>

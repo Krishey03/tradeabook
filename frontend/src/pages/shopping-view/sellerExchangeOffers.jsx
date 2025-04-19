@@ -87,27 +87,33 @@ function SellerExchangeOffers() {
 
           {selectedOffer && (
             <div className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <h3 className="font-bold">Your Product</h3>
-                  {selectedOffer.productId?.image && (
-                    <img
-                      src={selectedOffer.productId.image}
-                      alt={selectedOffer.productId.title || "Product"}
-                      className="w-full h-40 object-cover rounded-md my-2"
-                    />
-                  )}
-                  <p>{selectedOffer.productId?.title || "Unknown Product"}</p>
-                </div>
+<div className="grid grid-cols-2 gap-4">
+  <div>
+    <h3 className="font-bold">Your Product</h3>
+    {selectedOffer.productId?.image && (
+      <img
+        src={selectedOffer.productId.image}
+        alt={selectedOffer.productId.title || "Product"}
+        className="w-full h-40 object-cover rounded-md my-2"
+      />
+    )}
+    <p>{selectedOffer.productId?.title || "Unknown Product"}</p>
+  </div>
 
-                <div>
-                  <h3 className="font-bold">Offered Exchange</h3>
-                  <div className="border rounded-md p-3 my-2 h-40 flex items-center justify-center bg-gray-100">
-                    <p className="text-center text-gray-500">Exchange Item</p>
-                  </div>
-                  <p>{selectedOffer.exchangeOffer.eTitle}</p>
-                </div>
-              </div>
+  <div>
+    <h3 className="font-bold">Offered Exchange</h3>
+    {selectedOffer.exchangeOffer.eImage && (
+      <img
+        src={selectedOffer.exchangeOffer.eImage}
+        alt={selectedOffer.exchangeOffer.eTitle || "Exchange item"}
+        className="w-full h-40 object-cover rounded-md my-2"
+      />
+    )}
+    <div className="mt-2">
+      <p className="font-medium">{selectedOffer.exchangeOffer.eTitle}</p>
+    </div>
+  </div>
+</div>
 
               <div>
                 <h3 className="font-bold">Description</h3>

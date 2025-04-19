@@ -4,6 +4,11 @@ const PaymentTransaction = require('../../models/paymentTransaction')
 const { io } = require('../../server');
 const { log } = require('node:console');
 
+const isValidImageUrl = (url) => {
+    const cloudinaryRegex = /^https?:\/\/res\.cloudinary\.com\/.+\/.+\.(jpg|jpeg|png|gif|webp)$/;
+    return cloudinaryRegex.test(url);
+};
+
 const getProducts = async (req, res) => {
     try {
         const products = await Product.find({})
@@ -198,39 +203,130 @@ const offerExchange = async (req, res) => {
     try {
         const { productId, userEmail, exchangeOffer } = req.body;
 
-        // Log the incoming data to check if exchangeOffer is coming in correctly
-        console.log("Received data:", req.body);
-
         // Validate required fields
-        if (!productId || !userEmail || !exchangeOffer || !exchangeOffer.eTitle || !exchangeOffer.eDescription) {
-            return res.status(400).json({ message: "Missing required fields" });
+        const requiredFields = [
+            'eTitle', 'eImage', 'eAuthor', 'eIsbn',
+            'ePublisher', 'ePublicationDate', 'eEdition',
+            'eDescription', 'eBuyerPhone'
+        ];
+        
+        const missingFields = requiredFields.filter(field => !exchangeOffer?.[field]);
+        if (missingFields.length > 0) {
+            return res.status(400).json({
+                success: false,
+                message: `Missing required fields: ${missingFields.join(', ')}`
+            });
         }
 
-        // Find the product by ID to ensure it exists
-        const product = await Product.findById(productId);
+        // Validate image URL format
+        const isValidImageUrl = (url) => {
+            const cloudinaryRegex = /^https?:\/\/res\.cloudinary\.com\/.+\/.+\.(jpg|jpeg|png|gif|webp)$/;
+            return cloudinaryRegex.test(url);
+        };
+
+        if (!isValidImageUrl(exchangeOffer.eImage)) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid image URL format (must be a valid Cloudinary URL)"
+            });
+        }
+
+        // Validate phone number format
+        if (!/^\d{10}$/.test(exchangeOffer.eBuyerPhone)) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid phone number format (must be 10 digits)"
+            });
+        }
+
+        // Check product and existing offers
+        const [product, existingOffer] = await Promise.all([
+            Product.findById(productId),
+            eProduct.findOne({
+                productId,
+                userEmail,
+                offerStatus: 'pending'
+            })
+        ]);
+
         if (!product) {
-            return res.status(404).json({ message: "Product not found." });
+            return res.status(404).json({
+                success: false,
+                message: "Product not found"
+            });
         }
 
-        // Create a new eProduct (exchange offer) document
+        if (existingOffer) {
+            return res.status(409).json({
+                success: false,
+                message: "You already have a pending exchange offer for this product"
+            });
+        }
+
+        // Create new exchange offer
         const newExchangeOffer = new eProduct({
-            productId: product._id,  // Link to the original product
-            userEmail: userEmail,    // Email of the user offering the exchange
-            exchangeOffer: exchangeOffer,  // The offer details
+            productId: product._id,
+            userEmail,
+            exchangeOffer: {
+                ...exchangeOffer,
+                eBuyerPhone: Number(exchangeOffer.eBuyerPhone)
+            }
         });
 
-        // Save the exchange offer to the eProduct collection
+        // Validate against schema before saving
+        const validationError = newExchangeOffer.validateSync();
+        if (validationError) {
+            const errors = Object.values(validationError.errors).map(err => err.message);
+            return res.status(400).json({
+                success: false,
+                message: "Validation failed",
+                errors
+            });
+        }
+
         await newExchangeOffer.save();
 
-        res.status(200).json({
-            message: "Exchange offer submitted successfully!",
-            exchangeOffer: newExchangeOffer,
+        // Update product with exchange offer reference
+        await Product.findByIdAndUpdate(productId, {
+            $push: { exchangeOffers: newExchangeOffer._id }
         });
+
+        res.status(201).json({
+            success: true,
+            message: "Exchange offer submitted successfully!",
+            offer: newExchangeOffer
+        });
+
     } catch (error) {
-        console.error("Error submitting exchange offer:", error);
-        res.status(500).json({ message: "Server error" });
+        console.error("Exchange error:", error);
+        
+        // Handle duplicate key errors
+        if (error.code === 11000) {
+            return res.status(409).json({
+                success: false,
+                message: "Duplicate exchange offer detected"
+            });
+        }
+
+        // Handle mongoose validation errors
+        if (error.name === 'ValidationError') {
+            const errors = Object.values(error.errors).map(err => err.message);
+            return res.status(400).json({
+                success: false,
+                message: "Validation error",
+                errors
+            });
+        }
+
+        res.status(500).json({
+            success: false,
+            message: error.message || "Internal server error during exchange submission"
+        });
     }
 };
+
+
+
 
 const getSellerExchangeOffers = async (req, res) => {
     try {
@@ -391,28 +487,25 @@ const getUserExchangeOffers = async (req, res) => {
 const getUserOrders = async (req, res) => {
     try {
       const { userEmail } = req.params;
-      console.log(`[1/5] Starting order fetch for: ${userEmail}`);
   
-      // 1. Get all completed payments
+      // Fetch completed payments
       const payments = await PaymentTransaction.find({ status: 'completed' }).lean();
-      console.log(`[2/5] Found ${payments.length} completed payments`);
-  
-      // 2. Extract product IDs and types
       const productDetails = payments.map(p => ({
         id: p.productId,
         type: p.productModel
       }));
-      console.log('[3/5] Product details:', productDetails);
   
-      // 3. Fetch products in parallel
+      // Fetch products and eProducts with necessary population
       const [products, eProducts] = await Promise.all([
         Product.find({ _id: { $in: productDetails.filter(p => p.type === 'Product').map(p => p.id) } }).lean(),
-        eProduct.find({ _id: { $in: productDetails.filter(p => p.type === 'eProduct').map(p => p.id) } }).lean()
+        eProduct.find({ _id: { $in: productDetails.filter(p => p.type === 'eProduct').map(p => p.id) } })
+          .populate('productId', 'title image') // Populate productId with title and image
+          .lean()
       ]);
-      console.log(`[4/5] Found ${products.length} products and ${eProducts.length} eProducts`);
   
-      // 4. Filter and format orders
       const allProducts = [...products, ...eProducts];
+  
+      // Filter user's orders and include productType
       const userOrders = payments.filter(payment => {
         const product = allProducts.find(p => p._id.equals(payment.productId));
         return product && (
@@ -421,25 +514,22 @@ const getUserOrders = async (req, res) => {
           product.userEmail === userEmail
         );
       });
-      console.log(`[5/5] Found ${userOrders.length} orders for user`);
   
       res.status(200).json({
         success: true,
-        data: userOrders.map(order => ({
-          paymentId: order._id,
-          amount: order.amount,
-          status: order.status,
-          product: allProducts.find(p => p._id.equals(order.productId)),
-          createdAt: order.createdAt,
-          paymentMethod: order.paymentMethod
+        data: userOrders.map(payment => ({
+          paymentId: payment._id,
+          amount: payment.amount,
+          status: payment.status,
+          product: allProducts.find(p => p._id.equals(payment.productId)),
+          productType: payment.productModel, // Include productType
+          createdAt: payment.createdAt,
+          paymentMethod: payment.paymentMethod
         }))
       });
   
     } catch (error) {
-      console.error('Controller Error:', {
-        message: error.message,
-        stack: error.stack
-      });
+      console.error('Controller Error:', error);
       res.status(500).json({
         success: false,
         message: 'Failed to fetch orders',
