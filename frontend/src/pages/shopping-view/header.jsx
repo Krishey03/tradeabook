@@ -1,5 +1,3 @@
-"use client"
-
 import { useDispatch, useSelector } from "react-redux"
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"

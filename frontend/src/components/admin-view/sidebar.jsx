@@ -11,12 +11,6 @@ import { Sheet, SheetContent } from "../ui/sheet"
 
 const adminSideBarMenuItems = [
   {
-    id: "dashboard",
-    label: "Dashboard",
-    path: "/admin/dashboard",
-    icon: <LayoutDashboard className="h-5 w-5" />,
-  },
-  {
     id: "products",
     label: "Auctions",
     path: "/admin/auctions",
@@ -95,11 +89,6 @@ function AdminSideBar({ open, setOpen }) {
             <div className="flex-1 overflow-auto p-4">
               <MenuItems />
             </div>
-            <div className="border-t border-slate-200 p-4">
-              <div className="text-xs text-slate-500">
-                <p>© 2025 Trade a Book</p>
-              </div>
-            </div>
           </div>
         </SheetContent>
       </Sheet>
@@ -116,11 +105,6 @@ function AdminSideBar({ open, setOpen }) {
         </div>
         <div className="flex-1 overflow-auto p-4">
           <MenuItems />
-        </div>
-        <div className="border-t border-slate-200 p-4">
-          <div className="text-xs text-slate-500">
-            <p>© 2025 Trade a Book</p>
-          </div>
         </div>
       </aside>
     </Fragment>

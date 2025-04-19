@@ -1,5 +1,3 @@
-"use client"
-
 import CommonForm from "@/components/common/form"
 import { Button } from "@/components/ui/button"
 import {

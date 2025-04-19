@@ -11,7 +11,7 @@ function CheckAuth({ isAuthenticated, user, children }) {
 
     if (isAuthenticated && isAuthRoute) {
         if (user?.role === "admin") {
-            return <Navigate to="/admin/dashboard" replace />;
+            return <Navigate to="/admin/user" replace />;
         } else {
             return <Navigate to="/shop/home" replace />;
         }

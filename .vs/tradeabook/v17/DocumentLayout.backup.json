@@ -3,6 +3,26 @@
   "WorkspaceRootPath": "D:\\Latest\\tradeabook\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Latest\\tradeabook\\frontend\\src\\components\\common\\check-auth.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\components\\common\\check-auth.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Latest\\tradeabook\\frontend\\src\\pages\\shopping-view\\account.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\pages\\shopping-view\\account.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Latest\\tradeabook\\frontend\\src\\pages\\shopping-view\\header.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\pages\\shopping-view\\header.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Latest\\tradeabook\\frontend\\src\\pages\\shopping-view\\product-details.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\pages\\shopping-view\\product-details.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Latest\\tradeabook\\frontend\\src\\pages\\shopping-view\\listing.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\pages\\shopping-view\\listing.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Latest\\tradeabook\\frontend\\src\\components\\admin-view\\image-upload.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\components\\admin-view\\image-upload.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
@@ -13,10 +33,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Latest\\tradeabook\\frontend\\src\\pages\\shopping-view\\sellerExchangeOffers.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\pages\\shopping-view\\sellerExchangeOffers.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Latest\\tradeabook\\frontend\\src\\pages\\shopping-view\\listing.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\pages\\shopping-view\\listing.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Latest\\tradeabook\\backend\\controllers\\shop\\products-controller.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
@@ -37,10 +53,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Latest\\tradeabook\\backend\\controllers\\admin\\products-controller.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:backend\\controllers\\admin\\products-controller.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Latest\\tradeabook\\frontend\\src\\pages\\shopping-view\\product-details.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\pages\\shopping-view\\product-details.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Latest\\tradeabook\\frontend\\src\\pages\\shopping-view\\home.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
@@ -131,10 +143,6 @@
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\components\\ui\\button.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Latest\\tradeabook\\frontend\\src\\pages\\shopping-view\\header.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\pages\\shopping-view\\header.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Latest\\tradeabook\\frontend\\src\\pages\\auth\\login.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\pages\\auth\\login.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
@@ -154,7 +162,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 38,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -170,7 +178,33 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 0,
+              "Title": "check-auth.jsx",
+              "DocumentMoniker": "D:\\Latest\\tradeabook\\frontend\\src\\components\\common\\check-auth.jsx",
+              "RelativeDocumentMoniker": "frontend\\src\\components\\common\\check-auth.jsx",
+              "ToolTip": "D:\\Latest\\tradeabook\\frontend\\src\\components\\common\\check-auth.jsx",
+              "RelativeToolTip": "frontend\\src\\components\\common\\check-auth.jsx",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAAA0AAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
+              "WhenOpened": "2025-04-19T16:25:06.82Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "account.jsx",
+              "DocumentMoniker": "D:\\Latest\\tradeabook\\frontend\\src\\pages\\shopping-view\\account.jsx",
+              "RelativeDocumentMoniker": "frontend\\src\\pages\\shopping-view\\account.jsx",
+              "ToolTip": "D:\\Latest\\tradeabook\\frontend\\src\\pages\\shopping-view\\account.jsx",
+              "RelativeToolTip": "frontend\\src\\pages\\shopping-view\\account.jsx",
+              "ViewState": "AgIAAB4AAAAAAAAAAAAIwCgAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
+              "WhenOpened": "2025-04-19T16:25:00.654Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
               "Title": "useExchangeOffers.js",
               "DocumentMoniker": "D:\\Latest\\tradeabook\\frontend\\src\\hooks\\useExchangeOffers.js",
               "RelativeDocumentMoniker": "frontend\\src\\hooks\\useExchangeOffers.js",
@@ -182,7 +216,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 19,
               "Title": "Exchange.js",
               "DocumentMoniker": "D:\\Latest\\tradeabook\\backend\\models\\Exchange.js",
               "RelativeDocumentMoniker": "backend\\models\\Exchange.js",
@@ -194,7 +228,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 21,
               "Title": "index.js",
               "DocumentMoniker": "D:\\Latest\\tradeabook\\frontend\\src\\store\\admin\\user-slice\\index.js",
               "RelativeDocumentMoniker": "frontend\\src\\store\\admin\\user-slice\\index.js",
@@ -206,7 +240,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 23,
               "Title": "admin-routes.js",
               "DocumentMoniker": "D:\\Latest\\tradeabook\\backend\\routes\\admin\\admin-routes.js",
               "RelativeDocumentMoniker": "backend\\routes\\admin\\admin-routes.js",
@@ -218,7 +252,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 22,
               "Title": "admin-controller.js",
               "DocumentMoniker": "D:\\Latest\\tradeabook\\backend\\controllers\\admin\\admin-controller.js",
               "RelativeDocumentMoniker": "backend\\controllers\\admin\\admin-controller.js",
@@ -230,7 +264,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 20,
               "Title": "user.jsx",
               "DocumentMoniker": "D:\\Latest\\tradeabook\\frontend\\src\\pages\\admin-view\\user.jsx",
               "RelativeDocumentMoniker": "frontend\\src\\pages\\admin-view\\user.jsx",
@@ -242,7 +276,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 24,
               "Title": "auth-controller.js",
               "DocumentMoniker": "D:\\Latest\\tradeabook\\backend\\controllers\\auth\\auth-controller.js",
               "RelativeDocumentMoniker": "backend\\controllers\\auth\\auth-controller.js",
@@ -254,7 +288,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 16,
               "Title": "useTimeLeft.js",
               "DocumentMoniker": "D:\\Latest\\tradeabook\\frontend\\src\\hooks\\useTimeLeft.js",
               "RelativeDocumentMoniker": "frontend\\src\\hooks\\useTimeLeft.js",
@@ -266,7 +300,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 15,
               "Title": "use-toast.js",
               "DocumentMoniker": "D:\\Latest\\tradeabook\\frontend\\src\\hooks\\use-toast.js",
               "RelativeDocumentMoniker": "frontend\\src\\hooks\\use-toast.js",
@@ -278,7 +312,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 14,
               "Title": "use-toast.js",
               "DocumentMoniker": "D:\\Latest\\tradeabook\\frontend\\src\\components\\ui\\use-toast.js",
               "RelativeDocumentMoniker": "frontend\\src\\components\\ui\\use-toast.js",
@@ -290,7 +324,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 6,
               "Title": "server.js",
               "DocumentMoniker": "D:\\Latest\\tradeabook\\backend\\server.js",
               "RelativeDocumentMoniker": "backend\\server.js",
@@ -298,12 +332,11 @@
               "RelativeToolTip": "backend\\server.js",
               "ViewState": "AgIAABoAAAAAAAAAAAAAACYAAAAVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2025-03-27T15:10:23.743Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-27T15:10:23.743Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 17,
               "Title": "index.js",
               "DocumentMoniker": "D:\\Latest\\tradeabook\\frontend\\src\\store\\auth-slice\\index.js",
               "RelativeDocumentMoniker": "frontend\\src\\store\\auth-slice\\index.js",
@@ -315,7 +348,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 25,
+              "DocumentIndex": 28,
               "Title": "cloudinary.js",
               "DocumentMoniker": "D:\\Latest\\tradeabook\\backend\\helpers\\cloudinary.js",
               "RelativeDocumentMoniker": "backend\\helpers\\cloudinary.js",
@@ -327,7 +360,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 10,
               "Title": "checkout.jsx",
               "DocumentMoniker": "D:\\Latest\\tradeabook\\frontend\\src\\pages\\shopping-view\\checkout.jsx",
               "RelativeDocumentMoniker": "frontend\\src\\pages\\shopping-view\\checkout.jsx",
@@ -339,7 +372,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 29,
+              "DocumentIndex": 32,
               "Title": "card.jsx",
               "DocumentMoniker": "D:\\Latest\\tradeabook\\frontend\\src\\components\\ui\\card.jsx",
               "RelativeDocumentMoniker": "frontend\\src\\components\\ui\\card.jsx",
@@ -351,7 +384,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 26,
+              "DocumentIndex": 29,
               "Title": "index.html",
               "DocumentMoniker": "D:\\Latest\\tradeabook\\frontend\\index.html",
               "RelativeDocumentMoniker": "frontend\\index.html",
@@ -363,7 +396,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 27,
+              "DocumentIndex": 30,
               "Title": "index.js",
               "DocumentMoniker": "D:\\Latest\\tradeabook\\frontend\\src\\store\\admin\\products-slice\\index.js",
               "RelativeDocumentMoniker": "frontend\\src\\store\\admin\\products-slice\\index.js",
@@ -375,7 +408,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 25,
               "Title": "products.jsx",
               "DocumentMoniker": "D:\\Latest\\tradeabook\\frontend\\src\\pages\\admin-view\\products.jsx",
               "RelativeDocumentMoniker": "frontend\\src\\pages\\admin-view\\products.jsx",
@@ -387,7 +420,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 8,
               "Title": "products-controller.js",
               "DocumentMoniker": "D:\\Latest\\tradeabook\\backend\\controllers\\shop\\products-controller.js",
               "RelativeDocumentMoniker": "backend\\controllers\\shop\\products-controller.js",
@@ -399,31 +432,33 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 3,
               "Title": "product-details.jsx",
               "DocumentMoniker": "D:\\Latest\\tradeabook\\frontend\\src\\pages\\shopping-view\\product-details.jsx",
               "RelativeDocumentMoniker": "frontend\\src\\pages\\shopping-view\\product-details.jsx",
-              "ToolTip": "D:\\Latest\\tradeabook\\frontend\\src\\pages\\shopping-view\\product-details.jsx",
-              "RelativeToolTip": "frontend\\src\\pages\\shopping-view\\product-details.jsx",
-              "ViewState": "AgIAAC4AAAAAAAAAAAAAAEkAAAAfAAAAAAAAAA==",
+              "ToolTip": "D:\\Latest\\tradeabook\\frontend\\src\\pages\\shopping-view\\product-details.jsx*",
+              "RelativeToolTip": "frontend\\src\\pages\\shopping-view\\product-details.jsx*",
+              "ViewState": "AgIAABAAAAAAAAAAAAAwwBoAAAAgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
-              "WhenOpened": "2025-03-09T02:42:53.371Z"
+              "WhenOpened": "2025-03-09T02:42:53.371Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "listing.jsx",
               "DocumentMoniker": "D:\\Latest\\tradeabook\\frontend\\src\\pages\\shopping-view\\listing.jsx",
               "RelativeDocumentMoniker": "frontend\\src\\pages\\shopping-view\\listing.jsx",
               "ToolTip": "D:\\Latest\\tradeabook\\frontend\\src\\pages\\shopping-view\\listing.jsx",
               "RelativeToolTip": "frontend\\src\\pages\\shopping-view\\listing.jsx",
-              "ViewState": "AgIAAFkAAAAAAAAAAAAAAGIAAAAnAAAAAAAAAA==",
+              "ViewState": "AgIAAG4AAAAAAAAAAAAAAHYAAAA6AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
-              "WhenOpened": "2025-03-08T15:03:46.558Z"
+              "WhenOpened": "2025-03-08T15:03:46.558Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 13,
               "Title": "home.jsx",
               "DocumentMoniker": "D:\\Latest\\tradeabook\\frontend\\src\\pages\\shopping-view\\home.jsx",
               "RelativeDocumentMoniker": "frontend\\src\\pages\\shopping-view\\home.jsx",
@@ -435,7 +470,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 28,
+              "DocumentIndex": 31,
               "Title": "index.js",
               "DocumentMoniker": "D:\\Latest\\tradeabook\\frontend\\src\\store\\shop\\products-slice\\index.js",
               "RelativeDocumentMoniker": "frontend\\src\\store\\shop\\products-slice\\index.js",
@@ -447,7 +482,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 30,
+              "DocumentIndex": 33,
               "Title": "product-tile.jsx",
               "DocumentMoniker": "D:\\Latest\\tradeabook\\frontend\\src\\pages\\shopping-view\\product-tile.jsx",
               "RelativeDocumentMoniker": "frontend\\src\\pages\\shopping-view\\product-tile.jsx",
@@ -459,7 +494,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 31,
+              "DocumentIndex": 34,
               "Title": "button.jsx",
               "DocumentMoniker": "D:\\Latest\\tradeabook\\frontend\\src\\components\\ui\\button.jsx",
               "RelativeDocumentMoniker": "frontend\\src\\components\\ui\\button.jsx",
@@ -471,7 +506,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 34,
+              "DocumentIndex": 36,
               "Title": "layout.jsx",
               "DocumentMoniker": "D:\\Latest\\tradeabook\\frontend\\src\\components\\auth\\layout.jsx",
               "RelativeDocumentMoniker": "frontend\\src\\components\\auth\\layout.jsx",
@@ -483,7 +518,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 7,
               "Title": "sellerExchangeOffers.jsx",
               "DocumentMoniker": "D:\\Latest\\tradeabook\\frontend\\src\\pages\\shopping-view\\sellerExchangeOffers.jsx",
               "RelativeDocumentMoniker": "frontend\\src\\pages\\shopping-view\\sellerExchangeOffers.jsx",
@@ -495,7 +530,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 33,
+              "DocumentIndex": 35,
               "Title": "login.jsx",
               "DocumentMoniker": "D:\\Latest\\tradeabook\\frontend\\src\\pages\\auth\\login.jsx",
               "RelativeDocumentMoniker": "frontend\\src\\pages\\auth\\login.jsx",
@@ -507,7 +542,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 12,
               "Title": "products-controller.js",
               "DocumentMoniker": "D:\\Latest\\tradeabook\\backend\\controllers\\admin\\products-controller.js",
               "RelativeDocumentMoniker": "backend\\controllers\\admin\\products-controller.js",
@@ -519,19 +554,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 32,
+              "DocumentIndex": 2,
               "Title": "header.jsx",
               "DocumentMoniker": "D:\\Latest\\tradeabook\\frontend\\src\\pages\\shopping-view\\header.jsx",
               "RelativeDocumentMoniker": "frontend\\src\\pages\\shopping-view\\header.jsx",
               "ToolTip": "D:\\Latest\\tradeabook\\frontend\\src\\pages\\shopping-view\\header.jsx",
               "RelativeToolTip": "frontend\\src\\pages\\shopping-view\\header.jsx",
-              "ViewState": "AgIAAEcAAAAAAAAAAAAAAE0AAAAgAAAAAAAAAA==",
+              "ViewState": "AgIAACwAAAAAAAAAAAAcwDYAAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
-              "WhenOpened": "2025-03-08T14:37:46.507Z"
+              "WhenOpened": "2025-03-08T14:37:46.507Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 35,
+              "DocumentIndex": 37,
               "Title": "product-tile.jsx",
               "DocumentMoniker": "D:\\Latest\\tradeabook\\frontend\\src\\components\\admin-view\\product-tile.jsx",
               "RelativeDocumentMoniker": "frontend\\src\\components\\admin-view\\product-tile.jsx",
@@ -543,7 +579,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 24,
+              "DocumentIndex": 27,
               "Title": "Product.js",
               "DocumentMoniker": "D:\\Latest\\tradeabook\\backend\\models\\Product.js",
               "RelativeDocumentMoniker": "backend\\models\\Product.js",
@@ -555,7 +591,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 26,
               "Title": "App.jsx",
               "DocumentMoniker": "D:\\Latest\\tradeabook\\frontend\\src\\App.jsx",
               "RelativeDocumentMoniker": "frontend\\src\\App.jsx",
@@ -567,7 +603,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 11,
               "Title": "products-routes.js",
               "DocumentMoniker": "D:\\Latest\\tradeabook\\backend\\routes\\shop\\products-routes.js",
               "RelativeDocumentMoniker": "backend\\routes\\shop\\products-routes.js",
@@ -579,7 +615,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 18,
               "Title": "index.js",
               "DocumentMoniker": "D:\\Latest\\tradeabook\\frontend\\src\\config\\index.js",
               "RelativeDocumentMoniker": "frontend\\src\\config\\index.js",
@@ -591,16 +627,15 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 5,
               "Title": "image-upload.jsx",
               "DocumentMoniker": "D:\\Latest\\tradeabook\\frontend\\src\\components\\admin-view\\image-upload.jsx",
               "RelativeDocumentMoniker": "frontend\\src\\components\\admin-view\\image-upload.jsx",
               "ToolTip": "D:\\Latest\\tradeabook\\frontend\\src\\components\\admin-view\\image-upload.jsx",
               "RelativeToolTip": "frontend\\src\\components\\admin-view\\image-upload.jsx",
-              "ViewState": "AgIAAD8AAAAAAAAAAAAAAF8AAAA2AAAAAAAAAA==",
+              "ViewState": "AgIAAD8AAAAAAAAAAAAAAEUAAABNAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
-              "WhenOpened": "2025-02-23T13:57:23.978Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-23T13:57:23.978Z"
             }
           ]
         }

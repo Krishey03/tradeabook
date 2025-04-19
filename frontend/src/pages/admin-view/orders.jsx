@@ -1,5 +1,3 @@
-"use client"
-
 import { useEffect, useState } from "react"
 import axios from "axios"
 import { Loader2, Trash2, RefreshCw } from "lucide-react"
@@ -214,7 +212,7 @@ function AdminOrders() {
                     <td className="px-4 py-3 text-right">
                       <button
                         onClick={() => handleDelete(exchange._id)}
-                        className="text-rose-500 hover:text-rose-700 transition p-1 rounded-full hover:bg-rose-50"
+                        className="text-rose-500 bg-white hover:text-rose-700 transition p-1 rounded-full hover:bg-rose-50"
                         title="Delete Exchange"
                       >
                         <Trash2 className="h-4 w-4" />

@@ -3,7 +3,6 @@ import AuthLayout from "./components/auth/layout";
 import AuthLogin from "./pages/auth/login";
 import AuthRegister from "./pages/auth/register";
 import AdminLayout from "./components/admin-view/layout";
-import AdminDashboard from "./pages/admin-view/dashboard";
 import AdminOrders from "./pages/admin-view/orders";
 import AdminFeatures from "./pages/admin-view/user";
 import AdminProducts from "./pages/admin-view/products";
@@ -60,7 +59,7 @@ function App() {
                         <AdminLayout />
                     </CheckAuth>
                 }>
-                    <Route path="dashboard" element={<AdminDashboard />} />
+                    {/* <Route path="dashboard" element={<AdminDashboard />} /> */}
                     <Route path="auctions" element={<AdminProducts />} />
                     <Route path="exchange" element={<AdminOrders />} />
                     <Route path="user" element={<AdminUser />} />

@@ -3,6 +3,7 @@ import "@fontsource/inspiration";
 import "@fontsource/inika";
 import "@fontsource/nunito-sans";
 import "@fontsource/julius-sans-one";
+import booksOnashelf from '../../assets/booksOnashelf.jpg'
 
 export default function AboutPage() {
   return (
@@ -32,11 +33,13 @@ export default function AboutPage() {
             <div className="flex flex-col md:flex-row gap-8 items-center">
               <div className="md:w-1/2">
                 <div className="relative h-64 w-full rounded-lg overflow-hidden">
+                <div className="w-full h-64 bg-white flex items-center justify-center rounded-lg overflow-hidden">
                   <img
-                    src="/placeholder.svg?height=400&width=600"
+                    src={booksOnashelf}
                     alt="Books on a shelf"
-                    className="object-cover w-full h-full"
+                    className="object-contain w-full h-full"
                   />
+                </div>
                 </div>
               </div>
               <div className="md:w-1/2">
