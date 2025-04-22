@@ -115,6 +115,8 @@ function Checkout(productDetails) {
     window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, "_blank")
   }
 
+
+  
   return (
     <div className="p-4 md:p-6 lg:p-8 max-w-6xl mx-auto bg-gray-50 min-h-screen">
       <div className="mb-8">
