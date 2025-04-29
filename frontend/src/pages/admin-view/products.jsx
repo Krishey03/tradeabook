@@ -47,7 +47,6 @@ function AdminProducts() {
 
   const dispatch = useDispatch()
 
-  // Filter products based on search term
   const filteredProducts = productList?.filter(
     (product) =>
       product.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -130,7 +129,6 @@ function AdminProducts() {
 
   return (
     <Fragment>
-      {/* Search and Add Product Header */}
       <div className="mb-5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
         <div className="relative w-full sm:w-64">
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -149,14 +147,12 @@ function AdminProducts() {
         </Button>
       </div>
 
-      {/* Search Results Info */}
       {searchTerm && (
         <div className="mb-3 text-sm text-gray-500">
           Found {filteredProducts?.length || 0} results for "{searchTerm}"
         </div>
       )}
 
-      {/* Product Grid */}
       <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-4">
         {filteredProducts && filteredProducts.length > 0 ? (
           filteredProducts.map((productItem) => (
@@ -176,7 +172,6 @@ function AdminProducts() {
         )}
       </div>
 
-      {/* Add/Edit Product Sheet */}
       <Sheet
         open={openCreateProductsDialog}
         onOpenChange={() => {

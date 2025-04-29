@@ -124,25 +124,24 @@ function Checkout(productDetails) {
         <p className="text-gray-500 mt-2">Complete your purchase or exchange</p>
       </div>
 
-      {/* Tabs for Bid and Exchange Checkout */}
       <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-8">
       <TabsList className="grid w-full grid-cols-2 h-14 rounded-xl bg-gray-100 p-1 gap-2">
-  <TabsTrigger
-    value="bid"
-    className="rounded-lg text-base font-semibold text-gray-600 bg-gray-100 hover:bg-gray-200 transition-all flex items-center justify-center
-    data-[state=active]:bg-white data-[state=active]:text-teal-600 data-[state=active]:shadow-sm"
-  >
-    Winning Bids
-  </TabsTrigger>
+        <TabsTrigger
+          value="bid"
+          className="rounded-lg text-base font-semibold text-gray-600 bg-gray-100 hover:bg-gray-200 transition-all flex items-center justify-center
+          data-[state=active]:bg-white data-[state=active]:text-teal-600 data-[state=active]:shadow-sm"
+        >
+          Winning Bids
+        </TabsTrigger>
 
-  <TabsTrigger
-    value="exchange"
-    className="rounded-lg text-base font-semibold text-gray-600 bg-gray-100 hover:bg-gray-200 transition-all flex items-center justify-center
-    data-[state=active]:bg-white data-[state=active]:text-teal-600 data-[state=active]:shadow-sm"
-  >
-    Book Exchanges
-  </TabsTrigger>
-</TabsList>
+        <TabsTrigger
+          value="exchange"
+          className="rounded-lg text-base font-semibold text-gray-600 bg-gray-100 hover:bg-gray-200 transition-all flex items-center justify-center
+          data-[state=active]:bg-white data-[state=active]:text-teal-600 data-[state=active]:shadow-sm"
+        >
+          Book Exchanges
+        </TabsTrigger>
+      </TabsList>
 
 
         {/* Bid Checkout */}

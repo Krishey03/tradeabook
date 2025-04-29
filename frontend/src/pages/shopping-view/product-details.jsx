@@ -62,11 +62,9 @@ function ProductDetailsDialog({ open, setOpen, productDetails, setProductDetails
     }
   }, [productDetails?._id, dispatch, setProductDetails])
 
-  // Reset exchange form and image state when sidebar closes
+
   useEffect(() => {
     if (!isExchangeSidebarOpen) {
-      // Don't reset the form data as user might want to keep their inputs
-      // But do reset the loading state to prevent auto-uploads
       setExchangeImageLoadingState(false)
     }
   }, [isExchangeSidebarOpen])
@@ -205,7 +203,6 @@ function ProductDetailsDialog({ open, setOpen, productDetails, setProductDetails
     navigate("/shop/uploads")
   }
 
-  // Handle sidebar open - reset loading state to prevent auto-upload
   const handleOpenExchangeSidebar = () => {
     setExchangeImageLoadingState(false)
     setIsExchangeSidebarOpen(true)
@@ -250,7 +247,6 @@ function ProductDetailsDialog({ open, setOpen, productDetails, setProductDetails
             <div className="w-full md:w-3/5 p-6 md:p-8 overflow-y-auto max-h-[80vh]">
               <div className="flex flex-col h-full">
                 <div className="flex-1">
-                  {/* Header with time left */}
                   <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-4">
                     <Badge
                       variant="outline"
@@ -333,7 +329,7 @@ function ProductDetailsDialog({ open, setOpen, productDetails, setProductDetails
                       className={`w-full ${
                         isBiddingEnded
                           ? "bg-gray-300 hover:bg-gray-300 cursor-not-allowed"
-                          : "bg-teal-600 hover:bg-teal-700"
+                          : "bg-black:400 hover:bg-teal-700"
                       } text-white`}
                       onClick={() => setBidDialogOpen(true)}
                       disabled={isBiddingEnded}
@@ -400,7 +396,7 @@ function ProductDetailsDialog({ open, setOpen, productDetails, setProductDetails
               <Button variant="outline" onClick={() => setBidDialogOpen(false)}>
                 Cancel
               </Button>
-              <Button className="bg-teal-600 hover:bg-teal-700 text-white" onClick={handleSubmitBid}>
+              <Button className="bg-black hover:bg-teal-700 text-white" onClick={handleSubmitBid}>
                 Submit Bid
               </Button>
             </div>
@@ -455,7 +451,7 @@ function ProductDetailsDialog({ open, setOpen, productDetails, setProductDetails
             ))}
 
             <Button
-              className="w-full bg-teal-600 hover:bg-teal-700 text-white h-12 mt-6"
+              className="w-full bg-purple-600 hover:bg-teal-700 text-white h-12 mt-6"
               onClick={handleExchangeSubmit}
               disabled={exchangeImageLoadingState || !exchangeUploadedImageUrl}
             >

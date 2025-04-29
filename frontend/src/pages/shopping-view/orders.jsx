@@ -148,7 +148,7 @@ function UserOrders() {
                 Your winning bids will appear here for easy tracking and
                 management.
               </CardDescription>
-              <Button className="mt-6" onClick={() => (window.location.href = "/shop/listing")}>
+              <Button className="mt-6 text-white" onClick={() => (window.location.href = "/shop/listing")}>
                 Browse Listings
               </Button>
             </div>
@@ -200,26 +200,6 @@ function UserOrders() {
                       </div>
                     </div>
                   </CardContent>
-
-                  <CardFooter className="border-t border-slate-100 bg-slate-50 p-4">
-                    <Button
-                      variant="outline"
-                      className="w-full"
-                      onClick={() => {
-                        const phoneNumber = order.product?.sellerPhone
-                        if (phoneNumber) {
-                          const message = encodeURIComponent(
-                            `Hello, I have a question about my order: ${order.product?.title}`,
-                          )
-                          const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`
-                          window.open(whatsappUrl, "_blank")
-                        }
-                      }}
-                    >
-                      <MessageSquare className="mr-2 h-4 w-4" />
-                      Contact Seller
-                    </Button>
-                  </CardFooter>
                 </Card>
               ))}
             </div>
@@ -237,14 +217,13 @@ function UserOrders() {
               <CardDescription className="max-w-md mx-auto text-slate-500">
                 When you exchange books with other users, your completed exchanges will appear here for tracking.
               </CardDescription>
-              <Button className="mt-6" onClick={() => (window.location.href = "/shop/listing")}>
+              <Button className="mt-6 text-white" onClick={() => (window.location.href = "/shop/listing")}>
                 Browse Listings
               </Button>
             </div>
           ) : (
             <div className="space-y-6">
               {exchangeOrders.map((order) => {
-                // Extract the received product details from productId
                 const receivedProduct = order.product?.productId || {}
                 const offeredProduct = order.product?.exchangeOffer || {}
 
@@ -335,30 +314,6 @@ function UserOrders() {
                         </div>
                       </div>
                     </CardContent>
-
-                    <CardFooter className="flex flex-wrap gap-3 border-t border-slate-100 bg-white p-5">
-                      <Button
-                        variant="outline"
-                        className="flex items-center gap-2"
-                        onClick={() => {
-                          const phoneNumber = receivedProduct.sellerPhone || offeredProduct.eBuyerPhone
-                          if (phoneNumber) {
-                            const message = encodeURIComponent(
-                              `Regarding our exchange: ${receivedProduct.title || "the book"}`,
-                            )
-                            window.open(`https://wa.me/${phoneNumber}?text=${message}`, "_blank")
-                          }
-                        }}
-                      >
-                        <MessageSquare className="h-4 w-4" />
-                        {receivedProduct.seller ? "Contact Seller" : "Contact User"}
-                      </Button>
-
-                      <Button className="flex text-white items-center gap-2 ml-auto">
-                        Contact User
-                        <ChevronRight className="h-4 w-4" />
-                      </Button>
-                    </CardFooter>
                   </Card>
                 )
               })}

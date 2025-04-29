@@ -54,7 +54,7 @@ function ShoppingUploads() {
                 <strong>{product.title}</strong>
                 <br/>
                 Minimum Bid: ${product.minBid} <br />
-                UsersBid: ${product.currentBid ?? "None yet"}
+                Recent Bid: ${product.currentBid ?? "None yet"}
               </div>
             </li>
           ))}

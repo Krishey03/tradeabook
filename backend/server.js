@@ -51,8 +51,6 @@ app.use(cookieParser());
 app.post("/api/initialize-product-payment", async (req, res) => {
   try {
     const { productId, productType, website_url } = req.body;
-    
-    // Add fee constants
     const PROCESSING_FEE = 25;
     const DELIVERY_FEE = 50;
     
@@ -93,7 +91,7 @@ app.post("/api/initialize-product-payment", async (req, res) => {
       
       productName = originalProduct.title;
       // Exchange processing fee only
-      baseAmount = 0; // Or your base amount for exchanges
+      baseAmount = 0;
       totalAmount = baseAmount + PROCESSING_FEE;
     }
 

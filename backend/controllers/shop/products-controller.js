@@ -57,8 +57,6 @@ const placeBid = async (req, res) => {
         const { productId, bidAmount, bidderEmail } = req.body;
         const io = req.app.get("io");
 
-        console.log("Received bid:", { productId, bidAmount, bidderEmail });
-
         if (!productId || !bidAmount || !bidderEmail) {
             return res.status(400).json({ message: "All fields are required." });
         }
@@ -94,7 +92,6 @@ const placeBid = async (req, res) => {
 
         await product.save();
 
-        // Single WebSocket emit (removed duplicate)
         io.emit("newBid", {
             productId: product._id,
             currentBid: product.currentBid,
@@ -114,33 +111,6 @@ const placeBid = async (req, res) => {
         res.status(500).json({ message: "Something went wrong." });
     }
 };
-
-// const getCartItems = async (req, res) => {
-//     try {
-//         const { email } = req.params;
-//         console.log("Fetching cart items for:", email);
-
-//         // Find products where the auction has ended, and the user won
-//         const wonItems = await Product.find({
-//             bidderEmail: email, 
-//             endTime: { $lt: new Date() }
-//         });
-
-//         res.status(200).json({
-//             success: true,
-//             data: wonItems
-//         });
-
-//     } catch (error) {
-//         console.error(error);
-//         res.status(500).json({
-//             success: false,
-//             message: "An error occurred while fetching cart items."
-//         });
-//     }
-// };
-
-
 
 // Exchange Offer Controller
 const getCartItems = async (req, res) => {
@@ -203,7 +173,6 @@ const offerExchange = async (req, res) => {
     try {
         const { productId, userEmail, exchangeOffer } = req.body;
 
-        // Validate required fields
         const requiredFields = [
             'eTitle', 'eImage', 'eAuthor', 'eIsbn',
             'ePublisher', 'ePublicationDate', 'eEdition',
@@ -218,7 +187,6 @@ const offerExchange = async (req, res) => {
             });
         }
 
-        // Validate image URL format
         const isValidImageUrl = (url) => {
             const cloudinaryRegex = /^https?:\/\/res\.cloudinary\.com\/.+\/.+\.(jpg|jpeg|png|gif|webp)$/;
             return cloudinaryRegex.test(url);
@@ -231,7 +199,6 @@ const offerExchange = async (req, res) => {
             });
         }
 
-        // Validate phone number format
         if (!/^\d{10}$/.test(exchangeOffer.eBuyerPhone)) {
             return res.status(400).json({
                 success: false,
@@ -239,7 +206,6 @@ const offerExchange = async (req, res) => {
             });
         }
 
-        // Check product and existing offers
         const [product, existingOffer] = await Promise.all([
             Product.findById(productId),
             eProduct.findOne({
@@ -325,9 +291,6 @@ const offerExchange = async (req, res) => {
     }
 };
 
-
-
-
 const getSellerExchangeOffers = async (req, res) => {
     try {
         const { sellerEmail } = req.params;
@@ -350,7 +313,7 @@ const getSellerExchangeOffers = async (req, res) => {
         
         const productIds = sellerProducts.map(product => product._id);
         
-        // Get exchange offers for these products that AREN'T from the seller
+        // Get exchange offers for these products that are not from the seller
         const exchangeOffers = await eProduct.find({
             productId: { $in: productIds },
             userEmail: { $ne: sellerEmail } // Exclude offers made by seller

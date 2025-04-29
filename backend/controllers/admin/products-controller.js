@@ -26,7 +26,7 @@ const addProduct = async (req, res) => {
     try {
         const { title, author, isbn, publisher, publicationDate, edition, description, image, minBid, seller, sellerEmail, sellerPhone  } = req.body;
 
-        const endTime = new Date(Date.now() + 120 * 1000);
+        const endTime = new Date(Date.now() + 3 * 60 * 1000);
 
         const newlyCreatedProduct = new Product({
             title,
@@ -51,7 +51,7 @@ const addProduct = async (req, res) => {
         const io = req.app.get("io");
         io.emit("newProductAdded", newlyCreatedProduct);
 
-        // Auto-assign the winner when the bidding ends
+        // Autoassign winner when the bidding ends
         setTimeout(async () => {
             const product = await Product.findById(newlyCreatedProduct._id);
             if (product && product.currentBid > product.minBid) {
@@ -59,7 +59,7 @@ const addProduct = async (req, res) => {
                 await product.save();
                 console.log(`Bidding ended. Winner: ${product.winnerEmail}`);
             }
-        }, 120 * 1000);
+        }, 3 * 60 * 1000);
 
         res.status(201).json({
             success: true,
@@ -133,7 +133,6 @@ const editProduct = async (req, res) => {
     }
 };
 
-//delete a product
 const deleteProduct = async(req,res)=>{
     try{
         const{id} = req.params
@@ -187,7 +186,6 @@ const getAllExchanges = async (req, res) => {
     }
   };
   
-  // Delete exchange by ID
 const deleteExchange = async (req, res) => {
     try {
       await eProduct.findByIdAndDelete(req.params.id);

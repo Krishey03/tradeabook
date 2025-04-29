@@ -4,8 +4,6 @@ const User = require('../../models/User');
 
 // Register User
 const registerUser = async (req, res) => {
-    console.log("📥 Received body:", req.body);
-
     const { userName, email, password, phone, address } = req.body;
 
     try {
@@ -18,15 +16,14 @@ const registerUser = async (req, res) => {
             });
         }
 
-        // Validate that all fields are provided
-        if (!userName || !email || !password || !phone || !address) {  // Validate all required fields
+        // Check if all fields are provided
+        if (!userName || !email || !password || !phone || !address) { 
             return res.status(400).json({
                 success: false,
                 message: "All fields (userName, email, password, phone, address) are required.",
             });
         }
 
-        // Hash password
         const hashPassword = await bcrypt.hash(password, 12);
 
         // Create user
@@ -45,7 +42,7 @@ const registerUser = async (req, res) => {
             message: "User registered successfully!",
         });
     } catch (e) {
-        console.error("❌ Registration Error:", e);
+        console.error("Registration Error:", e);
         res.status(500).json({
             success: false,
             message: "An error occurred during registration.",
@@ -58,7 +55,6 @@ const loginUser = async (req, res) => {
     const { email, password } = req.body;
 
     try {
-        // Validate input
         if (!email || !password) {
             return res.status(400).json({
                 success: false,
@@ -66,7 +62,6 @@ const loginUser = async (req, res) => {
             });
         }
 
-        // ✅ First, find the user
         const checkUser = await User.findOne({ email });
         if (!checkUser) {
             return res.status(401).json({
@@ -75,7 +70,6 @@ const loginUser = async (req, res) => {
             });
         }
 
-        // ✅ Then, check if user is blocked
         if (checkUser.isBlocked) {
             return res.status(403).json({
                 success: false,
@@ -83,7 +77,6 @@ const loginUser = async (req, res) => {
             });
         }
 
-        // Compare passwords
         const checkPasswordMatch = await bcrypt.compare(password, checkUser.password);
         if (!checkPasswordMatch) {
             return res.status(401).json({
@@ -92,7 +85,6 @@ const loginUser = async (req, res) => {
             });
         }
 
-        // Generate JWT token
         const token = jwt.sign(
             {
                 id: checkUser.id,
@@ -121,7 +113,6 @@ const loginUser = async (req, res) => {
             });
 
     } catch (e) {
-        console.error("❌ Login Error:", e);
         return res.status(500).json({
             success: false,
             message: "An error occurred during login.",
@@ -153,7 +144,6 @@ const authMiddleware = async (req, res, next) => {
     try {
         const decoded = jwt.verify(token, 'CLIENT_SECRET_KEY');
         
-        // 🔍 Fetch the user from DB to get latest info like isBlocked
         const user = await User.findById(decoded.id);
 
         if (!user) {
@@ -170,7 +160,7 @@ const authMiddleware = async (req, res, next) => {
             });
         }
 
-        req.user = user; // attach full user object if you want later use
+        req.user = user; 
         next();
 
     } catch (error) {
@@ -184,9 +174,8 @@ const authMiddleware = async (req, res, next) => {
 // Get User Profile
 const getUserProfile = async (req, res) => {
     try {
-        const user = req.user; // From authMiddleware
+        const user = req.user;
         
-        // Return user data (excluding sensitive fields)
         res.status(200).json({
             success: true,
             user: {
@@ -198,7 +187,6 @@ const getUserProfile = async (req, res) => {
             }
         });
     } catch (e) {
-        console.error("❌ Profile Fetch Error:", e);
         res.status(500).json({
             success: false,
             message: "An error occurred while fetching profile.",
@@ -209,10 +197,9 @@ const getUserProfile = async (req, res) => {
 // Update User Profile
 const updateUserProfile = async (req, res) => {
     try {
-        const user = req.user; // From authMiddleware
+        const user = req.user; 
         const { userName, phone, address, currentPassword, newPassword } = req.body;
 
-        // Find the user in DB
         const userToUpdate = await User.findById(user.id);
         if (!userToUpdate) {
             return res.status(404).json({
@@ -221,12 +208,10 @@ const updateUserProfile = async (req, res) => {
             });
         }
 
-        // Update basic info
         if (userName) userToUpdate.userName = userName;
         if (phone) userToUpdate.phone = phone;
         if (address) userToUpdate.address = address;
 
-        // Update password if provided
         if (currentPassword && newPassword) {
             const isPasswordMatch = await bcrypt.compare(currentPassword, userToUpdate.password);
             if (!isPasswordMatch) {

@@ -21,7 +21,7 @@ const UserSchema = new mongoose.Schema({
     phone: {
         type: String,
         required: true,
-        // match: [/^\+?[1-9]\d{1,14}$/, "Invalid phone number format"], 
+        match: [/^\+?[1-9]\d{1,14}$/, "Invalid phone number format"], 
     },
 
     address: {

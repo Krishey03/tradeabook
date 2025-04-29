@@ -76,7 +76,6 @@ function ShoppingListing() {
             )}
 
             <div className="relative min-h-screen bg-gray-100">
-                {/* Sidebar - absolutely positioned, with a fixed width */}
                 <div
                     className={`fixed top-16 left-0 z-40 w-64 h-screen bg-slate-200 shadow-md transition-transform duration-200 ease-in-out ${
                         mobileSidebarOpen
@@ -114,7 +113,6 @@ function ShoppingListing() {
                     </div>
                 </div>
 
-                {/* Hamburger - only visible on mobile */}
                 <button
                     className="md:hidden fixed bottom-4 left-4 z-50 bg-white p-3 rounded-full shadow-lg border border-gray-300"
                     onClick={() => setMobileSidebarOpen(!mobileSidebarOpen)}
@@ -135,7 +133,6 @@ function ShoppingListing() {
                     </svg>
                 </button>
 
-                {/* Main Content - full width */}
                 <div className={`p-4 pt-6 transition-all duration-300 ${mobileSidebarOpen ? "pl-72" : "pl-0"} md:pl-72`}>
 
                     {loading ? (
