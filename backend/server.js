@@ -53,6 +53,7 @@ app.post("/api/initialize-product-payment", async (req, res) => {
     const { productId, productType, website_url } = req.body;
     const PROCESSING_FEE = 25;
     const DELIVERY_FEE = 50;
+    const EXCHANGE_FEE = 75;
     
     let productData;
     let productName;
@@ -68,8 +69,7 @@ app.post("/api/initialize-product-payment", async (req, res) => {
         });
       }
       productName = productData.title;
-      baseAmount = productData.currentBid || productData.minBid;
-      // Calculate total with fees
+      baseAmount = Number(productData.currentBid || productData.minBid);
       totalAmount = baseAmount + PROCESSING_FEE + DELIVERY_FEE;
 
     } else if (productType === 'eProduct') {
@@ -92,13 +92,13 @@ app.post("/api/initialize-product-payment", async (req, res) => {
       productName = originalProduct.title;
       // Exchange processing fee only
       baseAmount = 0;
-      totalAmount = baseAmount + PROCESSING_FEE;
+      totalAmount = baseAmount + EXCHANGE_FEE;
     }
 
     // Convert to paisa (Khalti uses paisa as base unit)
     const amountInPaisa = totalAmount * 100;
     
-    // Create payment record with fee breakdown
+    // Create payment record
     const paymentRecord = await PaymentTransaction.create({
       productId: productId,
       productModel: productType,

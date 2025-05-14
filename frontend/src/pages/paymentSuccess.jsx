@@ -13,7 +13,6 @@ function PaymentSuccess() {
   useEffect(() => {
     const fetchPaymentDetails = async () => {
       try {
-        // Parse the query parameters from URL
         const params = new URLSearchParams(location.search);
         const pidx = params.get("purchase_order_id") || params.get("pidx");
         
@@ -25,7 +24,6 @@ function PaymentSuccess() {
         
         console.log("Fetching payment details for transaction ID:", pidx);
         
-        // Fetch payment details from your backend
         const response = await axios.get(`http://localhost:5000/api/payment/${pidx}`);
         
         if (response.data.success) {
@@ -44,14 +42,13 @@ function PaymentSuccess() {
     fetchPaymentDetails();
   }, [location.search]);
   
-  // Format date
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleString();
   };
   
-  // Format amount (converting paisa to rupees)
+
   const formatAmount = (amount) => {
-    return (amount / 100).toFixed(2);
+    return amount.toFixed(2);
   };
   
   if (loading) {
@@ -130,7 +127,7 @@ function PaymentSuccess() {
         <CardFooter className="flex justify-center space-x-4 pt-2">
 
           <Link to="/shop/home">
-            <Button>Go to Home</Button>
+            <Button className='text-white'>Go to Home</Button>
           </Link>
         </CardFooter>
       </Card>
