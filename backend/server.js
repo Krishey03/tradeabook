@@ -6,6 +6,8 @@ const authRouter = require('./routes/auth/auth-routes');
 const bcrypt = require('bcryptjs');
 const adminProductsRouter = require('./routes/admin/products-routes');
 const shopProductsRouter = require('./routes/shop/products-routes');
+const orderRoutes = require('./routes/shop/products-routes');
+const productRoutes = require("./routes/shop/products-routes");
 const http = require('http');
 const { Server } = require('socket.io');
 const { initializeKhaltiPayment, verifyKhaltiPayment } = require("./khalti");
@@ -14,8 +16,7 @@ const Product = require("./models/Product");
 const eProduct = require("./models/Exchange");
 const adminRoutes = require('./routes/admin/admin-routes');
 const PaymentTransaction = require('./models/paymentTransaction');
-const orderRoutes = require('./routes/shop/products-routes');
-const productRoutes = require("./routes/shop/products-routes");
+
 require('dotenv').config();
 
 const app = express();
@@ -25,7 +26,6 @@ const allowedOrigins = [
   "http://localhost:5173",
   "https://tradeabook.vercel.app",
   "https://tradeabook-git-main-bhattaraikrish478vercel-gmailcoms-projects.vercel.app",
-  "https://tradeabook-r7ayku6yq-bhattaraikrish478vercel-gmailcoms-projects.vercel.app"
 ];
 
 const io = require("socket.io")(server, {
@@ -42,24 +42,21 @@ mongoose
     .then(() => console.log('MongoDB Connected'))
     .catch((error) => console.log(error));
 
-const corsOptions = {
-  origin: function (origin, callback) {
-    if (!origin) return callback(null, true); // allow requests like Postman or server-to-server (no origin)
-    if (allowedOrigins.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-  methods: ["GET", "POST", "DELETE", "PUT", "PATCH"],
-  allowedHeaders: ["Content-Type", "Authorization", "Cache-Control", "Expires", "Pragma"],
-  credentials: true,
-};
+    const corsOptions = {
+      origin: function (origin, callback) {
+        if (!origin || allowedOrigins.includes(origin)) {
+          callback(null, true);
+        } else {
+          callback(new Error("Not allowed by CORS"));
+        }
+      },
+      methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+      credentials: true,
+    };
 
 
-
-app.use(express.json());
 app.use(cors(corsOptions));
+app.use(express.json());
 app.use(cookieParser());
 
 // Initialize Khalti payment for products
