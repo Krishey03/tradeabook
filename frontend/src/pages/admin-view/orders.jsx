@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import api from "@/api/api"
+import api from "@/api/axios"
 import { Loader2, Trash2, RefreshCw } from "lucide-react"
 
 function AdminOrders() {
