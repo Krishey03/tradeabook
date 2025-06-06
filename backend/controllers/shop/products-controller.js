@@ -417,13 +417,19 @@ const getUserExchangeOffers = async (req, res) => {
     try {
         const { userEmail } = req.params; 
 
-        // Modified query to filter out paid exchanges and only show accepted ones
         const userOffers = await eProduct.find({ 
             userEmail,
-            offerStatus: "accepted",  // Only accepted offers
-            paymentStatus: { $ne: "paid" }  // Exclude paid exchanges
+            offerStatus: "accepted",
+            paymentStatus: { $ne: "paid" }
         })
-        .populate('productId', 'title image') 
+        .populate({
+            path: 'productId',
+            select: 'title image sellerEmail sellerPhone',
+            populate: {
+                path: 'seller',
+                select: 'phone'
+            }
+            })
         .exec();
 
         if (!userOffers || userOffers.length === 0) {

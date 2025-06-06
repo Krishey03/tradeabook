@@ -477,19 +477,19 @@ function Checkout(productDetails) {
                       <Truck className="h-4 w-4" />
                       Delivery Fee
                     </span>
-                    <span className="font-medium">Rs. 50</span>
+                    <span className="font-medium">Rs. 25</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-600 flex items-center gap-1">
                       <ShieldCheck className="h-4 w-4" />
                       Service Fee
                     </span>
-                    <span className="font-medium">Rs. 25</span>
+                    <span className="font-medium">Rs. 5</span>
                   </div>
                   <Separator />
                   <div className="flex justify-between text-lg font-semibold">
                     <span>Total Amount</span>
-                    <span className="text-teal-600">Rs. {selectedBidItem.currentBid + 75}</span>
+                    <span className="text-teal-600">Rs. {selectedBidItem.currentBid + 30}</span>
                   </div>
                 </div>
               </div>
@@ -578,12 +578,12 @@ function Checkout(productDetails) {
                       <ShieldCheck className="h-4 w-4" />
                       Service Fee
                     </span>
-                    <span className="font-medium">Rs. 25</span>
+                    <span className="font-medium">Rs. 5</span>
                   </div>
                   <Separator />
                   <div className="flex justify-between text-lg font-semibold">
                     <span>Total Amount</span>
-                    <span className="text-teal-600">Rs. 75</span>
+                    <span className="text-teal-600">Rs. 55</span>
                   </div>
                 </div>
               </div>

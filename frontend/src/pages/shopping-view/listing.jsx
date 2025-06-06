@@ -67,7 +67,6 @@ function ShoppingListing() {
 
     return (
         <>
-            {/* Overlay when mobile sidebar is open */}
             {mobileSidebarOpen && (
                 <div
                     className="fixed inset-0 bg-black opacity-40 z-30 md:hidden"
@@ -172,7 +171,6 @@ function ShoppingListing() {
                     )}
                 </div>
 
-                {/* Product Details Dialog */}
                 <ProductDetailsDialog
                     open={openDetailsDialog}
                     setOpen={setOpenDetailsDialog}

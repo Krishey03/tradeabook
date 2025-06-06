@@ -189,7 +189,6 @@ function ProductDetailsDialog({ open, setOpen, productDetails, setProductDetails
       setIsExchangeSidebarOpen(false)
       toast.success("Exchange request sent!")
 
-      // Reset form data and image states after successful submission
       setExchangeFormData({})
       setExchangeImageFile(null)
       setExchangeUploadedImageUrl("")
@@ -409,7 +408,6 @@ function ProductDetailsDialog({ open, setOpen, productDetails, setProductDetails
         open={isExchangeSidebarOpen}
         onOpenChange={(open) => {
           if (!open) {
-            // Reset loading state when closing the sheet to prevent auto-upload
             setExchangeImageLoadingState(false)
           }
           setIsExchangeSidebarOpen(open)

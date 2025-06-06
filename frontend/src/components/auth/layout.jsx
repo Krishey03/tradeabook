@@ -5,9 +5,7 @@ import "@fontsource/inspiration"
 function AuthLayout() {
   return (
     <div className="flex min-h-screen w-full overflow-hidden bg-gray-50">
-      {/* Left Panel - Branding and Information */}
       <div className="hidden lg:flex flex-col w-2/5 bg-gradient-to-br from-[#7C8E76] via-[#819171] to-[#9CAF88] text-white relative overflow-hidden">
-        {/* Background pattern */}
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-0 left-0 right-0 h-full">
             {[...Array(20)].map((_, i) => (

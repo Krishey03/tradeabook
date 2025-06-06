@@ -51,9 +51,9 @@ app.use(cookieParser());
 app.post("/api/initialize-product-payment", async (req, res) => {
   try {
     const { productId, productType, website_url } = req.body;
-    const PROCESSING_FEE = 25;
-    const DELIVERY_FEE = 50;
-    const EXCHANGE_FEE = 75;
+    const PROCESSING_FEE = 5;
+    const DELIVERY_FEE = 25;
+    const EXCHANGE_FEE = 55;
     
     let productData;
     let productName;

@@ -237,7 +237,7 @@ const updateUserProfile = async (req, res) => {
             }
         });
     } catch (e) {
-        console.error("❌ Profile Update Error:", e);
+        console.error("Profile Update Error:", e);
         res.status(500).json({
             success: false,
             message: "An error occurred while updating profile.",

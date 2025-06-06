@@ -180,7 +180,7 @@ export const exchangeProductFormElements = [
   {
     label: "ISBN",
     name: "eIsbn",
-    componentType: "text",
+    componentType: "number",
     placeholder: "Enter ISBN number",
   },
   {
@@ -189,11 +189,13 @@ export const exchangeProductFormElements = [
     componentType: "text",
     placeholder: "Enter publisher name",
   },
-  {
+{
     label: "Publication Date",
     name: "ePublicationDate",
-    componentType: "text",
+    componentType: "input",
+    type: "date",
     placeholder: "Enter publication date",
+    onFocus: (e) => e.target.removeAttribute('readonly'),
   },
   {
     label: "Edition",

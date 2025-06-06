@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
 import { io } from "socket.io-client";
 
-// Connect to your backend WebSocket server
-const socket = io("http://localhost:5000"); // replace with your backend URL
+
+const socket = io("http://localhost:5000");
 
 const useExchangeOffers = (userEmail) => {
   const [incomingOffers, setIncomingOffers] = useState([]);
@@ -15,7 +15,6 @@ const useExchangeOffers = (userEmail) => {
   const [selectedOffer, setSelectedOffer] = useState(null);
   const [offerDetailsOpen, setOfferDetailsOpen] = useState(false);
 
-  // Fetch incoming offers
   const fetchIncomingOffers = async () => {
     setLoading((prev) => ({ ...prev, incoming: true }));
     try {
@@ -32,7 +31,6 @@ const useExchangeOffers = (userEmail) => {
     }
   };
 
-  // Fetch outgoing offers
   const fetchOutgoingOffers = async () => {
     setLoading((prev) => ({ ...prev, outgoing: true }));
     try {
@@ -56,10 +54,8 @@ const useExchangeOffers = (userEmail) => {
     fetchIncomingOffers();
     fetchOutgoingOffers();
 
-    // Join a room specific to the user's email
     socket.emit("joinRoom", userEmail);
 
-    // Listen for a new offer
     socket.on("newOffer", (offer) => {
       if (offer.receiverEmail === userEmail) {
         setIncomingOffers((prev) => [offer, ...prev]);
@@ -67,7 +63,6 @@ const useExchangeOffers = (userEmail) => {
       }
     });
 
-    // Listen for offer update (accepted/declined)
     socket.on("offerUpdated", (updatedOffer) => {
       setIncomingOffers((prev) =>
         prev.map((offer) =>
@@ -77,20 +72,17 @@ const useExchangeOffers = (userEmail) => {
       toast("An exchange offer was updated");
     });
 
-    // Optional cleanup
     return () => {
       socket.off("newOffer");
       socket.off("offerUpdated");
     };
   }, [userEmail]);
 
-  // View offer details
   const handleViewDetails = (offer) => {
     setSelectedOffer(offer);
     setOfferDetailsOpen(true);
   };
 
-  // Accept offer
   const handleAcceptOffer = async (offerId) => {
     try {
       const response = await fetch(
@@ -109,7 +101,6 @@ const useExchangeOffers = (userEmail) => {
 
       const data = await response.json();
 
-      // Update UI
       setIncomingOffers((prevOffers) =>
         prevOffers.map((offer) =>
           offer._id === offerId
@@ -126,7 +117,6 @@ const useExchangeOffers = (userEmail) => {
       toast.success("Exchange offer accepted!");
       setOfferDetailsOpen(false);
 
-      // Notify server (optional)
       socket.emit("offerAccepted", data.exchangeOffer);
     } catch (error) {
       console.error("Error accepting exchange offer:", error);
@@ -134,7 +124,6 @@ const useExchangeOffers = (userEmail) => {
     }
   };
 
-  // Reject offer
   const handleRejectOffer = async (offerId) => {
     try {
       const response = await fetch(
@@ -162,7 +151,6 @@ const useExchangeOffers = (userEmail) => {
       toast.success("Exchange offer declined");
       setOfferDetailsOpen(false);
 
-      // Optional: emit to server
       socket.emit("offerRejected", { offerId });
     } catch (error) {
       console.error("Error rejecting exchange offer:", error);

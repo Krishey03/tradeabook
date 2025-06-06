@@ -218,29 +218,34 @@ function HeaderRightContent() {
           ) : (
             <>
               {outgoingOffers.map((offer) => (
-                <DropdownMenuItem
-                  key={offer._id}
-                  className="flex flex-col items-start p-3 cursor-pointer hover:bg-slate-50 rounded-md focus:bg-slate-50 transition-colors"
-                  onClick={() => navigate(`/shop/exchange/${offer._id}`)}
-                >
-                  <div className="flex justify-between items-center w-full">
-                    <span className="font-medium text-sm">{offer.exchangeOffer?.eTitle || "Your Book Offer"}</span>
-                    <span
-                      className={`text-xs font-semibold px-2 py-1 rounded ${
-                        offer.offerStatus === "pending"
-                          ? "bg-amber-100 text-amber-800"
-                          : offer.offerStatus === "accepted"
-                            ? "bg-emerald-100 text-emerald-800"
-                            : "bg-rose-100 text-rose-800"
-                      }`}
-                    >
-                      {offer.offerStatus}
-                    </span>
-                  </div>
-                  <p className="text-xs text-slate-500 mt-1">
-                    To: {offer.productId?.seller || "Unknown"} • {new Date(offer.dateOffered).toLocaleDateString()}
-                  </p>
-                </DropdownMenuItem>
+    <DropdownMenuItem
+      key={offer._id}
+      className="flex flex-col items-start p-3 cursor-pointer hover:bg-slate-50 rounded-md focus:bg-slate-50 transition-colors"
+      onClick={() => navigate(`/shop/exchange/${offer._id}`)}
+    >
+      <div className="flex justify-between items-center w-full">
+        <span className="font-medium text-sm">
+          {offer.exchangeOffer?.eTitle || "Your Book Offer"}
+        </span>
+        <span
+          className={`text-xs font-semibold px-2 py-1 rounded ${
+            offer.offerStatus === "pending"
+              ? "bg-amber-100 text-amber-800"
+              : offer.offerStatus === "accepted"
+                ? "bg-emerald-100 text-emerald-800"
+                : "bg-rose-100 text-rose-800"
+          }`}
+        >
+          {offer.offerStatus}
+        </span>
+      </div>
+      <p className="text-xs text-slate-500 mt-1">
+        For: {productTitle}
+      </p>
+      <p className="text-xs text-slate-500">
+        To: {sellerEmail} • {new Date(offer.dateOffered).toLocaleDateString()}
+      </p>
+    </DropdownMenuItem>
               ))}
               <DropdownMenuSeparator />
             </>

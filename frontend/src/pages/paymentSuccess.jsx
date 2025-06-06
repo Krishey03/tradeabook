@@ -115,11 +115,6 @@ function PaymentSuccess() {
                 <p className="text-gray-600">Date:</p>
                 <p className="font-medium">{formatDate(paymentDetails.createdAt)}</p>
               </div>
-              
-              <div className="mt-6 pt-4 border-t border-gray-200">
-                <p className="text-sm text-gray-500 mb-1">A confirmation email has been sent to your registered email address.</p>
-                <p className="text-sm text-gray-500">Please keep this transaction ID for your reference.</p>
-              </div>
             </div>
           )}
         </CardContent>

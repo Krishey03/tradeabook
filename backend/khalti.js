@@ -1,8 +1,6 @@
 const axios = require("axios");
 require('dotenv').config();
 
-// Function to verify Khalti Payment
-// Debug the verification request
 async function verifyKhaltiPayment(pidx) {
   const headersList = {
     "Authorization": `Key ${process.env.KHALTI_SECRET_KEY}`,
