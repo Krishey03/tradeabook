@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet"
-import axios from "axios"
+import api from "@/api/axios"
 import { BookOpen, Loader2, Truck, ShieldCheck, MessageCircle, ArrowRight, CreditCard, RefreshCw } from "lucide-react"
 
 function Checkout(productDetails) {
@@ -68,7 +68,7 @@ function Checkout(productDetails) {
   const handleBidPayment = async (product) => {
     try {
       setPaymentLoading(true)
-      const response = await axios.post("http://localhost:5000/api/initialize-product-payment", {
+      const response = await api.post("http://localhost:5000/api/initialize-product-payment", {
         productId: product._id,
         productType: "Product",
         website_url: window.location.origin,
@@ -90,7 +90,7 @@ function Checkout(productDetails) {
   const handleExchangePayment = async (exchange) => {
     try {
       setPaymentLoading(true)
-      const response = await axios.post("http://localhost:5000/api/initialize-product-payment", {
+      const response = await api.post("http://localhost:5000/api/initialize-product-payment", {
         productId: exchange._id,
         productType: "eProduct",
         website_url: window.location.origin,

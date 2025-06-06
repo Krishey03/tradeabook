@@ -1,10 +1,10 @@
 // redux/slices/userSlice.js
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import api from '@/api/axios';
 
 // Async thunk to fetch users
 export const getUsers = createAsyncThunk('/users/fetch', async () => {
-    const res = await axios.get('http://localhost:5000/api/admin/users', {
+    const res = await api.get('http://localhost:5000/api/admin/users', {
         withCredentials: true,
     });
     console.log("?? Received users from API:", res.data);

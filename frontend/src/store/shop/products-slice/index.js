@@ -1,6 +1,6 @@
 import {createSlice} from '@reduxjs/toolkit'
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import api from '@/api/axios';
 
 
 
@@ -12,7 +12,7 @@ const initialState={
 
 export const fetchAllUserProducts = createAsyncThunk('/products/fetchAllProducts', 
     async ()=>{
-        const result = await axios.get('http://localhost:5000/api/shop/products/get')
+        const result = await api.get('http://localhost:5000/api/shop/products/get')
         return result?.data
     }
 
@@ -20,7 +20,7 @@ export const fetchAllUserProducts = createAsyncThunk('/products/fetchAllProducts
 
 export const fetchProductDetails = createAsyncThunk('/products/fetchProductDetails', 
     async (id)=>{
-        const result = await axios.get(`http://localhost:5000/api/shop/products/get/${id}`)
+        const result = await api.get(`http://localhost:5000/api/shop/products/get/${id}`)
         return result?.data
     }
 

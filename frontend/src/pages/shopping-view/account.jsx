@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '@/api/axios';
 import Cookies from 'js-cookie';
 import { Edit, Phone, MapPin, User, Lock } from 'lucide-react';
 
@@ -25,7 +25,7 @@ function ShoppingAccount() {
     const fetchUserProfile = async () => {
         try {
             const token = Cookies.get('token');
-            const response = await axios.get('http://localhost:5000/api/auth/profile', {
+            const response = await api.get('http://localhost:5000/api/auth/profile', {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -66,7 +66,7 @@ function ShoppingAccount() {
                 newPassword: newPassword || undefined
             };
 
-            const response = await axios.put(
+            const response = await api.put(
                 'http://localhost:5000/api/auth/profile',
                 updateData,
                 {

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation, Link } from "react-router-dom";
 import { Card, CardHeader, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import axios from "axios";
+import api from "@/api/axios";
 
 function PaymentSuccess() {
   const [paymentDetails, setPaymentDetails] = useState(null);
@@ -24,7 +24,7 @@ function PaymentSuccess() {
         
         console.log("Fetching payment details for transaction ID:", pidx);
         
-        const response = await axios.get(`http://localhost:5000/api/payment/${pidx}`);
+        const response = await api.get(`http://localhost:5000/api/payment/${pidx}`);
         
         if (response.data.success) {
           setPaymentDetails(response.data.payment);

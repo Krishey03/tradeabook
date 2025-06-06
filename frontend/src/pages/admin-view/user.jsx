@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { getUsers } from "../../store/admin/user-slice/index"
-import axios from "axios"
+import api from "@/api/axios"
 import { TicketX, CheckCircle, Search, RefreshCw, UserCog, Users } from "lucide-react"
 
 function AdminUser() {
@@ -17,7 +17,7 @@ function AdminUser() {
 
   const toggleBlock = async (id) => {
     try {
-      await axios.put(`http://localhost:5000/api/admin/users/${id}/block`, {}, { withCredentials: true })
+      await api.put(`http://localhost:5000/api/admin/users/${id}/block`, {}, { withCredentials: true })
       dispatch(getUsers())
     } catch (err) {
       console.error("Error toggling block status:", err)

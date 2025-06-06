@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import axios from "axios"
+import api from "@/api/axios"
 import { useSelector } from "react-redux"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Card, CardHeader, CardContent, CardTitle, CardDescription, CardFooter } from "@/components/ui/card"
@@ -34,7 +34,7 @@ function UserOrders() {
           throw new Error("Authentication required")
         }
 
-        const response = await axios.get(`http://localhost:5000/api/shop/orders/${user.email}`)
+        const response = await api.get(`http://localhost:5000/api/shop/orders/${user.email}`)
 
         if (!response.data?.success) {
           throw new Error(response.data?.message || "Invalid response format")
