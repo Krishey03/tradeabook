@@ -26,6 +26,7 @@ const allowedOrigins = [
   "http://localhost:5173",
   "https://tradeabook.vercel.app",
   "https://tradeabook-git-main-bhattaraikrish478vercel-gmailcoms-projects.vercel.app",
+  "https://tradeabook-ldjrnapat-bhattaraikrish478vercel-gmailcoms-projects.vercel.app",
 ];
 
 const io = require("socket.io")(server, {
@@ -251,6 +252,9 @@ app.use("/api/shop/products", productRoutes);
 app.use('/api/shop/orders', orderRoutes);
 
 app.set('io', io);
+io.on("connection", (socket) => {
+  console.log("A user connected:", socket.id);
+});
 app.options('*', cors(corsOptions));
 
 server.listen(PORT, () => console.log(`Server is now running on port ${PORT}`));
