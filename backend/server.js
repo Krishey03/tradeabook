@@ -263,12 +263,12 @@ app.get("/api/payment/:paymentId", async (req, res) => {
 });
 
 
-app.use("/api/auth", authRouter);
-app.use('/api/admin/products', adminProductsRouter);
-app.use('/api/shop/products', shopProductsRouter);
-app.use('/api/admin', adminRoutes);
-app.use("/api/shop/products", productRoutes);
-app.use('/api/shop/orders', orderRoutes);
+app.use("/auth", authRouter);
+app.use('/admin/products', adminProductsRouter);
+app.use('/shop/products', shopProductsRouter);
+app.use('/admin', adminRoutes);
+app.use("/shop/products", productRoutes);
+app.use('/shop/orders', orderRoutes);
 
 app.set('io', io);
 app.options('*', cors(corsOptions));
