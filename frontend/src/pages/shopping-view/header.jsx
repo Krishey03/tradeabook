@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { logoutUser } from "@/store/auth-slice"
+import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 
 function MenuItems({ closeMenu }) {
   const location = useLocation()
@@ -55,6 +56,7 @@ function HeaderRightContent() {
 
   const { incomingOffers, outgoingOffers, loading } = useExchangeOffers(user?.email)
 
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const [incomingOpen, setIncomingOpen] = useState(false)
   const [outgoingOpen, setOutgoingOpen] = useState(false)
   const [hasNewIncoming, setHasNewIncoming] = useState(false)
@@ -90,10 +92,18 @@ function HeaderRightContent() {
     }
   }, [outgoingOpen, outgoingOffers.length, hasNewOutgoing])
 
-  function handleLogout() {
-    if (window.confirm("Are you sure you want to log out?")) {
-      dispatch(logoutUser())
-    }
+  function handleLogoutClick() {
+    setShowLogoutConfirm(true)
+  }
+
+  function confirmLogout() {
+    setShowLogoutConfirm(false)
+    dispatch(logoutUser())
+    navigate("/") // optional: redirect after logout
+  }
+
+  function cancelLogout() {
+    setShowLogoutConfirm(false)
   }
 
   return (
@@ -243,7 +253,7 @@ function HeaderRightContent() {
         For: {productTitle}
       </p>
       <p className="text-xs text-slate-500">
-        To: {sellerEmail} • {new Date(offer.dateOffered).toLocaleDateString()}
+        To: {sellerEmail} {new Date(offer.dateOffered).toLocaleDateString()}
       </p>
     </DropdownMenuItem>
               ))}
@@ -332,14 +342,36 @@ function HeaderRightContent() {
 
           <DropdownMenuSeparator />
           <DropdownMenuItem
-            onClick={handleLogout}
-            className="flex items-center gap-2 p-2 m-1 rounded-md cursor-pointer text-rose-600 hover:bg-rose-50 focus:bg-rose-50 transition-colors"
+            onClick={handleLogoutClick}
+            className="flex items-center 
+            gap-2 p-2 m-1 
+            rounded-md cursor-pointer 
+            text-rose-600 hover:bg-rose-50 
+            focus:bg-rose-50 transition-colors"
           >
             <LogOut className="h-4 w-4" />
             <span>Logout</span>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
+            {showLogoutConfirm && (
+              <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+                <Card className="w-[320px]">
+                  <CardHeader>
+                    <h3 className="text-lg font-semibold">Confirm Logout</h3>
+                  </CardHeader>
+                  <CardContent>Are you sure you want to log out?</CardContent>
+                  <CardFooter className="flex justify-end gap-2">
+                    <Button variant="ghost" onClick={cancelLogout}>
+                      Cancel
+                    </Button>
+                    <Button variant="destructive" onClick={confirmLogout}>
+                      Logout
+                    </Button>
+                  </CardFooter>
+                </Card>
+              </div>
+            )}
     </div>
   )
 }
