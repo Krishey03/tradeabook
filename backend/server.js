@@ -20,18 +20,11 @@ require('dotenv').config();
 
 const app = express();
 const server = http.createServer(app);
-const io = new Server(server, {
-    cors: {
-      origin: [
-        "http://localhost:5173", // local dev frontend
-        "https://tradeabook.vercel.app", // main Vercel domain
-        "https://tradeabook-git-main-bhattaraikrish478vercel-gmailcoms-projects.vercel.app",
-        "https://tradeabook-r7ayku6yq-bhattaraikrish478vercel-gmailcoms-projects.vercel.app"
-      ],
-        methods: ["GET", "POST"],
-        allowedHeaders: ["Content-Type", "Authorization"],
-        credentials: true,
-    },
+const io = require("socket.io")(server, {
+  cors: {
+    origin: allowedOrigins,
+    credentials: true,
+  },
 });
 
 const PORT = process.env.PORT || 5000;
@@ -41,12 +34,28 @@ mongoose
     .then(() => console.log('MongoDB Connected'))
     .catch((error) => console.log(error));
 
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://tradeabook.vercel.app",
+  "https://tradeabook-git-main-bhattaraikrish478vercel-gmailcoms-projects.vercel.app",
+  "https://tradeabook-r7ayku6yq-bhattaraikrish478vercel-gmailcoms-projects.vercel.app"
+];
+
 const corsOptions = {
-    origin: "http://localhost:5173",
-    methods: ["GET", "POST", "DELETE", "PUT", "PATCH"],
-    allowedHeaders: ["Content-Type", "Authorization", "Cache-Control", "Expires", "Pragma"],
-    credentials: true,
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true); // allow requests like Postman or server-to-server (no origin)
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  methods: ["GET", "POST", "DELETE", "PUT", "PATCH"],
+  allowedHeaders: ["Content-Type", "Authorization", "Cache-Control", "Expires", "Pragma"],
+  credentials: true,
 };
+
+
 
 app.use(express.json());
 app.use(cors(corsOptions));
