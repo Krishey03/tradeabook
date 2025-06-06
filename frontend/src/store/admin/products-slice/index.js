@@ -9,7 +9,7 @@ const initialState={
 
 export const addNewProduct = createAsyncThunk('/products/addnewproduct', 
     async (formData)=>{
-        const result = await api.post('http://localhost:5000/api/admin/products/add', formData, {
+        const result = await api.post('/api/admin/products/add', formData, {
             headers: {
                 'Content-Type' : 'application/json'
             }
@@ -22,7 +22,7 @@ export const addNewProduct = createAsyncThunk('/products/addnewproduct',
 
 export const fetchAllProducts = createAsyncThunk('/products/fetchAllProducts', 
     async ()=>{
-        const result = await api.get('http://localhost:5000/api/admin/products/get')
+        const result = await api.get('/api/admin/products/get')
         return result?.data
     }
 
@@ -30,7 +30,7 @@ export const fetchAllProducts = createAsyncThunk('/products/fetchAllProducts',
 
 export const editProduct = createAsyncThunk('/products/editProduct', 
     async ({id, formData})=>{
-        const result = await api.put(`http://localhost:5000/api/admin/products/edit/${id}`, formData, {
+        const result = await api.put(`/api/admin/products/edit/${id}`, formData, {
             headers: {
                 'Content-Type' : 'application/json'
             }
@@ -43,7 +43,7 @@ export const editProduct = createAsyncThunk('/products/editProduct',
 
 export const deleteProduct = createAsyncThunk('/products/deleteProduct', 
     async (id)=>{
-        const result = await api.delete(`http://localhost:5000/api/admin/products/delete/${id}`)
+        const result = await api.delete(`/api/admin/products/delete/${id}`)
 
         return result?.data
     }

@@ -24,7 +24,7 @@ function PaymentSuccess() {
         
         console.log("Fetching payment details for transaction ID:", pidx);
         
-        const response = await api.get(`http://localhost:5000/api/payment/${pidx}`);
+        const response = await api.get(`/api/payment/${pidx}`);
         
         if (response.data.success) {
           setPaymentDetails(response.data.payment);

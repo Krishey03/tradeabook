@@ -30,7 +30,7 @@ function Checkout(productDetails) {
 
     const fetchCartItems = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/api/shop/products/cart/${email}`)
+        const response = await fetch(`/api/shop/products/cart/${email}`)
         const data = await response.json()
         setCartItems(data.data || [])
       } catch (error) {
@@ -40,7 +40,7 @@ function Checkout(productDetails) {
 
     const fetchSellerExchanges = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/api/shop/products/exchangeOffers/${email}`)
+        const response = await fetch(`/api/shop/products/exchangeOffers/${email}`)
         const data = await response.json()
         const accepted = data.data.filter((offer) => offer.offerStatus === "accepted")
         setAcceptedExchanges(accepted)
@@ -51,7 +51,7 @@ function Checkout(productDetails) {
 
     const fetchUserExchanges = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/api/shop/products/exchangeOffers/user/${email}`)
+        const response = await fetch(`/api/shop/products/exchangeOffers/user/${email}`)
         const data = await response.json()
         const accepted = data.data.filter((offer) => offer.offerStatus === "accepted")
         setUserExchanges(accepted)
@@ -68,7 +68,7 @@ function Checkout(productDetails) {
   const handleBidPayment = async (product) => {
     try {
       setPaymentLoading(true)
-      const response = await api.post("http://localhost:5000/api/initialize-product-payment", {
+      const response = await api.post("/api/initialize-product-payment", {
         productId: product._id,
         productType: "Product",
         website_url: window.location.origin,
@@ -90,7 +90,7 @@ function Checkout(productDetails) {
   const handleExchangePayment = async (exchange) => {
     try {
       setPaymentLoading(true)
-      const response = await api.post("http://localhost:5000/api/initialize-product-payment", {
+      const response = await api.post("/api/initialize-product-payment", {
         productId: exchange._id,
         productType: "eProduct",
         website_url: window.location.origin,

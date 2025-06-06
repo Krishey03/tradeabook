@@ -25,7 +25,7 @@ function ShoppingAccount() {
     const fetchUserProfile = async () => {
         try {
             const token = Cookies.get('token');
-            const response = await api.get('http://localhost:5000/api/auth/profile', {
+            const response = await api.get('/api/auth/profile', {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -67,7 +67,7 @@ function ShoppingAccount() {
             };
 
             const response = await api.put(
-                'http://localhost:5000/api/auth/profile',
+                '/api/auth/profile',
                 updateData,
                 {
                     headers: {

@@ -10,7 +10,7 @@ function ShoppingUploads() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await api.get("http://localhost:5000/api/shop/products/get");
+        const res = await api.get("/api/shop/products/get");
         console.log("Response from backend:", res.data);
 
         const allProducts = res.data?.data;

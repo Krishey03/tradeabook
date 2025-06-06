@@ -17,7 +17,7 @@ function AdminUser() {
 
   const toggleBlock = async (id) => {
     try {
-      await api.put(`http://localhost:5000/api/admin/users/${id}/block`, {}, { withCredentials: true })
+      await api.put(`/api/admin/users/${id}/block`, {}, { withCredentials: true })
       dispatch(getUsers())
     } catch (err) {
       console.error("Error toggling block status:", err)

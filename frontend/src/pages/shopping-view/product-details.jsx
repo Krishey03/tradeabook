@@ -42,7 +42,10 @@ function ProductDetailsDialog({ open, setOpen, productDetails, setProductDetails
 
   useEffect(() => {
     if (!socket) {
-      socket = io("http://localhost:5000")
+      const socket = io(import.meta.env.VITE_API_URL, {
+      withCredentials: true,
+    });
+
 
       socket.on("newBid", (data) => {
         if (data.productId === productDetails?._id) {

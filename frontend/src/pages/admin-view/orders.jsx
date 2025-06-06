@@ -20,7 +20,7 @@ function AdminOrders() {
   useEffect(() => {
     const fetchExchanges = async () => {
       try {
-        const response = await api.get("http://localhost:5000/api/admin/exchanges")
+        const response = await api.get("/api/admin/exchanges")
         setExchanges(response.data)
       } catch (err) {
         setError(err.response?.data?.message || "Failed to load exchanges")
@@ -33,7 +33,7 @@ function AdminOrders() {
 
   const handleDelete = async (exchangeId) => {
     try {
-      await api.delete(`http://localhost:5000/api/admin/exchanges/${exchangeId}`)
+      await api.delete(`/api/admin/exchanges/${exchangeId}`)
       setExchanges(exchanges.filter((exchange) => exchange._id !== exchangeId))
     } catch (err) {
       setError(err.response?.data?.message || "Failed to delete exchange")
@@ -43,7 +43,7 @@ function AdminOrders() {
   const refreshData = async () => {
     setLoading(true)
     try {
-      const response = await api.get("http://localhost:5000/api/admin/exchanges")
+      const response = await api.get("/api/admin/exchanges")
       setExchanges(response.data)
       setError(null)
     } catch (err) {
