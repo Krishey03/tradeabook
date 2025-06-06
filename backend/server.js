@@ -36,6 +36,10 @@ const io = require("socket.io")(server, {
   },
 });
 
+io.on("connection", (socket) => {
+  console.log("A user connected:", socket.id);
+});
+
 const PORT = process.env.PORT || 5000;
 
 mongoose
@@ -252,9 +256,6 @@ app.use("/api/shop/products", productRoutes);
 app.use('/api/shop/orders', orderRoutes);
 
 app.set('io', io);
-io.on("connection", (socket) => {
-  console.log("A user connected:", socket.id);
-});
 app.options('*', cors(corsOptions));
 
 server.listen(PORT, () => console.log(`Server is now running on port ${PORT}`));
