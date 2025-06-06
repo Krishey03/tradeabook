@@ -22,10 +22,12 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
     cors: {
-          origin: [
-            "http://localhost:5173",
-            "https://tradeabook-production.up.railway.app",
-          ],
+      origin: [
+        "http://localhost:5173", // local dev frontend
+        "https://tradeabook.vercel.app", // main Vercel domain
+        "https://tradeabook-git-main-bhattaraikrish478vercel-gmailcoms-projects.vercel.app",
+        "https://tradeabook-r7ayku6yq-bhattaraikrish478vercel-gmailcoms-projects.vercel.app"
+      ],
         methods: ["GET", "POST"],
         allowedHeaders: ["Content-Type", "Authorization"],
         credentials: true,
