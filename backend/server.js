@@ -27,6 +27,8 @@ const allowedOrigins = [
   "https://tradeabook.vercel.app",
   "https://tradeabook-git-main-bhattaraikrish478vercel-gmailcoms-projects.vercel.app",
   "https://tradeabook-ldjrnapat-bhattaraikrish478vercel-gmailcoms-projects.vercel.app",
+  "https://tradeabook-7445mtljf-bhattaraikrish478vercel-gmailcoms-projects.vercel.app",
+  /\.vercel\.app$/,
 ];
 
 const io = require("socket.io")(server, {
@@ -49,7 +51,20 @@ mongoose
 
     const corsOptions = {
       origin: function (origin, callback) {
-        if (!origin || allowedOrigins.includes(origin)) {
+        // Allow requests with no origin (like mobile apps or curl requests)
+        if (!origin) return callback(null, true);
+        
+        // Check against allowed origins and regex patterns
+        if (
+          allowedOrigins.some(allowedOrigin => {
+            if (typeof allowedOrigin === 'string') {
+              return origin === allowedOrigin;
+            } else if (allowedOrigin instanceof RegExp) {
+              return allowedOrigin.test(origin);
+            }
+            return false;
+          })
+        ) {
           callback(null, true);
         } else {
           callback(new Error("Not allowed by CORS"));
