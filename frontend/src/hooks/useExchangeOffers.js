@@ -3,7 +3,9 @@ import { toast } from "react-hot-toast";
 import { io } from "socket.io-client";
 
 
-const socket = io("http://localhost:5000");
+const socket = io(import.meta.env.VITE_API_URL, {
+  withCredentials: true,
+});
 
 const useExchangeOffers = (userEmail) => {
   const [incomingOffers, setIncomingOffers] = useState([]);
@@ -19,7 +21,7 @@ const useExchangeOffers = (userEmail) => {
     setLoading((prev) => ({ ...prev, incoming: true }));
     try {
       const response = await fetch(
-        `http://localhost:5000/api/shop/products/exchangeOffers/${userEmail}`
+        `/api/shop/products/exchangeOffers/${userEmail}`
       );
       const data = await response.json();
       setIncomingOffers(data.data || []);
@@ -35,7 +37,7 @@ const useExchangeOffers = (userEmail) => {
     setLoading((prev) => ({ ...prev, outgoing: true }));
     try {
       const response = await fetch(
-        `http://localhost:5000/api/shop/products/exchangeOffers/user/${userEmail}`
+        `/api/shop/products/exchangeOffers/user/${userEmail}`
       );
       const data = await response.json();
       setOutgoingOffers(data.data || []);
@@ -86,7 +88,7 @@ const useExchangeOffers = (userEmail) => {
   const handleAcceptOffer = async (offerId) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/shop/products/exchangeOffers/accept/${offerId}`,
+        `/api/shop/products/exchangeOffers/accept/${offerId}`,
         {
           method: "PUT",
           headers: {
@@ -127,7 +129,7 @@ const useExchangeOffers = (userEmail) => {
   const handleRejectOffer = async (offerId) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/shop/products/exchangeOffers/${offerId}`,
+        `/api/shop/products/exchangeOffers/${offerId}`,
         {
           method: "PATCH",
           headers: {

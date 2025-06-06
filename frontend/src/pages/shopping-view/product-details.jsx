@@ -84,7 +84,7 @@ function ProductDetailsDialog({ open, setOpen, productDetails, setProductDetails
     }
 
     try {
-      const response = await fetch("http://localhost:5000/api/shop/products/placeBid", {
+      const response = await fetch("/api/shop/products/placeBid", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -169,7 +169,7 @@ function ProductDetailsDialog({ open, setOpen, productDetails, setProductDetails
     }
 
     try {
-      const response = await fetch("http://localhost:5000/api/shop/products/offerExchange", {
+      const response = await fetch("/api/shop/products/offerExchange", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
