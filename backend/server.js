@@ -20,6 +20,14 @@ require('dotenv').config();
 
 const app = express();
 const server = http.createServer(app);
+
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://tradeabook.vercel.app",
+  "https://tradeabook-git-main-bhattaraikrish478vercel-gmailcoms-projects.vercel.app",
+  "https://tradeabook-r7ayku6yq-bhattaraikrish478vercel-gmailcoms-projects.vercel.app"
+];
+
 const io = require("socket.io")(server, {
   cors: {
     origin: allowedOrigins,
@@ -33,13 +41,6 @@ mongoose
     .connect('mongodb+srv://dbuser:test123@cluster0.nwtjx.mongodb.net/')
     .then(() => console.log('MongoDB Connected'))
     .catch((error) => console.log(error));
-
-const allowedOrigins = [
-  "http://localhost:5173",
-  "https://tradeabook.vercel.app",
-  "https://tradeabook-git-main-bhattaraikrish478vercel-gmailcoms-projects.vercel.app",
-  "https://tradeabook-r7ayku6yq-bhattaraikrish478vercel-gmailcoms-projects.vercel.app"
-];
 
 const corsOptions = {
   origin: function (origin, callback) {
