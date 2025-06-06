@@ -2,34 +2,56 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
-const authRouter = require('./routes/auth/auth-routes');
-const bcrypt = require('bcryptjs');
-const adminProductsRouter = require('./routes/admin/products-routes');
-const shopProductsRouter = require('./routes/shop/products-routes');
-const orderRoutes = require('./routes/shop/products-routes');
-const productRoutes = require("./routes/shop/products-routes");
 const http = require('http');
 const { Server } = require('socket.io');
-const { initializeKhaltiPayment, verifyKhaltiPayment } = require("./khalti");
+require('dotenv').config();
+
+// Routers
+const authRouter = require('./routes/auth/auth-routes');
+const adminProductsRouter = require('./routes/admin/products-routes');
+const shopProductsRouter = require('./routes/shop/products-routes');
+const orderRoutes = require('./routes/shop/order-routes');
+const adminRoutes = require('./routes/admin/admin-routes');
+
+// Models
 const Payment = require("./models/paymentModel");
 const Product = require("./models/Product");
 const eProduct = require("./models/Exchange");
-const adminRoutes = require('./routes/admin/admin-routes');
 const PaymentTransaction = require('./models/paymentTransaction');
 
-require('dotenv').config();
+// Khalti
+const { initializeKhaltiPayment, verifyKhaltiPayment } = require("./khalti");
 
 const app = express();
 const server = http.createServer(app);
 
+// Allowed origins for frontend
 const allowedOrigins = [
   "http://localhost:5173",
   "https://tradeabook.vercel.app",
   "https://tradeabook-git-main-bhattaraikrish478vercel-gmailcoms-projects.vercel.app",
   "https://tradeabook-ldjrnapat-bhattaraikrish478vercel-gmailcoms-projects.vercel.app",
+  "https://tradeabook-7445mtljf-bhattaraikrish478vercel-gmailcoms-projects.vercel.app"
 ];
 
-const io = require("socket.io")(server, {
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
+app.use(express.json());
+app.use(cookieParser());
+
+// Socket.IO setup
+const io = new Server(server, {
   cors: {
     origin: allowedOrigins,
     credentials: true,
@@ -40,29 +62,7 @@ io.on("connection", (socket) => {
   console.log("A user connected:", socket.id);
 });
 
-const PORT = process.env.PORT || 5000;
-
-mongoose
-    .connect('mongodb+srv://dbuser:test123@cluster0.nwtjx.mongodb.net/')
-    .then(() => console.log('MongoDB Connected'))
-    .catch((error) => console.log(error));
-
-    const corsOptions = {
-      origin: function (origin, callback) {
-        if (!origin || allowedOrigins.includes(origin)) {
-          callback(null, true);
-        } else {
-          callback(new Error("Not allowed by CORS"));
-        }
-      },
-      methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
-      credentials: true,
-    };
-
-
-app.use(cors(corsOptions));
-app.use(express.json());
-app.use(cookieParser());
+app.set('io', io);
 
 // Initialize Khalti payment for products
 app.post("/api/initialize-product-payment", async (req, res) => {
@@ -248,14 +248,13 @@ app.get("/api/payment/:paymentId", async (req, res) => {
 });
 
 
-app.use("/api/auth", authRouter);
-app.use('/api/admin/products', adminProductsRouter);
-app.use('/api/shop/products', shopProductsRouter);
-app.use('/api/admin', adminRoutes);
-app.use("/api/shop/products", productRoutes);
-app.use('/api/shop/orders', orderRoutes);
+// Routes
+app.use("/auth", authRouter);
+app.use("/admin/products", adminProductsRouter);
+app.use("/shop/products", shopProductsRouter);
+app.use("/admin", adminRoutes);
+app.use("/shop/orders", orderRoutes);
 
-app.set('io', io);
-app.options('*', cors(corsOptions));
-
+// Start server
+const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => console.log(`Server is now running on port ${PORT}`));
