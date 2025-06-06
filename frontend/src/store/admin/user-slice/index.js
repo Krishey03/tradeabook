@@ -4,7 +4,7 @@ import api from '@/api/axios';
 
 // Async thunk to fetch users
 export const getUsers = createAsyncThunk('/users/fetch', async () => {
-    const res = await api.get('/api/admin/users', {
+    const res = await api.get('/admin/users', {
         withCredentials: true,
     });
     console.log("?? Received users from API:", res.data);

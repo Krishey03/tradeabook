@@ -21,7 +21,7 @@ const useExchangeOffers = (userEmail) => {
     setLoading((prev) => ({ ...prev, incoming: true }));
     try {
       const response = await fetch(
-        `/api/shop/products/exchangeOffers/${userEmail}`
+        `/shop/products/exchangeOffers/${userEmail}`
       );
       const data = await response.json();
       setIncomingOffers(data.data || []);
@@ -37,7 +37,7 @@ const useExchangeOffers = (userEmail) => {
     setLoading((prev) => ({ ...prev, outgoing: true }));
     try {
       const response = await fetch(
-        `/api/shop/products/exchangeOffers/user/${userEmail}`
+        `/shop/products/exchangeOffers/user/${userEmail}`
       );
       const data = await response.json();
       setOutgoingOffers(data.data || []);
@@ -88,7 +88,7 @@ const useExchangeOffers = (userEmail) => {
   const handleAcceptOffer = async (offerId) => {
     try {
       const response = await fetch(
-        `/api/shop/products/exchangeOffers/accept/${offerId}`,
+        `/shop/products/exchangeOffers/accept/${offerId}`,
         {
           method: "PUT",
           headers: {
@@ -129,7 +129,7 @@ const useExchangeOffers = (userEmail) => {
   const handleRejectOffer = async (offerId) => {
     try {
       const response = await fetch(
-        `/api/shop/products/exchangeOffers/${offerId}`,
+        `/shop/products/exchangeOffers/${offerId}`,
         {
           method: "PATCH",
           headers: {

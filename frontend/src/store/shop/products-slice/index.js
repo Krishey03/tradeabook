@@ -12,7 +12,7 @@ const initialState={
 
 export const fetchAllUserProducts = createAsyncThunk('/products/fetchAllProducts', 
     async ()=>{
-        const result = await api.get('/api/shop/products/get')
+        const result = await api.get('/shop/products/get')
         return result?.data
     }
 
@@ -20,7 +20,7 @@ export const fetchAllUserProducts = createAsyncThunk('/products/fetchAllProducts
 
 export const fetchProductDetails = createAsyncThunk('/products/fetchProductDetails', 
     async (id)=>{
-        const result = await api.get(`/api/shop/products/get/${id}`)
+        const result = await api.get(`/shop/products/get/${id}`)
         return result?.data
     }
 

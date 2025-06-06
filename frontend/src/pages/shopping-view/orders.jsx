@@ -34,7 +34,7 @@ function UserOrders() {
           throw new Error("Authentication required")
         }
 
-        const response = await api.get(`/api/shop/orders/${user.email}`)
+        const response = await api.get(`/shop/orders/${user.email}`)
 
         if (!response.data?.success) {
           throw new Error(response.data?.message || "Invalid response format")
