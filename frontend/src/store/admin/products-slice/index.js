@@ -7,7 +7,7 @@ const initialState={
     productList: []
 }
 
-export const addNewProduct = createAsyncThunk('/products/addnewproduct', 
+export const addNewProduct = createAsyncThunk('/admin/products/addnewproduct', 
     async (formData)=>{
         const result = await api.post('/admin/products/add', formData, {
             headers: {
@@ -20,7 +20,7 @@ export const addNewProduct = createAsyncThunk('/products/addnewproduct',
 
 )
 
-export const fetchAllProducts = createAsyncThunk('/products/fetchAllProducts', 
+export const fetchAllProducts = createAsyncThunk('/admin/products/fetchAllProducts', 
     async ()=>{
         const result = await api.get('/admin/products/get')
         return result?.data
@@ -28,7 +28,7 @@ export const fetchAllProducts = createAsyncThunk('/products/fetchAllProducts',
 
 )
 
-export const editProduct = createAsyncThunk('/products/editProduct', 
+export const editProduct = createAsyncThunk('/admin/products/editProduct', 
     async ({id, formData})=>{
         const result = await api.put(`/admin/products/edit/${id}`, formData, {
             headers: {
@@ -41,7 +41,7 @@ export const editProduct = createAsyncThunk('/products/editProduct',
 
 )
 
-export const deleteProduct = createAsyncThunk('/products/deleteProduct', 
+export const deleteProduct = createAsyncThunk('/admin/products/deleteProduct', 
     async (id)=>{
         const result = await api.delete(`/admin/products/delete/${id}`)
 

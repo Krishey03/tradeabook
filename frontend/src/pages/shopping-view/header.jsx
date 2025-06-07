@@ -109,7 +109,7 @@ function HeaderRightContent() {
   return (
     <div className="flex lg:items-center lg:flex-row flex-col gap-x-3 gap-y-4">
       {/* Incoming Exchange Offers Dropdown */}
-      <DropdownMenu open={incomingOpen} onOpenChange={setIncomingOpen}>
+      {/* <DropdownMenu open={incomingOpen} onOpenChange={setIncomingOpen}>
         <DropdownMenuTrigger asChild>
           <Button
             variant="outline"
@@ -181,10 +181,10 @@ function HeaderRightContent() {
             </>
           )}
         </DropdownMenuContent>
-      </DropdownMenu>
+      </DropdownMenu> */}
 
       {/* Outgoing Exchange Offers Dropdown */}
-      <DropdownMenu open={outgoingOpen} onOpenChange={setOutgoingOpen}>
+      {/* <DropdownMenu open={outgoingOpen} onOpenChange={setOutgoingOpen}>
         <DropdownMenuTrigger asChild>
           <Button
             variant="outline"
@@ -261,7 +261,7 @@ function HeaderRightContent() {
             </>
           )}
         </DropdownMenuContent>
-      </DropdownMenu>
+      </DropdownMenu> */}
 
       {/* My Uploads */}
       <Button

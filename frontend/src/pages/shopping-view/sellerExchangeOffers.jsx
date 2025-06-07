@@ -1,24 +1,41 @@
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogTitle, DialogHeader } from "@/components/ui/dialog";
-import { toast } from "react-hot-toast";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogHeader,
+} from "@/components/ui/dialog";
 import useExchangeOffers from "@/hooks/useExchangeOffers";
 
+// Check if offer is expired (2 days after auction end)
+const isOfferExpired = (productEndTime) => {
+  if (!productEndTime) return false;
+  const expirationDate = new Date(productEndTime);
+  expirationDate.setDate(expirationDate.getDate() + 2);
+  return new Date() > expirationDate;
+};
+
+// Disable accept if auction ended (regardless of bids)
 const isAcceptDisabled = (product) => {
   if (!product) return false;
-  const biddingEnded = new Date(product.endTime) < new Date();
-  const hasBids = !!product.bidderEmail;
-  return biddingEnded && hasBids;
+  const auctionEnded = new Date(product.endTime) < new Date();
+  return auctionEnded;
 };
 
 function SellerExchangeOffers() {
   const userEmail = useSelector((state) => state.auth.user?.email);
 
   const {
-    incomingOffers, 
-    outgoingOffers, 
+    incomingOffers,
+    outgoingOffers,
     loading,
     selectedOffer,
     offerDetailsOpen,
@@ -36,7 +53,12 @@ function SellerExchangeOffers() {
 
       {isLoading ? (
         <p>Loading exchange offers...</p>
-      ) : incomingOffers.length === 0 ? (
+      ) : incomingOffers.filter(
+          (offer) =>
+            !isOfferExpired(offer.productId?.endTime) &&
+            offer.offerStatus !== "declined" &&
+            offer.offerStatus !== "accepted"
+        ).length === 0 ? (
         <Card>
           <CardContent className="p-6">
             <p className="text-muted-foreground">You have no exchange offers yet.</p>
@@ -44,15 +66,21 @@ function SellerExchangeOffers() {
         </Card>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {incomingOffers.map((offer) => {
-            const disabled = isAcceptDisabled(offer.productId);
-            
-            return (
-              offer.offerStatus !== "declined" && offer.offerStatus !== "accepted" && (
+          {incomingOffers
+            .filter(
+              (offer) =>
+                !isOfferExpired(offer.productId?.endTime) &&
+                offer.offerStatus !== "declined" &&
+                offer.offerStatus !== "accepted"
+            )
+            .map((offer) => {
+              const disabled = isAcceptDisabled(offer.productId);
+
+              return (
                 <Card key={offer._id} className="overflow-hidden relative">
                   {disabled && (
                     <div className="absolute top-2 right-2 bg-red-100 text-red-800 px-2 py-1 rounded-full text-xs">
-                      Auction Closed
+                      Auction Ended
                     </div>
                   )}
                   <CardHeader className="p-4">
@@ -62,20 +90,27 @@ function SellerExchangeOffers() {
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="p-4">
-                    <p className="mb-2"><strong>Offered Item:</strong> {offer.exchangeOffer.eTitle}</p>
-                    <p className="mb-2 truncate"><strong>From:</strong> {offer.userEmail}</p>
-                    <p className="mb-4 line-clamp-2"><strong>Description:</strong> {offer.exchangeOffer.eDescription}</p>
-                    <Button 
-                      className="w-full text-white" 
+                    <p className="mb-2">
+                      <strong>Offered Item:</strong>{" "}
+                      {offer.exchangeOffer.eTitle}
+                    </p>
+                    <p className="mb-2 truncate">
+                      <strong>From:</strong> {offer.userEmail}
+                    </p>
+                    <p className="mb-4 line-clamp-2">
+                      <strong>Description:</strong>{" "}
+                      {offer.exchangeOffer.eDescription}
+                    </p>
+                    <Button
+                      className="w-full text-white"
                       onClick={() => handleViewDetails(offer)}
                     >
                       View Details
                     </Button>
                   </CardContent>
                 </Card>
-              )
-            );
-          })}
+              );
+            })}
         </div>
       )}
 
@@ -105,50 +140,64 @@ function SellerExchangeOffers() {
                   {selectedOffer.exchangeOffer.eImage && (
                     <img
                       src={selectedOffer.exchangeOffer.eImage}
-                      alt={selectedOffer.exchangeOffer.eTitle || "Exchange item"}
+                      alt={
+                        selectedOffer.exchangeOffer.eTitle || "Exchange item"
+                      }
                       className="w-full h-40 object-cover rounded-md my-2"
                     />
                   )}
                   <div className="mt-2">
-                    <p className="font-medium">{selectedOffer.exchangeOffer.eTitle}</p>
+                    <p className="font-medium">
+                      {selectedOffer.exchangeOffer.eTitle}
+                    </p>
                   </div>
                 </div>
               </div>
 
               <div>
                 <h3 className="font-bold">Description</h3>
-                <p className="text-muted-foreground">{selectedOffer.exchangeOffer.eDescription}</p>
+                <p className="text-muted-foreground">
+                  {selectedOffer.exchangeOffer.eDescription}
+                </p>
               </div>
 
               {selectedOffer.exchangeOffer.eCondition && (
                 <div>
                   <h3 className="font-bold">Condition</h3>
-                  <p className="text-muted-foreground">{selectedOffer.exchangeOffer.eCondition}</p>
+                  <p className="text-muted-foreground">
+                    {selectedOffer.exchangeOffer.eCondition}
+                  </p>
                 </div>
               )}
 
               <div>
                 <h3 className="font-bold">Contact</h3>
-                <p className="text-muted-foreground">{selectedOffer.userEmail}</p>
+                <p className="text-muted-foreground">
+                  {selectedOffer.userEmail}
+                </p>
               </div>
 
               <div className="flex gap-2 pt-4 flex-col">
                 {isAcceptDisabled(selectedOffer.productId) ? (
                   <div className="text-red-600 text-sm text-center">
-                    This offer can't be accepted - auction ended with winning bid
+                    This product has expired - acceptance is no longer available
                   </div>
                 ) : (
                   <div className="flex gap-2">
                     <Button
                       variant="outline"
                       className="flex-1"
-                      onClick={() => handleRejectOffer(selectedOffer._id)}
+                      onClick={() =>
+                        handleRejectOffer(selectedOffer._id)
+                      }
                     >
                       Reject
                     </Button>
                     <Button
                       className="flex-1 text-white"
-                      onClick={() => handleAcceptOffer(selectedOffer._id)}
+                      onClick={() =>
+                        handleAcceptOffer(selectedOffer._id)
+                      }
                       disabled={isAcceptDisabled(selectedOffer.productId)}
                     >
                       Accept

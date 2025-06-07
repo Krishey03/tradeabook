@@ -3,6 +3,7 @@ const eProduct = require('../../models/Exchange')
 const PaymentTransaction = require('../../models/paymentTransaction')
 const { io } = require('../../server');
 const { log } = require('node:console');
+const { differenceInDays } = require('date-fns');
 
 const isValidImageUrl = (url) => {
     const cloudinaryRegex = /^https?:\/\/res\.cloudinary\.com\/.+\/.+\.(jpg|jpeg|png|gif|webp)$/;
@@ -54,11 +55,12 @@ const getProductDetails = async (req, res) => {
 //Bidding controller
 const placeBid = async (req, res) => {
     try {
-        const { productId, bidAmount, bidderEmail } = req.body;
-        const io = req.app.get("io");
+        const { productId } = req.params;  // Now getting from URL params
+        const { bidAmount, bidderEmail } = req.body;
+        const io = req.app.get('io');
 
-        if (!productId || !bidAmount || !bidderEmail) {
-            return res.status(400).json({ message: "All fields are required." });
+        if (!bidAmount || !bidderEmail) {
+            return res.status(400).json({ message: "Bid amount and email are required." });
         }
 
         // Check for existing accepted exchange offer
@@ -83,8 +85,10 @@ const placeBid = async (req, res) => {
             return res.status(400).json({ message: "Bidding has ended for this product." });
         }
 
-        if (bidAmount <= product.currentBid) {
-            return res.status(400).json({ message: "Bid must be higher than the current bid." });
+        if (bidAmount <= product.minBid) {
+        return res.status(400).json({ 
+            message: `Bid must be higher than minimum bid (Rs. ${product.minBid})` 
+        });
         }
 
         product.currentBid = bidAmount;
@@ -108,7 +112,9 @@ const placeBid = async (req, res) => {
 
     } catch (error) {
         console.error("Error placing bid:", error);
-        res.status(500).json({ message: "Something went wrong." });
+        res.status(500).json({ 
+            message: error.message || "Failed to place bid" 
+        });
     }
 };
 
@@ -206,14 +212,7 @@ const offerExchange = async (req, res) => {
             });
         }
 
-        const [product, existingOffer] = await Promise.all([
-            Product.findById(productId),
-            eProduct.findOne({
-                productId,
-                userEmail,
-                offerStatus: 'pending'
-            })
-        ]);
+        const product = await Product.findById(productId);
 
         if (!product) {
             return res.status(404).json({
@@ -222,21 +221,13 @@ const offerExchange = async (req, res) => {
             });
         }
 
-        if (existingOffer) {
-            return res.status(409).json({
-                success: false,
-                message: "You already have a pending exchange offer for this product"
-            });
-        }
-
-        // Create new exchange offer
         const newExchangeOffer = new eProduct({
-            productId: product._id,
-            userEmail,
-            exchangeOffer: {
-                ...exchangeOffer,
-                eBuyerPhone: Number(exchangeOffer.eBuyerPhone)
-            }
+        productId: product._id,
+        userEmail,
+        exchangeOffer: {
+            ...exchangeOffer,
+            eBuyerPhone: Number(exchangeOffer.eBuyerPhone)
+        }
         });
 
         // Validate against schema before saving
@@ -266,15 +257,6 @@ const offerExchange = async (req, res) => {
     } catch (error) {
         console.error("Exchange error:", error);
         
-        // Handle duplicate key errors
-        if (error.code === 11000) {
-            return res.status(409).json({
-                success: false,
-                message: "Duplicate exchange offer detected"
-            });
-        }
-
-        // Handle mongoose validation errors
         if (error.name === 'ValidationError') {
             const errors = Object.values(error.errors).map(err => err.message);
             return res.status(400).json({
@@ -290,6 +272,15 @@ const offerExchange = async (req, res) => {
         });
     }
 };
+
+const isOfferExpired = (endTime) => {
+  if (!endTime) return false;
+  const expirationDate = new Date(endTime);
+  expirationDate.setDate(expirationDate.getDate() + 2);
+  return new Date() > expirationDate;
+};
+
+
 
 const getSellerExchangeOffers = async (req, res) => {
     try {
@@ -318,6 +309,11 @@ const getSellerExchangeOffers = async (req, res) => {
             productId: { $in: productIds },
             userEmail: { $ne: sellerEmail } // Exclude offers made by seller
         }).populate('productId', 'title image'); 
+
+        // Filter out expired offers (2 days after auction end)
+        const filteredOffers = exchangeOffers.filter(offer => {
+        return !isOfferExpired(offer.productId?.endTime);
+        });
         
         res.status(200).json({
             success: true,
@@ -425,6 +421,7 @@ const getUserExchangeOffers = async (req, res) => {
         .populate({
             path: 'productId',
             select: 'title image sellerEmail sellerPhone',
+            model: 'Product',
             populate: {
                 path: 'seller',
                 select: 'phone'
@@ -452,6 +449,8 @@ const getUserExchangeOffers = async (req, res) => {
         });
     }
 };
+
+
 
 const getUserOrders = async (req, res) => {
     try {
@@ -508,4 +507,16 @@ const getUserOrders = async (req, res) => {
   };
 
 
-module.exports = { getProducts, getProductDetails, placeBid, offerExchange, getSellerExchangeOffers, getUserOrders, declineExchangeOffer, getCartItems, acceptExchangeOffer, getUserExchangeOffers };
+module.exports = { 
+    getProducts, 
+    getProductDetails, 
+    placeBid, 
+    offerExchange, 
+    getSellerExchangeOffers, 
+    getUserOrders, 
+    declineExchangeOffer, 
+    getCartItems, 
+    acceptExchangeOffer, 
+    getUserExchangeOffers, 
+    isOfferExpired 
+};

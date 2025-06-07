@@ -80,7 +80,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 // Initialize Khalti payment for products
-app.post("/api/initialize-product-payment", async (req, res) => {
+app.post("/initialize-product-payment", async (req, res) => {
   try {
     const { productId, productType, website_url } = req.body;
     const PROCESSING_FEE = 5;
@@ -146,7 +146,7 @@ app.post("/api/initialize-product-payment", async (req, res) => {
       amount: amountInPaisa,
       purchase_order_id: paymentRecord._id.toString(),
       purchase_order_name: productName,
-      return_url: `${process.env.BACKEND_URI}/api/complete-khalti-payment`,
+      return_url: `${process.env.BACKEND_URI}/complete-khalti-payment`,
       website_url,
     });
 
@@ -177,7 +177,7 @@ app.post("/api/initialize-product-payment", async (req, res) => {
 });
 
 // Handle Khalti payment verification callback
-app.get("/api/complete-khalti-payment", async (req, res) => {
+app.get("/complete-khalti-payment", async (req, res) => {
   try {
     const { pidx } = req.query;
     
@@ -229,7 +229,7 @@ app.get("/api/complete-khalti-payment", async (req, res) => {
     }
     
     // Redirect to success page with the correct parameter
-    return res.redirect(`http://localhost:5173/payment-success?purchase_order_id=${paymentRecord._id}`);
+    return res.redirect(`${process.env.FRONTEND_URL}/payment-success?purchase_order_id=${paymentRecord._id}`);
   } catch (error) {
     console.error("Payment verification error:", error);
     return res.redirect(`http://localhost:5173/payment-failed?reason=verification_error`);
@@ -237,7 +237,7 @@ app.get("/api/complete-khalti-payment", async (req, res) => {
 });
 
 // Get payment status
-app.get("/api/payment/:paymentId", async (req, res) => {
+app.get("/payment/:paymentId", async (req, res) => {
   try {
     const { paymentId } = req.params;
     const payment = await PaymentTransaction.findById(paymentId);
@@ -263,12 +263,12 @@ app.get("/api/payment/:paymentId", async (req, res) => {
 });
 
 
-app.use("/api/auth", authRouter);
-app.use('/api/admin/products', adminProductsRouter);
-app.use('/api/shop/products', shopProductsRouter);
-app.use('/api/admin', adminRoutes);
-app.use("/api/shop/products", productRoutes);
-app.use('/api/shop/orders', orderRoutes);
+app.use("/auth", authRouter);
+app.use('/admin/products', adminProductsRouter);
+app.use('/shop/products', shopProductsRouter);
+app.use('/admin', adminRoutes);
+// app.use("/shop/products", productRoutes);
+// app.use('/shop/orders', orderRoutes);
 
 app.set('io', io);
 app.options('*', cors(corsOptions));

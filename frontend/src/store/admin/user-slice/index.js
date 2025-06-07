@@ -2,7 +2,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '@/api/axios';
 
-// Async thunk to fetch users
 export const getUsers = createAsyncThunk('/users/fetch', async () => {
     const res = await api.get('/admin/users', {
         withCredentials: true,

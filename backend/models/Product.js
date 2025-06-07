@@ -96,6 +96,14 @@ const ProductSchema = new mongoose.Schema({
     type: Date,
   },
 
+  bids: [
+    {
+      amount: { type: Number, required: true },
+      email: { type: String, required: true },
+      timestamp: { type: Date, default: Date.now }
+    }
+  ],
+
   exchangeOffers: [
     {
       type: mongoose.Schema.Types.ObjectId,

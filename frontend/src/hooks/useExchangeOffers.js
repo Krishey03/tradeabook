@@ -1,13 +1,9 @@
 import { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
 import { io } from "socket.io-client";
+import api from "@/api/axios"; // Make sure this path is correct
 
-
-const socket = io(import.meta.env.VITE_API_URL, {
-  withCredentials: true,
-  transports: ['websocket', 'polling'],
-});
-
+// Move socket initialization inside the hook
 const useExchangeOffers = (userEmail) => {
   const [incomingOffers, setIncomingOffers] = useState([]);
   const [outgoingOffers, setOutgoingOffers] = useState([]);
@@ -17,18 +13,21 @@ const useExchangeOffers = (userEmail) => {
   });
   const [selectedOffer, setSelectedOffer] = useState(null);
   const [offerDetailsOpen, setOfferDetailsOpen] = useState(false);
+  
+  // Initialize socket only once
+  const [socket] = useState(() => io(import.meta.env.VITE_API_URL, {
+    withCredentials: true,
+    transports: ['websocket', 'polling'],
+  }));
 
   const fetchIncomingOffers = async () => {
     setLoading((prev) => ({ ...prev, incoming: true }));
     try {
-      const response = await fetch(
-        `/shop/products/exchangeOffers/${userEmail}`
-      );
-      const data = await response.json();
-      setIncomingOffers(data.data || []);
+      const response = await api.get(`/shop/products/exchangeOffers/${userEmail}`);
+      setIncomingOffers(response.data.data || []);
     } catch (error) {
       console.error("Error fetching incoming exchange offers:", error);
-      toast.error("Failed to load incoming offers");
+      toast.error(error.response?.data?.message || "Failed to load incoming offers");
     } finally {
       setLoading((prev) => ({ ...prev, incoming: false }));
     }
@@ -37,48 +36,53 @@ const useExchangeOffers = (userEmail) => {
   const fetchOutgoingOffers = async () => {
     setLoading((prev) => ({ ...prev, outgoing: true }));
     try {
-      const response = await fetch(
-        `/shop/products/exchangeOffers/user/${userEmail}`
-      );
-      const data = await response.json();
-      setOutgoingOffers(data.data || []);
+      const response = await api.get(`/shop/products/exchangeOffers/user/${userEmail}`);
+      setOutgoingOffers(response.data.data || []);
     } catch (error) {
       console.error("Error fetching outgoing exchange offers:", error);
-      toast.error("Failed to load outgoing offers");
+      toast.error(error.response?.data?.message || "Failed to load outgoing offers");
     } finally {
       setLoading((prev) => ({ ...prev, outgoing: false }));
     }
   };
 
-  // Initial fetch and WebSocket setup
+  // Socket event handlers
   useEffect(() => {
     if (!userEmail) return;
 
-    fetchIncomingOffers();
-    fetchOutgoingOffers();
-
-    socket.emit("joinRoom", userEmail);
-
-    socket.on("newOffer", (offer) => {
+    const handleNewOffer = (offer) => {
       if (offer.receiverEmail === userEmail) {
         setIncomingOffers((prev) => [offer, ...prev]);
         toast.success("New exchange offer received!");
       }
-    });
+    };
 
-    socket.on("offerUpdated", (updatedOffer) => {
+    const handleOfferUpdated = (updatedOffer) => {
       setIncomingOffers((prev) =>
         prev.map((offer) =>
           offer._id === updatedOffer._id ? updatedOffer : offer
         )
       );
       toast("An exchange offer was updated");
-    });
+    };
+
+    socket.emit("joinRoom", userEmail);
+    socket.on("newOffer", handleNewOffer);
+    socket.on("offerUpdated", handleOfferUpdated);
 
     return () => {
-      socket.off("newOffer");
-      socket.off("offerUpdated");
+      socket.off("newOffer", handleNewOffer);
+      socket.off("offerUpdated", handleOfferUpdated);
+      socket.emit("leaveRoom", userEmail);
     };
+  }, [userEmail, socket]);
+
+  // Fetch data on mount
+  useEffect(() => {
+    if (userEmail) {
+      fetchIncomingOffers();
+      fetchOutgoingOffers();
+    }
   }, [userEmail]);
 
   const handleViewDetails = (offer) => {
@@ -88,22 +92,8 @@ const useExchangeOffers = (userEmail) => {
 
   const handleAcceptOffer = async (offerId) => {
     try {
-      const response = await fetch(
-        `/shop/products/exchangeOffers/accept/${offerId}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("Failed to accept exchange offer");
-      }
-
-      const data = await response.json();
-
+      const response = await api.put(`/shop/products/exchangeOffers/accept/${offerId}`);
+      
       setIncomingOffers((prevOffers) =>
         prevOffers.map((offer) =>
           offer._id === offerId
@@ -114,34 +104,22 @@ const useExchangeOffers = (userEmail) => {
 
       localStorage.setItem(
         "acceptedExchangeOffer",
-        JSON.stringify(data.exchangeOffer)
+        JSON.stringify(response.data.exchangeOffer)
       );
 
       toast.success("Exchange offer accepted!");
       setOfferDetailsOpen(false);
 
-      socket.emit("offerAccepted", data.exchangeOffer);
+      socket.emit("offerAccepted", response.data.exchangeOffer);
     } catch (error) {
       console.error("Error accepting exchange offer:", error);
-      toast.error("Failed to accept exchange offer");
+      toast.error(error.response?.data?.message || "Failed to accept exchange offer");
     }
   };
 
   const handleRejectOffer = async (offerId) => {
     try {
-      const response = await fetch(
-        `/shop/products/exchangeOffers/${offerId}`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("Failed to reject exchange offer");
-      }
+      await api.patch(`/shop/products/exchangeOffers/${offerId}`);
 
       setIncomingOffers((prevOffers) =>
         prevOffers.map((offer) =>
@@ -157,7 +135,7 @@ const useExchangeOffers = (userEmail) => {
       socket.emit("offerRejected", { offerId });
     } catch (error) {
       console.error("Error rejecting exchange offer:", error);
-      toast.error("Failed to reject exchange offer");
+      toast.error(error.response?.data?.message || "Failed to reject exchange offer");
     }
   };
 

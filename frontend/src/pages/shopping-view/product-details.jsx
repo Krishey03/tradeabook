@@ -1,5 +1,3 @@
-"use client"
-
 import { useState, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Button } from "@/components/ui/button"
@@ -17,11 +15,13 @@ import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { BookOpen, Clock, MessageCircle, RefreshCw, ArrowRight, Loader2 } from "lucide-react"
+import { BookOpen, Clock, MessageCircle, RefreshCw, ArrowRight, Loader2, CheckCircle2 } from "lucide-react"
+import api from "@/api/axios"
 
 let socket = null
 
 function ProductDetailsDialog({ open, setOpen, productDetails, setProductDetails }) {
+  const API_BASE = import.meta.env.VITE_API_URL || "";
   const [bidDialogOpen, setBidDialogOpen] = useState(false)
   const [bidAmount, setBidAmount] = useState("")
   const [errorMessage, setErrorMessage] = useState("")
@@ -33,6 +33,7 @@ function ProductDetailsDialog({ open, setOpen, productDetails, setProductDetails
   const [exchangeImageFile, setExchangeImageFile] = useState(null)
   const [exchangeUploadedImageUrl, setExchangeUploadedImageUrl] = useState("")
   const [exchangeImageLoadingState, setExchangeImageLoadingState] = useState(false)
+  const [exchangeSubmitted, setExchangeSubmitted] = useState(false);
 
   const userEmail = useSelector((state) => state.auth.user?.email)
   const { user } = useSelector((state) => state.auth)
@@ -41,29 +42,29 @@ function ProductDetailsDialog({ open, setOpen, productDetails, setProductDetails
   const isCurrentUserSeller = user?.email === productDetails?.sellerEmail
 
   useEffect(() => {
-    if (!socket) {
-      const socket = io(import.meta.env.VITE_API_URL, {
-      withCredentials: true,
-    });
+      if (!socket && open) {
+          socket = io(import.meta.env.VITE_API_URL, {
+              withCredentials: true,
+              transports: ['websocket', 'polling'],
+          });
 
-
-      socket.on("newBid", (data) => {
-        if (data.productId === productDetails?._id) {
-          setProductDetails((prevDetails) => ({
-            ...prevDetails,
-            currentBid: data.currentBid,
-          }))
-        }
-        dispatch(fetchAllProducts())
-      })
-    }
-
-    return () => {
-      if (socket) {
-        socket.off("newBid")
+          socket.on("newBid", (data) => {
+              if (data.productId === productDetails?._id) {
+                  setProductDetails((prevDetails) => ({
+                      ...prevDetails,
+                      currentBid: data.currentBid,
+                  }));
+              }
+              dispatch(fetchAllProducts());
+          });
       }
-    }
-  }, [productDetails?._id, dispatch, setProductDetails])
+
+      return () => {
+          if (socket) {
+              socket.off("newBid");
+          }
+      };
+  }, [productDetails?._id, dispatch, setProductDetails, open]);
 
 
   useEffect(() => {
@@ -77,61 +78,56 @@ function ProductDetailsDialog({ open, setOpen, productDetails, setProductDetails
   }
 
   const handleSubmitBid = async () => {
-    const parsedBid = Number.parseFloat(bidAmount)
-    if (isNaN(parsedBid) || parsedBid <= productDetails?.currentBid || parsedBid < productDetails?.minBid) {
-      setErrorMessage("Your bid must be higher than the current bid and meet the minimum bid requirement.")
-      return
-    }
-
-    try {
-      const response = await fetch("/shop/products/placeBid", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          productId: productDetails?._id,
-          bidAmount: parsedBid,
-          bidderEmail: userEmail,
-        }),
-      })
-
-      const data = await response.json()
-      if (!response.ok) throw new Error(data.message || "Failed to place bid.")
-
-      setErrorMessage("")
-      setProductDetails((prevDetails) => ({
-        ...prevDetails,
-        currentBid: data.currentBid,
-        bidderEmail: data.bidderEmail,
-      }))
-
-      if (socket) {
-        socket.emit("placeBid", {
-          productId: productDetails?._id,
-          currentBid: data.currentBid,
-          bidderEmail: data.bidderEmail,
-        })
-      }
-
-      setBidDialogOpen(false)
-      setOpen(false)
-
-      toast.success("Bid placed successfully!", {
-        duration: 3000,
-        position: "top-right",
-        style: {
-          background: "#4CAF50",
-          color: "#fff",
-          fontWeight: "bold",
-          borderRadius: "8px",
-        },
-      })
-
-      dispatch(fetchAllProducts())
-    } catch (error) {
-      console.error("Error placing bid:", error)
-      setErrorMessage(error.message)
-    }
+  const parsedBid = Number.parseFloat(bidAmount)
+  if (isNaN(parsedBid) || parsedBid <= productDetails?.currentBid || parsedBid < productDetails?.minBid) {
+    setErrorMessage("Your bid must be higher than the current bid and meet the minimum bid requirement.")
+    return
   }
+
+  try {
+    const response = await api.post(`/shop/products/${productDetails?._id}/placeBid`, {
+      bidAmount: parsedBid,
+      bidderEmail: userEmail,
+    });
+
+    //Emmit new bid event to the socket server
+    if (socket) {
+    socket.emit("newBid", {
+      productId: productDetails?._id,
+      currentBid: response.data.currentBid,
+      bidderEmail: response.data.bidderEmail
+    });
+  }
+
+    setErrorMessage("")
+    setProductDetails((prevDetails) => ({
+      ...prevDetails,
+      currentBid: response.data.currentBid,
+      bidderEmail: response.data.bidderEmail,
+    }))
+
+    if (socket) {
+      socket.emit("placeBid", {
+        productId: productDetails?._id,
+        currentBid: response.data.currentBid,
+        bidderEmail: response.data.bidderEmail,
+      })
+    }
+
+    setBidDialogOpen(false)
+    setOpen(false)
+
+    toast.success("Bid placed successfully!", {
+      duration: 3000,
+      position: "top-right",
+    })
+
+    dispatch(fetchAllProducts())
+  } catch (error) {
+    console.error("Error placing bid:", error)
+    setErrorMessage(error.response?.data?.message || "Failed to place bid")
+  }
+}
 
   useEffect(() => {
     if (open) {
@@ -169,34 +165,31 @@ function ProductDetailsDialog({ open, setOpen, productDetails, setProductDetails
     }
 
     try {
-      const response = await fetch("/shop/products/offerExchange", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          productId: productDetails?._id,
-          userEmail: user?.email,
-          exchangeOffer: {
-            ...exchangeFormData,
-            eImage: exchangeUploadedImageUrl,
-            eBuyerPhone: user.phone,
-          },
-        }),
-      })
+      const response = await api.post("/shop/products/offerExchange", {
+        productId: productDetails?._id,
+        userEmail: user?.email,
+        exchangeOffer: {
+          ...exchangeFormData,
+          eImage: exchangeUploadedImageUrl,
+          eBuyerPhone: user.phone,
+        },
+      });
 
       if (!response.ok) {
         const text = await response.text()
         throw new Error(`Failed to submit exchange. Server response: ${text}`)
       }
 
-      const data = await response.json()
-      setIsExchangeSidebarOpen(false)
-      toast.success("Exchange request sent!")
+      setIsExchangeSidebarOpen(false);
+      setExchangeFormData({});
+      setExchangeImageFile(null);
+      setExchangeUploadedImageUrl("");
+      setExchangeSubmitted(true);
 
-      setExchangeFormData({})
-      setExchangeImageFile(null)
-      setExchangeUploadedImageUrl("")
+      toast.success("Exchange request sent!");
     } catch (error) {
-      toast.error(error.message)
+        console.error("Exchange error:", error);
+        toast.error(error.response?.data?.message || "Failed to submit exchange");
     }
   }
 
@@ -468,6 +461,26 @@ function ProductDetailsDialog({ open, setOpen, productDetails, setProductDetails
           </div>
         </SheetContent>
       </Sheet>
+
+      <Dialog open={exchangeSubmitted} onOpenChange={setExchangeSubmitted}>
+        <DialogContent className="sm:max-w-md">
+          <div className="flex flex-col items-center text-center p-6">
+            <div className="bg-green-100 p-3 rounded-full mb-4">
+              <CheckCircle2 className="h-8 w-8 text-green-600" />
+            </div>
+            <h3 className="text-xl font-bold text-gray-900 mb-2">Offer Sent Successfully!</h3>
+            <p className="text-gray-600 mb-6">
+              Your exchange offer has been sent to the seller. They'll contact you if they're interested.
+            </p>
+            <Button
+              className="w-full bg-teal-600 hover:bg-teal-700"
+              onClick={() => setExchangeSubmitted(false)}
+            >
+              OK
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </>
   )
 }
