@@ -137,16 +137,16 @@ function HeaderRightContent() {
       
       {showLogoutConfirm && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-          <Card className="w-[320px]">
+          <Card className="w-[320px] bg-white shadow-lg rounded-lg">
             <CardHeader>
               <h3 className="text-lg font-semibold">Confirm Logout</h3>
             </CardHeader>
             <CardContent>Are you sure you want to log out?</CardContent>
             <CardFooter className="flex justify-end gap-2">
-              <Button variant="ghost" onClick={cancelLogout}>
+              <Button variant="ghost" onClick={cancelLogout} className="text-white ">
                 Cancel
               </Button>
-              <Button variant="destructive" onClick={confirmLogout}>
+              <Button variant="destructive" onClick={confirmLogout} className="bg-rose-600 hover:bg-rose-700 text-white">
                 Logout
               </Button>
             </CardFooter>

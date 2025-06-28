@@ -6,12 +6,12 @@ import { toast } from "react-hot-toast";
 import { exchangeProductFormElements } from "@/config";
 import useTimeLeft from "@/hooks/useTimeLeft";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import ProductImageUpload from "@/components/admin-view/image-upload";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { BookOpen, Clock, MessageCircle, RefreshCw, ArrowRight, Loader2, CheckCircle2 } from "lucide-react";
+import { BookOpen, Clock, MessageCircle, RefreshCw, ArrowRight, Loader2, CheckCircle2, XCircle } from "lucide-react";
 import api from "@/api/axios";
 
 export default function BookDetailsPage() {
@@ -26,6 +26,9 @@ export default function BookDetailsPage() {
   const [exchangeUploadedImageUrl, setExchangeUploadedImageUrl] = useState("");
   const [exchangeImageLoadingState, setExchangeImageLoadingState] = useState(false);
   const [exchangeSubmitted, setExchangeSubmitted] = useState(false);
+  const [bidSubmitted, setBidSubmitted] = useState(false);
+  const [bidError, setBidError] = useState(false);
+  const [exchangeError, setExchangeError] = useState(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -35,30 +38,37 @@ export default function BookDetailsPage() {
   const isCurrentUserSeller = user?.email === productDetails?.sellerEmail;
   const isBiddingEnded = timeLeft === "Bidding Ended";
 
-useEffect(() => {
-const fetchProductDetails = async () => {
-  try {
-    const response = await api.get(`/shop/products/get/${id}`);
-    
-    // Remove .data if you change backend to return raw product
-    setProductDetails(response.data); 
-    
-  } catch (error) {
-    console.error("Fetch error:", error);
-    toast.error(error.response?.data?.message || "Product load failed");
-    navigate("/shop/home");
-  } finally {
-    setLoading(false);
-  }
-};
+  useEffect(() => {
+    const fetchProductDetails = async () => {
+      try {
+        const response = await api.get(`/shop/products/get/${id}`);
+        setProductDetails(response.data); 
+      } catch (error) {
+        console.error("Fetch error:", error);
+        toast.error(error.response?.data?.message || "Product load failed");
+        navigate("/shop/home");
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  fetchProductDetails();
-}, [id, navigate]);
+    fetchProductDetails();
+  }, [id, navigate]);
 
   const handleSubmitBid = async () => {
     const parsedBid = Number.parseFloat(bidAmount);
-    if (isNaN(parsedBid) || parsedBid <= productDetails?.currentBid || parsedBid < productDetails?.minBid) {
-      setErrorMessage("Your bid must be higher than the current bid and meet the minimum bid requirement.");
+    if (isNaN(parsedBid)) {
+      setErrorMessage("Please enter a valid number");
+      return;
+    }
+    
+    if (parsedBid <= productDetails?.currentBid) {
+      setErrorMessage("Your bid must be higher than the current bid");
+      return;
+    }
+
+    if (parsedBid < productDetails?.minBid) {
+      setErrorMessage(`Your bid must be at least Rs. ${productDetails?.minBid}`);
       return;
     }
 
@@ -74,12 +84,13 @@ const fetchProductDetails = async () => {
         bidderEmail: response.data.bidderEmail,
       });
 
-      toast.success("Bid placed successfully!");
       setBidAmount("");
       setErrorMessage("");
+      setBidSubmitted(true);
     } catch (error) {
       console.error("Error placing bid:", error);
       setErrorMessage(error.response?.data?.message || "Failed to place bid");
+      setBidError(true);
     }
   };
 
@@ -118,10 +129,9 @@ const fetchProductDetails = async () => {
       setExchangeImageFile(null);
       setExchangeUploadedImageUrl("");
       setExchangeSubmitted(true);
-      toast.success("Exchange request sent!");
     } catch (error) {
       console.error("Exchange error:", error);
-      toast.error(error.response?.data?.message || "Failed to submit exchange");
+      setExchangeError(true);
     }
   };
 
@@ -291,66 +301,103 @@ const fetchProductDetails = async () => {
       </main>
 
       {/* Exchange Offer Sheet */}
-<Sheet open={isExchangeSidebarOpen} onOpenChange={setIsExchangeSidebarOpen}>
-  <SheetContent className="sm:max-w-md p-0">
-    <div className="h-full overflow-y-auto px-6 py-4">
-      <SheetHeader className="mb-6">
-        <SheetTitle className="text-xl font-bold text-gray-900">
-          Offer an Exchange
-        </SheetTitle>
-      </SheetHeader>
+      <Sheet open={isExchangeSidebarOpen} onOpenChange={setIsExchangeSidebarOpen}>
+        <SheetContent className="sm:max-w-md p-0">
+          <div className="h-full overflow-y-auto px-6 py-4">
+            <SheetHeader className="mb-6">
+              <SheetTitle className="text-xl font-bold text-gray-900">
+                Offer an Exchange
+              </SheetTitle>
+            </SheetHeader>
 
-      <div className="space-y-6 pb-6">
-        <div className="space-y-2">
-          <Label>Book Image</Label>
-          <ProductImageUpload
-            imageFile={exchangeImageFile}
-            setImageFile={setExchangeImageFile}
-            uploadedImageUrl={exchangeUploadedImageUrl}
-            setUploadedImageUrl={setExchangeUploadedImageUrl}
-            setImageLoadingState={setExchangeImageLoadingState}
-            imageLoadingState={exchangeImageLoadingState}
-          />
-        </div>
+            <div className="space-y-6 pb-6">
+              <div className="space-y-2">
+                <Label>Book Image</Label>
+                <ProductImageUpload
+                  imageFile={exchangeImageFile}
+                  setImageFile={setExchangeImageFile}
+                  uploadedImageUrl={exchangeUploadedImageUrl}
+                  setUploadedImageUrl={setExchangeUploadedImageUrl}
+                  setImageLoadingState={setExchangeImageLoadingState}
+                  imageLoadingState={exchangeImageLoadingState}
+                />
+              </div>
 
-        {exchangeProductFormElements.map((field) => (
-          <div key={field.name} className="space-y-2">
-            <Label htmlFor={field.name}>{field.label}</Label>
-            <Input
-              id={field.name}
-              type={field.type}
-              name={field.name}
-              placeholder={field.placeholder}
-              onChange={(e) =>
-                setExchangeFormData({
-                  ...exchangeFormData,
-                  [e.target.name]: e.target.value,
-                })
-              }
-              value={exchangeFormData[field.name] || ""}
-            />
+              {exchangeProductFormElements.map((field) => (
+                <div key={field.name} className="space-y-2">
+                  <Label htmlFor={field.name}>{field.label}</Label>
+                  <Input
+                    id={field.name}
+                    type={field.type}
+                    name={field.name}
+                    placeholder={field.placeholder}
+                    onChange={(e) =>
+                      setExchangeFormData({
+                        ...exchangeFormData,
+                        [e.target.name]: e.target.value,
+                      })
+                    }
+                    value={exchangeFormData[field.name] || ""}
+                  />
+                </div>
+              ))}
+
+              <Button
+                onClick={handleExchangeSubmit}
+                className="w-full bg-purple-600 hover:bg-purple-700"
+                disabled={exchangeImageLoadingState}
+              >
+                {exchangeImageLoadingState ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Uploading...
+                  </>
+                ) : (
+                  "Submit Exchange Offer"
+                )}
+              </Button>
+            </div>
           </div>
-        ))}
+        </SheetContent>
+      </Sheet>
 
-        <Button
-          onClick={handleExchangeSubmit}
-          className="w-full bg-purple-600 hover:bg-purple-700"
-          disabled={exchangeImageLoadingState}
-        >
-          {exchangeImageLoadingState ? (
-            <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              Uploading...
-            </>
-          ) : (
-            "Submit Exchange Offer"
-          )}
-        </Button>
-      </div>
-    </div>
-  </SheetContent>
-</Sheet>
+      {/* Bid Success Dialog */}
+      <Dialog open={bidSubmitted} onOpenChange={setBidSubmitted}>
+        <DialogContent className="sm:max-w-md">
+          <div className="flex flex-col items-center text-center p-6">
+            <CheckCircle2 className="h-12 w-12 text-green-500 mb-4" />
+            <h3 className="text-xl font-bold text-gray-900 mb-2">Bid Placed Successfully!</h3>
+            <p className="text-gray-600 mb-6">
+              Your bid has been successfully placed.
+            </p>
+            <Button
+              onClick={() => setBidSubmitted(false)}
+              className="w-full bg-teal-600 hover:bg-teal-700"
+            >
+              Continue
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
 
+      {/* Bid Error Dialog */}
+      <Dialog open={bidError} onOpenChange={setBidError}>
+        <DialogContent className="sm:max-w-md">
+          <div className="flex flex-col items-center text-center p-6">
+            <XCircle className="h-12 w-12 text-red-500 mb-4" />
+            <h3 className="text-xl font-bold text-gray-900 mb-2">Bid Failed</h3>
+            <p className="text-gray-600 mb-6">
+              {errorMessage || "There was an error placing your bid. Please try again."}
+            </p>
+            <Button
+              onClick={() => setBidError(false)}
+              className="w-full bg-red-600 hover:bg-red-700"
+            >
+              Try Again
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
 
       {/* Exchange Success Dialog */}
       <Dialog open={exchangeSubmitted} onOpenChange={setExchangeSubmitted}>
@@ -366,6 +413,25 @@ const fetchProductDetails = async () => {
               className="w-full bg-teal-600 hover:bg-teal-700"
             >
               OK
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Exchange Error Dialog */}
+      <Dialog open={exchangeError} onOpenChange={setExchangeError}>
+        <DialogContent className="sm:max-w-md">
+          <div className="flex flex-col items-center text-center p-6">
+            <XCircle className="h-12 w-12 text-red-500 mb-4" />
+            <h3 className="text-xl font-bold text-gray-900 mb-2">Exchange Offer Failed</h3>
+            <p className="text-gray-600 mb-6">
+              There was an error submitting your exchange offer. Please try again.
+            </p>
+            <Button
+              onClick={() => setExchangeError(false)}
+              className="w-full bg-red-600 hover:bg-red-700"
+            >
+              Try Again
             </Button>
           </div>
         </DialogContent>
