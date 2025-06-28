@@ -53,28 +53,35 @@ function ShoppingUploads() {
     <div className="max-w-4xl mx-auto px-4 py-6">
       {/* Header with Upload Button and Search */}
       <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mb-6">
-        <h2 className="text-center text-2xl font-semibold mb-6">Your Listed Products</h2>
-        <div className="flex items-center gap-4 w-full sm:w-auto">
-            <Button
-              onClick={handleUploadClick}
-              className="flex items-center gap-2 bg-[#DEDCFF] text-black hover:bg-[#BFB9FF] transition-colors"
-            >
-              <Plus size={16} />
-              Upload Book
-            </Button>
-        </div>
-        
-        <div className="relative w-full sm:w-64">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
-          <Input
-            type="search"
-            placeholder="Search your products..."
-            className="pl-10"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-        </div>
-      </div>
+  {/* Heading alone */}
+  <h2 className="text-center text-2xl font-semibold mb-6 sm:mb-0">
+    Your Listed Products
+  </h2>
+
+  {/* Group: Upload + Search */}
+  <div className="flex flex-col sm:flex-row items-center gap-4">
+    {/* Upload Button */}
+    <Button
+      onClick={handleUploadClick}
+      className="flex items-center gap-2 bg-[#DEDCFF] text-black hover:bg-[#BFB9FF] transition-colors"
+    >
+      Upload Book
+    </Button>
+
+    {/* Search Bar */}
+    <div className="relative w-full sm:w-64">
+      <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+      <Input
+        type="search"
+        placeholder="Search your products..."
+        className="pl-10"
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+      />
+    </div>
+  </div>
+</div>
+
 
       
       

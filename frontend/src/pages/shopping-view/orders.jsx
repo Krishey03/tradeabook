@@ -2,26 +2,27 @@ import { useEffect, useState } from "react"
 import api from "@/api/axios"
 import { useSelector } from "react-redux"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Card, CardHeader, CardContent, CardTitle, CardDescription, CardFooter } from "@/components/ui/card"
+import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import { Input } from "@/components/ui/input"
 import {
   BookOpen,
   Loader2,
-  MessageSquare,
   Calendar,
   CreditCard,
   ArrowLeftRight,
   ShoppingBag,
   AlertCircle,
   RefreshCw,
-  ChevronRight,
+  Search,
 } from "lucide-react"
 
 function UserOrders() {
   const [orders, setOrders] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [searchQuery, setSearchQuery] = useState("")
   const { user } = useSelector((state) => state.auth)
 
   useEffect(() => {
@@ -40,7 +41,6 @@ function UserOrders() {
           throw new Error(response.data?.message || "Invalid response format")
         }
 
-        // Transform data to ensure consistent structure
         const formattedOrders = (response.data.data || []).map((order) => ({
           ...order,
           productType: order.productType || (order.product?.bidderEmail ? "Product" : "eProduct"),
@@ -71,13 +71,19 @@ function UserOrders() {
     fetchOrders()
   }, [user?.email])
 
+  // Filter orders based on search query
+  const filteredOrders = orders.filter(order => 
+    order.product?.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    order.product?.exchangeOffer?.eTitle?.toLowerCase().includes(searchQuery.toLowerCase())
+  )
+
   // Categorize orders
-  const auctionOrders = orders.filter(
+  const auctionOrders = filteredOrders.filter(
     (order) =>
       order.productType === "Product" || (order.product && (order.product.bidderEmail || order.product.winnerEmail)),
   )
 
-  const exchangeOrders = orders.filter(
+  const exchangeOrders = filteredOrders.filter(
     (order) => order.productType === "eProduct" || (order.product && order.product.userEmail),
   )
 
@@ -106,35 +112,51 @@ function UserOrders() {
 
   return (
     <div className="container mx-auto px-4 py-10 max-w-6xl">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-slate-800">Your Purchases</h1>
-        <p className="text-slate-500 mt-2">View and manage your completed purchases and exchanges</p>
+      {/* Header with search */}
+      <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mb-6">
+        {/* Heading */}
+        <h2 className="text-center text-2xl font-semibold mb-6 sm:mb-0">
+          Your Purchases
+        </h2>
+
+        {/* Group: Search */}
+        <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
+          {/* Search Bar */}
+          <div className="relative w-full sm:w-64">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+            <Input
+              type="search"
+              placeholder="Search your products..."
+              className="pl-10"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </div>
+        </div>
       </div>
 
+      {/* Tabs */}
       <Tabs defaultValue="auction" className="w-full">
-      <TabsList className="grid w-full grid-cols-2 bg-gray-100 p-1 rounded-xl h-14 mb-6 shadow-sm gap-2">
-      <TabsTrigger
-        value="auction"
-        className="bg-gray-100 text-gray-600 hover:bg-gray-200 transition-all duration-200 ease-in-out 
-        flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold 
-        data-[state=active]:bg-white data-[state=active]:text-teal-600 data-[state=active]:shadow-md"
-      >
-        <ShoppingBag className="h-5 w-5" />
-        <span className="truncate">Auction Orders ({auctionOrders.length})</span>
-      </TabsTrigger>
+        <TabsList className="flex space-x-1 bg-gray-100 rounded-lg p-1 mb-6">
+          <TabsTrigger
+            value="auction"
+            className="bg-gray-100 text-gray-600 hover:bg-gray-200 transition-all duration-200 ease-in-out 
+            flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold 
+            data-[state=active]:bg-white data-[state=active]:text-teal-600 data-[state=active]:shadow-md"
+          >
+            <span className="truncate">Auction Orders</span>
+          </TabsTrigger>
 
-      <TabsTrigger
-        value="exchange"
-        className="bg-gray-100 text-gray-600 hover:bg-gray-200 transition-all duration-200 ease-in-out 
-        flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold 
-        data-[state=active]:bg-white data-[state=active]:text-teal-600 data-[state=active]:shadow-md"
-      >
-        <ArrowLeftRight className="h-5 w-5" />
-        <span className="truncate">Exchange Orders ({exchangeOrders.length})</span>
-      </TabsTrigger>
-    </TabsList>
+          <TabsTrigger
+            value="exchange"
+            className="bg-gray-100 text-gray-600 hover:bg-gray-200 transition-all duration-200 ease-in-out 
+            flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold 
+            data-[state=active]:bg-white data-[state=active]:text-teal-600 data-[state=active]:shadow-md"
+          >
 
-
+            <span className="truncate">Exchange Orders</span>
+          </TabsTrigger>
+        </TabsList>
 
         {/* Auction Orders Tab */}
         <TabsContent value="auction" className="space-y-6 focus:outline-none">
@@ -145,8 +167,7 @@ function UserOrders() {
               </div>
               <CardTitle className="text-xl font-medium text-slate-800 mb-2">No auction orders found</CardTitle>
               <CardDescription className="max-w-md mx-auto text-slate-500">
-                Your winning bids will appear here for easy tracking and
-                management.
+                Your winning bids will appear here for easy tracking and management.
               </CardDescription>
               <Button className="mt-6 text-white" onClick={() => (window.location.href = "/shop/listing")}>
                 Browse Listings
