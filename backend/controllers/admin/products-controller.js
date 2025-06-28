@@ -1,25 +1,35 @@
 const { imageUploadUtil } = require("../../helpers/cloudinary")
 const Product = require("../../models/Product")
 const eProduct = require("../../models/Exchange")
+const { uploadFromBuffer } = require("../../helpers/cloudinary")
 
-const handleImageUpload = async(req, res)=>{
-    try{
-        const b64 = Buffer.from(req.file.buffer).toString('base64')
-        const url = "data:" + req.file.mimetype + ";base64," + b64
-        const result = await imageUploadUtil(url)
-        res.json({
-            success: true,
-            result
-        })
+const handleImageUpload = async(req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({
+        success: false,
+        message: "No file uploaded"
+      });
     }
-    catch(error){
-        console.log(error);
-        res.json({
-            success: false,
-            message: "An error occurred."
-        })
-    }
-}
+
+    const file = req.file;
+    const result = await uploadFromBuffer(file.buffer);
+    
+    // FIX: Return correct response structure
+    res.json({
+      success: true,
+      url: result.secure_url, // Frontend expects 'url'
+      publicId: result.public_id // Frontend expects 'publicId'
+    });
+  } catch(error) {
+    console.log("Image upload error:", error);
+    res.status(500).json({
+      success: false,
+      message: "An error occurred during image upload",
+      error: error.message
+    });
+  }
+};
 
 //add a new product
 const addProduct = async (req, res) => {

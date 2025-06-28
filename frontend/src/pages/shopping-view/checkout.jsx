@@ -25,45 +25,51 @@ function Checkout(productDetails) {
   const { user } = useSelector((state) => state.auth)
   const email = user?.email
 
+  const fetchWithHandling = async (url) => {
+  try {
+    const response = await fetch(url);
+    
+    // Check for HTTP errors
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    // Check if response is JSON
+    const contentType = response.headers.get('content-type');
+    if (!contentType || !contentType.includes('application/json')) {
+      throw new TypeError("Received non-JSON response");
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Fetch error:", error);
+    return { data: [] }; // Return empty data to prevent crashes
+  }
+};
+
   useEffect(() => {
-    if (!email) return
+    if (!email) return;
 
     const fetchCartItems = async () => {
-      try {
-        const response = await fetch(`/shop/products/cart/${email}`)
-        const data = await response.json()
-        setCartItems(data.data || [])
-      } catch (error) {
-        console.error("Error fetching cart items:", error)
-      }
-    }
+      const data = await fetchWithHandling(`/shop/products/cart/${email}`);
+      setCartItems(data.data || []);
+    };
 
     const fetchSellerExchanges = async () => {
-      try {
-        const response = await fetch(`/shop/products/exchangeOffers/${email}`)
-        const data = await response.json()
-        const accepted = data.data.filter((offer) => offer.offerStatus === "accepted")
-        setAcceptedExchanges(accepted)
-      } catch (error) {
-        console.error("Error fetching seller exchanges:", error)
-      }
-    }
+      const data = await fetchWithHandling(`/shop/products/exchangeOffers/${email}`);
+      const accepted = data.data?.filter(offer => offer.offerStatus === "accepted") || [];
+      setAcceptedExchanges(accepted);
+    };
 
     const fetchUserExchanges = async () => {
-      try {
-        const response = await fetch(`/shop/products/exchangeOffers/user/${email}`)
-        const data = await response.json()
-        const accepted = data.data.filter((offer) => offer.offerStatus === "accepted")
-        setUserExchanges(accepted)
-      } catch (error) {
-        console.error("Error fetching user exchanges:", error)
-      } finally {
-        setLoading(false)
-      }
-    }
+      const data = await fetchWithHandling(`/shop/products/exchangeOffers/user/${email}`);
+      const accepted = data.data?.filter(offer => offer.offerStatus === "accepted") || [];
+      setUserExchanges(accepted);
+      setLoading(false);
+    };
 
-    Promise.all([fetchCartItems(), fetchSellerExchanges(), fetchUserExchanges()])
-  }, [email])
+    Promise.all([fetchCartItems(), fetchSellerExchanges(), fetchUserExchanges()]);
+  }, [email]);
 
   const handleBidPayment = async (product) => {
     try {

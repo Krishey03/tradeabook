@@ -2,48 +2,77 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../../models/User');
 
+
 // Register User
+
 const registerUser = async (req, res) => {
     const { userName, email, password, phone, address } = req.body;
 
-    try {
-        // Check if the user already exists
-        const checkUser = await User.findOne({ email });
-        if (checkUser) {
-            return res.status(400).json({ 
-                success: false, 
-                message: "User with the same email is already registered" 
-            });
-        }
+    // Trim and normalize input values
+    const trimmedUserName = userName?.trim();
+    const trimmedEmail = email?.trim().toLowerCase();
+    const trimmedPassword = password?.trim();
+    const trimmedPhone = phone?.trim();
+    const trimmedAddress = address?.trim();
 
+    try {
         // Check if all fields are provided
-        if (!userName || !email || !password || !phone || !address) { 
+        if (!trimmedUserName || !trimmedEmail || !trimmedPassword || !trimmedPhone || !trimmedAddress) {
             return res.status(400).json({
                 success: false,
                 message: "All fields (userName, email, password, phone, address) are required.",
             });
         }
 
-        const hashPassword = await bcrypt.hash(password, 12);
+        // Validate email format
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(trimmedEmail)) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid email format",
+            });
+        }
 
-        // Create user
+        // Check if the user already exists (case-insensitive email check)
+        const existingUser = await User.findOne({
+            email: { $regex: new RegExp(`^${trimmedEmail}$`, 'i') }
+        });
+
+        if (existingUser) {
+            return res.status(400).json({
+                success: false,
+                message: "User with the same email is already registered",
+            });
+        }
+
+        // Hash password
+        const hashPassword = await bcrypt.hash(trimmedPassword, 12);
+
+        // Create and save user
         const newUser = new User({
-            userName,
-            email,
+            userName: trimmedUserName,
+            email: trimmedEmail,
             password: hashPassword,
-            phone,
-            address
+            phone: trimmedPhone,
+            address: trimmedAddress
         });
 
         await newUser.save();
 
-        res.status(201).json({
+        return res.status(201).json({
             success: true,
             message: "User registered successfully!",
         });
+
     } catch (e) {
-        console.error("Registration Error:", e);
-        res.status(500).json({
+        console.error("Registration Error Details:", {
+            userName,
+            email,
+            error: e.message,
+            stack: e.stack
+        });
+
+        return res.status(500).json({
             success: false,
             message: "An error occurred during registration.",
         });
@@ -62,7 +91,12 @@ const loginUser = async (req, res) => {
             });
         }
 
-        const checkUser = await User.findOne({ email });
+        const emailLower = email.toLowerCase(); // Normalize email
+
+        const checkUser = await User.findOne({
+            email: { $regex: new RegExp(`^${emailLower}$`, 'i') }
+        });
+
         if (!checkUser) {
             return res.status(401).json({
                 success: false,
@@ -86,33 +120,47 @@ const loginUser = async (req, res) => {
         }
 
         const token = jwt.sign(
-            {
-                id: checkUser.id,
-                role: checkUser.role,
-                email: checkUser.email,
-                userName: checkUser.userName,
-                isBlocked: checkUser.isBlocked
-            },
-            'CLIENT_SECRET_KEY',
-            { expiresIn: '60m' }
+        {
+            id: checkUser.id,
+            role: checkUser.role,
+            email: checkUser.email,
+            userName: checkUser.userName,
+            isBlocked: checkUser.isBlocked
+        },
+        process.env.JWT_SECRET, // Use environment variable
+        { expiresIn: process.env.JWT_EXPIRES_IN || '60m' }
         );
 
+        const isProduction = process.env.NODE_ENV === 'production';
+
         return res
-            .cookie('token', token, { httpOnly: true, secure: false })
-            .json({
-                success: true,
-                message: "Login successful",
-                user: {
-                    id: checkUser._id,
-                    email: checkUser.email,
-                    role: checkUser.role,
-                    userName: checkUser.userName,
-                    phone: checkUser.phone,
-                    address: checkUser.address,
-                },
-            });
+        .cookie('token', token, {
+            httpOnly: true,
+            secure: isProduction,                            // HTTPS only in production
+            sameSite: isProduction ? 'none' : 'lax',         // 'none' for cross-site (e.g. Railway frontend/backend)
+            maxAge: 60 * 60 * 1000,                          // 1 hour
+            domain: isProduction ? '.railway.app' : undefined // Allow subdomains in production
+        })
+        .json({
+            success: true,
+            message: "Login successful",
+            user: {
+            id: checkUser._id,
+            email: checkUser.email,
+            role: checkUser.role,
+            userName: checkUser.userName,
+            phone: checkUser.phone,
+            address: checkUser.address,
+            },
+        });
 
     } catch (e) {
+        console.error("Login Error Details:", {
+            email,
+            error: e.message,
+            stack: e.stack
+        });
+
         return res.status(500).json({
             success: false,
             message: "An error occurred during login.",
@@ -142,7 +190,8 @@ const authMiddleware = async (req, res, next) => {
     }
 
     try {
-        const decoded = jwt.verify(token, 'CLIENT_SECRET_KEY');
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
         
         const user = await User.findById(decoded.id);
 

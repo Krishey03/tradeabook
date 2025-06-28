@@ -164,33 +164,28 @@ function ProductDetailsDialog({ open, setOpen, productDetails, setProductDetails
       return
     }
 
-    try {
-      const response = await api.post("/shop/products/offerExchange", {
-        productId: productDetails?._id,
-        userEmail: user?.email,
-        exchangeOffer: {
-          ...exchangeFormData,
-          eImage: exchangeUploadedImageUrl,
-          eBuyerPhone: user.phone,
-        },
-      });
+      try {
+    await api.post("/shop/products/offerExchange", {
+      productId: productDetails?._id,
+      userEmail: user?.email,
+      exchangeOffer: {
+        ...exchangeFormData,
+        eImage: exchangeUploadedImageUrl,
+        eBuyerPhone: user.phone,
+      },
+    });
 
-      if (!response.ok) {
-        const text = await response.text()
-        throw new Error(`Failed to submit exchange. Server response: ${text}`)
-      }
+    setIsExchangeSidebarOpen(false);
+    setExchangeFormData({});
+    setExchangeImageFile(null);
+    setExchangeUploadedImageUrl("");
+    setExchangeSubmitted(true);
 
-      setIsExchangeSidebarOpen(false);
-      setExchangeFormData({});
-      setExchangeImageFile(null);
-      setExchangeUploadedImageUrl("");
-      setExchangeSubmitted(true);
-
-      toast.success("Exchange request sent!");
-    } catch (error) {
-        console.error("Exchange error:", error);
-        toast.error(error.response?.data?.message || "Failed to submit exchange");
-    }
+    toast.success("Exchange request sent!");
+  } catch (error) {
+    console.error("Exchange error:", error);
+    toast.error(error.response?.data?.message || "Failed to submit exchange");
+  }
   }
 
   const handleViewMyListings = () => {

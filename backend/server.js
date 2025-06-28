@@ -22,6 +22,12 @@ require('dotenv').config();
 const app = express();
 const server = http.createServer(app);
 
+// Trust proxy for Railway deployment
+const isProduction = process.env.NODE_ENV === 'production';
+if (isProduction) {
+  app.set('trust proxy', 1); // Trust first proxy
+}
+
 const allowedOrigins = [
   "http://localhost:5173",
   "https://tradeabook.vercel.app",
@@ -29,6 +35,8 @@ const allowedOrigins = [
   "https://tradeabook-ldjrnapat-bhattaraikrish478vercel-gmailcoms-projects.vercel.app",
   "https://tradeabook-7445mtljf-bhattaraikrish478vercel-gmailcoms-projects.vercel.app",
   /\.vercel\.app$/,
+  /\.railway\.app$/,
+  "https://tradeabook-production.up.railway.app"
 ];
 
 const io = require("socket.io")(server, {
@@ -45,39 +53,52 @@ io.on("connection", (socket) => {
 const PORT = process.env.PORT || 5000;
 
 mongoose
-    .connect('mongodb+srv://dbuser:test123@cluster0.nwtjx.mongodb.net/')
-    .then(() => console.log('MongoDB Connected'))
-    .catch((error) => console.log(error));
+  .connect('mongodb+srv://dbuser:test123@cluster0.nwtjx.mongodb.net/')
+  .then(() => console.log('MongoDB Connected'))
+  .catch((error) => console.log(error));
 
-    const corsOptions = {
-      origin: function (origin, callback) {
-        // Allow requests with no origin (like mobile apps or curl requests)
-        if (!origin) return callback(null, true);
-        
-        // Check against allowed origins and regex patterns
-        if (
-          allowedOrigins.some(allowedOrigin => {
-            if (typeof allowedOrigin === 'string') {
-              return origin === allowedOrigin;
-            } else if (allowedOrigin instanceof RegExp) {
-              return allowedOrigin.test(origin);
-            }
-            return false;
-          })
-        ) {
-          callback(null, true);
-        } else {
-          callback(new Error("Not allowed by CORS"));
-        }
-      },
-      methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
-      credentials: true,
-    };
-
+const corsOptions = {
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    
+    // Check against allowed origins and regex patterns
+    const allowed = allowedOrigins.some(allowedOrigin => {
+      if (typeof allowedOrigin === 'string') {
+        return origin === allowedOrigin;
+      } else if (allowedOrigin instanceof RegExp) {
+        return allowedOrigin.test(origin);
+      }
+      return false;
+    });
+    
+    if (allowed) {
+      callback(null, true);
+    } else {
+      console.log(`Blocked by CORS: ${origin}`);
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+  credentials: true,
+  exposedHeaders: ['Authorization'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Cache-Control']
+};
 
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());
+
+// Add CORS error handling middleware
+app.use((err, req, res, next) => {
+  if (err.name === 'CorsError') {
+    return res.status(403).json({
+      success: false,
+      message: "Not allowed by CORS policy"
+    });
+  }
+  next(err);
+});
 
 // Initialize Khalti payment for products
 app.post("/initialize-product-payment", async (req, res) => {
@@ -200,7 +221,7 @@ app.get("/complete-khalti-payment", async (req, res) => {
 
     if (!paymentRecord) {
       console.error("Payment record not found for pidx:", pidx);
-      return res.redirect(`http://localhost:5173/payment-failed?reason=record_not_found`);
+      return res.redirect(`${process.env.FRONTEND_URL}/payment-failed?reason=record_not_found`);
     }
     
     // Update the payment record
@@ -228,11 +249,11 @@ app.get("/complete-khalti-payment", async (req, res) => {
       });
     }
     
-    // Redirect to success page with the correct parameter
+    // Redirect to success page
     return res.redirect(`${process.env.FRONTEND_URL}/payment-success?purchase_order_id=${paymentRecord._id}`);
   } catch (error) {
     console.error("Payment verification error:", error);
-    return res.redirect(`http://localhost:5173/payment-failed?reason=verification_error`);
+    return res.redirect(`${process.env.FRONTEND_URL}/payment-failed?reason=verification_error`);
   }
 });
 
@@ -267,10 +288,20 @@ app.use("/auth", authRouter);
 app.use('/admin/products', adminProductsRouter);
 app.use('/shop/products', shopProductsRouter);
 app.use('/admin', adminRoutes);
-// app.use("/shop/products", productRoutes);
-// app.use('/shop/orders', orderRoutes);
 
 app.set('io', io);
 app.options('*', cors(corsOptions));
+app.options('/auth/check-auth', cors(corsOptions), (req, res) => {
+  res.sendStatus(200);
+});
 
-server.listen(PORT, () => console.log(`Server is now running on port ${PORT}`));
+// Add a simple health check endpoint
+app.get('/health', (req, res) => {
+  res.status(200).json({
+    status: 'UP',
+    timestamp: new Date().toISOString(),
+    environment: process.env.NODE_ENV || 'development'
+  });
+});
+
+server.listen(PORT, () => console.log(`Server running on port ${PORT} in ${isProduction ? 'production' : 'development'} mode`));
