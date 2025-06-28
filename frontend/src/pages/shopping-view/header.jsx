@@ -108,185 +108,6 @@ function HeaderRightContent() {
 
   return (
     <div className="flex lg:items-center lg:flex-row flex-col gap-x-3 gap-y-4">
-      {/* Incoming Exchange Offers Dropdown */}
-      {/* <DropdownMenu open={incomingOpen} onOpenChange={setIncomingOpen}>
-        <DropdownMenuTrigger asChild>
-          <Button
-            variant="outline"
-            size="icon"
-            className={`relative transition-all ${hasNewIncoming ? "animate-pulse bg-emerald-50" : ""}`}
-          >
-            <SquareStack className={`h-5 w-5 ${hasNewIncoming ? "text-emerald-600" : ""}`} />
-            {incomingOffers.length > 0 && (
-              <span
-                className={`absolute -top-1 -right-1 ${
-                  hasNewIncoming ? "bg-emerald-500" : "bg-slate-500"
-                } text-white text-xs w-5 h-5 flex items-center justify-center rounded-full transition-all`}
-              >
-                {incomingOffers.length}
-              </span>
-            )}
-            <span className="sr-only">Incoming Offers</span>
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent
-          align="end"
-          className="w-72 bg-white border shadow-lg rounded-lg p-1 animate-in fade-in-50 zoom-in-95"
-        >
-          <DropdownMenuLabel className="px-4 py-2 text-sm font-semibold flex items-center gap-2">
-            <Bell className="h-4 w-4 text-emerald-600" />
-            Incoming Exchange Offers
-          </DropdownMenuLabel>
-          <DropdownMenuSeparator />
-
-          {loading.incoming ? (
-            <div className="flex items-center justify-center p-4">
-              <div className="h-5 w-5 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin"></div>
-              <span className="ml-2 text-sm text-slate-600">Loading offers...</span>
-            </div>
-          ) : incomingOffers.length === 0 ? (
-            <div className="text-center p-6 text-slate-500">
-              <SquareStack className="h-10 w-10 mx-auto mb-2 opacity-20" />
-              <p>No incoming offers yet</p>
-              <p className="text-xs mt-1">When someone offers to exchange books with you, it will appear here</p>
-            </div>
-          ) : (
-            <>
-              {incomingOffers.map((offer) => (
-                <DropdownMenuItem
-                  key={offer._id}
-                  className="flex flex-col items-start p-3 cursor-pointer hover:bg-slate-50 rounded-md focus:bg-slate-50 transition-colors"
-                  onClick={() => navigate(`/shop/exchange/${offer._id}`)}
-                >
-                  <div className="flex justify-between items-center w-full">
-                    <span className="font-medium text-sm">{offer.productId?.title || "Unknown Book"}</span>
-                    <span
-                      className={`text-xs font-semibold px-2 py-1 rounded ${
-                        offer.offerStatus === "pending"
-                          ? "bg-amber-100 text-amber-800"
-                          : offer.offerStatus === "accepted"
-                            ? "bg-emerald-100 text-emerald-800"
-                            : "bg-rose-100 text-rose-800"
-                      }`}
-                    >
-                      {offer.offerStatus}
-                    </span>
-                  </div>
-                  <p className="text-xs text-slate-500 mt-1">
-                    From: {offer.userEmail || "Anonymous"} • {new Date(offer.dateOffered).toLocaleDateString()}
-                  </p>
-                </DropdownMenuItem>
-              ))}
-              <DropdownMenuSeparator />
-            </>
-          )}
-        </DropdownMenuContent>
-      </DropdownMenu> */}
-
-      {/* Outgoing Exchange Offers Dropdown */}
-      {/* <DropdownMenu open={outgoingOpen} onOpenChange={setOutgoingOpen}>
-        <DropdownMenuTrigger asChild>
-          <Button
-            variant="outline"
-            size="icon"
-            className={`relative transition-all ${hasNewOutgoing ? "animate-pulse bg-blue-50" : ""}`}
-          >
-            <UserCog className={`h-5 w-5 ${hasNewOutgoing ? "text-blue-600" : ""}`} />
-            {outgoingOffers.length > 0 && (
-              <span
-                className={`absolute -top-1 -right-1 ${
-                  hasNewOutgoing ? "bg-blue-500" : "bg-slate-500"
-                } text-white text-xs w-5 h-5 flex items-center justify-center rounded-full transition-all`}
-              >
-                {outgoingOffers.length}
-              </span>
-            )}
-            <span className="sr-only">Outgoing Offers</span>
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent
-          align="end"
-          className="w-72 bg-white border shadow-lg rounded-lg p-1 animate-in fade-in-50 zoom-in-95"
-        >
-          <DropdownMenuLabel className="px-4 py-2 text-sm font-semibold flex items-center gap-2">
-            <Bell className="h-4 w-4 text-blue-600" />
-            My Outgoing Offers
-          </DropdownMenuLabel>
-          <DropdownMenuSeparator />
-
-          {loading.outgoing ? (
-            <div className="flex items-center justify-center p-4">
-              <div className="h-5 w-5 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-              <span className="ml-2 text-sm text-slate-600">Loading offers...</span>
-            </div>
-          ) : outgoingOffers.length === 0 ? (
-            <div className="text-center p-6 text-slate-500">
-              <UserCog className="h-10 w-10 mx-auto mb-2 opacity-20" />
-              <p>No outgoing offers yet</p>
-              <p className="text-xs mt-1">When you offer to exchange books with someone, it will appear here</p>
-            </div>
-          ) : (
-            <>
-              {outgoingOffers.map((offer) => (
-    <DropdownMenuItem
-      key={offer._id}
-      className="flex flex-col items-start p-3 cursor-pointer hover:bg-slate-50 rounded-md focus:bg-slate-50 transition-colors"
-      onClick={() => navigate(`/shop/exchange/${offer._id}`)}
-    >
-      <div className="flex justify-between items-center w-full">
-        <span className="font-medium text-sm">
-          {offer.exchangeOffer?.eTitle || "Your Book Offer"}
-        </span>
-        <span
-          className={`text-xs font-semibold px-2 py-1 rounded ${
-            offer.offerStatus === "pending"
-              ? "bg-amber-100 text-amber-800"
-              : offer.offerStatus === "accepted"
-                ? "bg-emerald-100 text-emerald-800"
-                : "bg-rose-100 text-rose-800"
-          }`}
-        >
-          {offer.offerStatus}
-        </span>
-      </div>
-      <p className="text-xs text-slate-500 mt-1">
-        For: {productTitle}
-      </p>
-      <p className="text-xs text-slate-500">
-        To: {sellerEmail} {new Date(offer.dateOffered).toLocaleDateString()}
-      </p>
-    </DropdownMenuItem>
-              ))}
-              <DropdownMenuSeparator />
-            </>
-          )}
-        </DropdownMenuContent>
-      </DropdownMenu> */}
-
-      {/* My Uploads */}
-      <Button
-        variant="outline"
-        size="icon"
-        onClick={() => navigate("/shop/uploads")}
-        className="relative hover:bg-slate-100 transition-all"
-        title="My Uploads"
-      >
-        <ScrollText className="h-5 w-5" />
-        <span className="sr-only">View Uploads</span>
-      </Button>
-
-      {/* Cart */}
-      <Button
-        variant="outline"
-        size="icon"
-        onClick={() => navigate("/shop/checkout")}
-        className="relative hover:bg-slate-100 transition-all"
-        title="Shopping Cart"
-      >
-        <ShoppingCart className="h-5 w-5" />
-        <span className="sr-only">View Cart</span>
-      </Button>
-
       {/* User Dropdown */}
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
@@ -300,20 +121,15 @@ function HeaderRightContent() {
           align="end"
           className="w-64 bg-white border shadow-lg rounded-lg p-1 animate-in fade-in-50 zoom-in-95"
         >
-          <div className="px-4 py-3 border-b border-slate-100">
-            <p className="font-semibold text-slate-800">{user?.userName || "User"}</p>
-            <p className="text-xs text-slate-500 mt-1 truncate">{user?.email || "user@example.com"}</p>
-          </div>
 
           <div className="p-2">
-            <DropdownMenuItem
-              onClick={() => navigate("/shop/account")}
+          <DropdownMenuItem
+              onClick={() => navigate("/shop/checkout")}
               className="flex items-center gap-2 p-2 rounded-md cursor-pointer hover:bg-slate-50 focus:bg-slate-50 transition-colors"
             >
-              <UserRound className="h-4 w-4 text-slate-500" />
+              <ShoppingCart className="h-4 w-4 text-slate-500" />
               <div>
-                <p className="text-sm">My Account</p>
-                <p className="text-xs text-slate-500">Manage your profile and settings</p>
+                <p className="text-sm">My Cart</p>
               </div>
             </DropdownMenuItem>
 
@@ -324,7 +140,27 @@ function HeaderRightContent() {
               <ScrollText className="h-4 w-4 text-slate-500" />
               <div>
                 <p className="text-sm">My Uploads</p>
-                <p className="text-xs text-slate-500">View your listed books</p>
+              </div>
+            </DropdownMenuItem>
+
+
+            <DropdownMenuItem
+              onClick={() => navigate("/shop/account")}
+              className="flex items-center gap-2 p-2 rounded-md cursor-pointer hover:bg-slate-50 focus:bg-slate-50 transition-colors"
+            >
+              <UserRound className="h-4 w-4 text-slate-500" />
+              <div>
+                <p className="text-sm">My Account</p>
+              </div>
+            </DropdownMenuItem>
+
+            <DropdownMenuItem
+              onClick={() => navigate("/shop/uploads")}
+              className="flex items-center gap-2 p-2 rounded-md cursor-pointer hover:bg-slate-50 focus:bg-slate-50 transition-colors"
+            >
+              <ScrollText className="h-4 w-4 text-slate-500" />
+              <div>
+                <p className="text-sm">My Uploads</p>
               </div>
             </DropdownMenuItem>
 
@@ -335,7 +171,6 @@ function HeaderRightContent() {
               <SquareStack className="h-4 w-4 text-slate-500" />
               <div>
                 <p className="text-sm">Purchases</p>
-                <p className="text-xs text-slate-500">Track your book purchases</p>
               </div>
             </DropdownMenuItem>
           </div>
@@ -465,8 +300,9 @@ function ShoppingHeader() {
           </SheetContent>
         </Sheet>
 
+        <MenuItems closeMenu={() => {}} />
+
         <div className="hidden lg:flex items-center gap-6">
-          <MenuItems closeMenu={() => {}} />
           <HeaderRightContent />
         </div>
       </div>

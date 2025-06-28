@@ -18,9 +18,11 @@ const router = express.Router()
 
 router.get('/get', getProducts)
 router.get('/get/:id', getProductDetails)
-router.get("/exchangeOffers/:sellerEmail", getSellerExchangeOffers)
+
 router.get("/cart/:email", getCartItems)
+router.get("/exchangeOffers/:sellerEmail", getSellerExchangeOffers)
 router.get("/exchangeOffers/user/:userEmail", getUserExchangeOffers)
+
 router.get('/orders/:userEmail', getUserOrders);
 router.post('/:productId/placeBid', placeBid);
 router.post("/offerExchange", offerExchange)

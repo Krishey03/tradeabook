@@ -27,30 +27,17 @@ function Checkout(productDetails) {
 
   const fetchWithHandling = async (url) => {
     try {
-      const response = await fetch(url);
-      
-      // First check if response is HTML
-      const contentType = response.headers.get('content-type');
-      if (contentType && contentType.includes('text/html')) {
-        throw new Error('Received HTML instead of JSON');
-      }
-
-      const text = await response.text();
-      
-      if (!response.ok) {
-        console.error(`HTTP error ${response.status} for ${url}:`, text);
-        return { data: [] };
-      }
-
-      try {
-        return JSON.parse(text);
-      } catch (e) {
-        console.error("JSON parse error:", e);
-        console.error("Response content:", text);
-        return { data: [] };
-      }
+      const response = await api.get(url); // Use your existing axios instance
+      return response.data;
     } catch (error) {
-      console.error("Network error:", error);
+      console.error("API error:", error);
+      
+      // Handle HTML responses
+      if (error.response && 
+          error.response.headers['content-type'].includes('text/html')) {
+        console.error("Received HTML response");
+      }
+      
       return { data: [] };
     }
   };

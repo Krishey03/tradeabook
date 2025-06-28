@@ -34,7 +34,7 @@ function UserOrders() {
           throw new Error("Authentication required")
         }
 
-        const response = await api.get(`/shop/orders/${user.email}`)
+        const response = await api.get(`/shop/products/orders/${user.email}`)
 
         if (!response.data?.success) {
           throw new Error(response.data?.message || "Invalid response format")
@@ -161,7 +161,7 @@ function UserOrders() {
                       <img
                         src={order.product.image || "/placeholder.svg"}
                         alt={order.product.title}
-                        className="h-full w-full object-cover transition-transform hover:scale-105"
+                        className="h-full w-full object-cover transition-transform"
                       />
                     ) : (
                       <div className="flex h-full w-full items-center justify-center">

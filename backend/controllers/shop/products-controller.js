@@ -161,16 +161,20 @@ const getCartItems = async (req, res) => {
             }
         ]);
 
-        res.status(200).json({
-            success: true,
-            data: wonItems
-        });
+    if (!wonItems || wonItems.length === 0) {
+      return res.status(200).json({
+        success: true,
+        data: [] 
+      });
+    }
 
-    } catch (error) {
+    res.status(200).json({ success: true, data: wonItems });
+  } catch (error) {
         console.error(error);
         res.status(500).json({
             success: false,
-            message: "An error occurred while fetching cart items."
+            message: "An error occurred while fetching cart items.",
+            error: error.message
         });
     }
 };
