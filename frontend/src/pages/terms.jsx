@@ -70,7 +70,7 @@ function TermsAndConditions() {
         <div className="flex items-center justify-between px-6 py-4">
           <button
             onClick={goBack}
-            className="text-gray-700 text-white hover:text-gray-900 focus:outline-none"
+            className="text-white hover:text-gray-900 focus:outline-none"
           >
             Return
           </button>

@@ -26,6 +26,7 @@ import PaymentFailed from "./pages/paymentFailed";
 import TermsAndConditions from "./pages/terms";
 import UserOrders from "./pages/shopping-view/orders";
 import BookDetailsPage from "./pages/shopping-view/book-details-page"; 
+import ProductUpload from "./pages/shopping-view/product-upload";
 
 function App() {
 
@@ -81,7 +82,7 @@ function App() {
                     <Route path="about" element={<ShoppingAbout />} />
                     <Route path="orders" element={<UserOrders />} />
                     <Route path="book/:id" element={<BookDetailsPage />} />
-                    
+                    <Route path="product-upload" element={<ProductUpload />} />
                 </Route>
 
                 {/* Unauthorized Page */}

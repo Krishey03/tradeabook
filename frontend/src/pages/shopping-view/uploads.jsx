@@ -5,11 +5,17 @@ import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 function ShoppingUploads() {
   const [products, setProducts] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const { user } = useSelector((state) => state.auth);
+    const navigate = useNavigate();
+
+  const handleUploadClick = () => {
+    navigate("/shop/product-upload"); // change this to your desired route
+  };
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -49,10 +55,13 @@ function ShoppingUploads() {
       <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mb-6">
         <h2 className="text-center text-2xl font-semibold mb-6">Your Listed Products</h2>
         <div className="flex items-center gap-4 w-full sm:w-auto">
-          <Button className="flex items-center gap-2 bg-slate-600 text-white hover:bg-slate-700 transition-colors">
-            <Plus size={16} />
-            Upload Book
-          </Button>
+            <Button
+              onClick={handleUploadClick}
+              className="flex items-center gap-2 bg-[#DEDCFF] text-black hover:bg-[#BFB9FF] transition-colors"
+            >
+              <Plus size={16} />
+              Upload Book
+            </Button>
         </div>
         
         <div className="relative w-full sm:w-64">
