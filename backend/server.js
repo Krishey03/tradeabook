@@ -6,12 +6,8 @@ const authRouter = require('./routes/auth/auth-routes');
 const bcrypt = require('bcryptjs');
 const adminProductsRouter = require('./routes/admin/products-routes');
 const shopProductsRouter = require('./routes/shop/products-routes');
-const orderRoutes = require('./routes/shop/products-routes');
-const productRoutes = require("./routes/shop/products-routes");
 const http = require('http');
-const { Server } = require('socket.io');
 const { initializeKhaltiPayment, verifyKhaltiPayment } = require("./khalti");
-const Payment = require("./models/paymentModel");
 const Product = require("./models/Product");
 const eProduct = require("./models/Exchange");
 const adminRoutes = require('./routes/admin/admin-routes');
@@ -88,6 +84,12 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());
+
+// Enhanced request logging
+app.use((req, res, next) => {
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.originalUrl}`);
+  next();
+});
 
 // Add CORS error handling middleware
 app.use((err, req, res, next) => {
@@ -283,7 +285,7 @@ app.get("/payment/:paymentId", async (req, res) => {
   }
 });
 
-
+// Mount routers
 app.use("/auth", authRouter);
 app.use('/admin/products', adminProductsRouter);
 app.use('/shop/products', shopProductsRouter);
@@ -291,9 +293,6 @@ app.use('/admin', adminRoutes);
 
 app.set('io', io);
 app.options('*', cors(corsOptions));
-app.options('/auth/check-auth', cors(corsOptions), (req, res) => {
-  res.sendStatus(200);
-});
 
 // Add a simple health check endpoint
 app.get('/health', (req, res) => {
@@ -301,6 +300,25 @@ app.get('/health', (req, res) => {
     status: 'UP',
     timestamp: new Date().toISOString(),
     environment: process.env.NODE_ENV || 'development'
+  });
+});
+
+// Add 404 handler for unmatched routes
+app.use((req, res) => {
+  console.error(`404: ${req.method} ${req.originalUrl}`);
+  res.status(404).json({
+    success: false,
+    message: "Endpoint not found"
+  });
+});
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error('Server error:', err);
+  res.status(500).json({
+    success: false,
+    message: "Internal server error",
+    error: err.message
   });
 });
 

@@ -26,47 +26,55 @@ function Checkout(productDetails) {
   const email = user?.email
 
   const fetchWithHandling = async (url) => {
-  try {
-    const response = await fetch(url);
-    
-    // Check for HTTP errors
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
+    try {
+      const response = await fetch(url);
+      
+      // First check if response is HTML
+      const contentType = response.headers.get('content-type');
+      if (contentType && contentType.includes('text/html')) {
+        throw new Error('Received HTML instead of JSON');
+      }
 
-    // Check if response is JSON
-    const contentType = response.headers.get('content-type');
-    if (!contentType || !contentType.includes('application/json')) {
-      throw new TypeError("Received non-JSON response");
-    }
+      const text = await response.text();
+      
+      if (!response.ok) {
+        console.error(`HTTP error ${response.status} for ${url}:`, text);
+        return { data: [] };
+      }
 
-    return await response.json();
-  } catch (error) {
-    console.error("Fetch error:", error);
-    return { data: [] }; // Return empty data to prevent crashes
-  }
-};
+      try {
+        return JSON.parse(text);
+      } catch (e) {
+        console.error("JSON parse error:", e);
+        console.error("Response content:", text);
+        return { data: [] };
+      }
+    } catch (error) {
+      console.error("Network error:", error);
+      return { data: [] };
+    }
+  };
 
   useEffect(() => {
     if (!email) return;
 
     const fetchCartItems = async () => {
-      const data = await fetchWithHandling(`/shop/products/cart/${email}`);
-      setCartItems(data.data || []);
-    };
+    const data = await fetchWithHandling(`/shop/products/cart/${email}`);
+    setCartItems(data.data || []);
+  };
 
     const fetchSellerExchanges = async () => {
-      const data = await fetchWithHandling(`/shop/products/exchangeOffers/${email}`);
-      const accepted = data.data?.filter(offer => offer.offerStatus === "accepted") || [];
-      setAcceptedExchanges(accepted);
-    };
+    const data = await fetchWithHandling(`/shop/products/exchangeOffers/${email}`);
+    const accepted = data.data?.filter(offer => offer.offerStatus === "accepted") || [];
+    setAcceptedExchanges(accepted);
+  };
 
     const fetchUserExchanges = async () => {
-      const data = await fetchWithHandling(`/shop/products/exchangeOffers/user/${email}`);
-      const accepted = data.data?.filter(offer => offer.offerStatus === "accepted") || [];
-      setUserExchanges(accepted);
-      setLoading(false);
-    };
+    const data = await fetchWithHandling(`/shop/products/exchangeOffers/user/${email}`);
+    const accepted = data.data?.filter(offer => offer.offerStatus === "accepted") || [];
+    setUserExchanges(accepted);
+    setLoading(false);
+  };
 
     Promise.all([fetchCartItems(), fetchSellerExchanges(), fetchUserExchanges()]);
   }, [email]);
