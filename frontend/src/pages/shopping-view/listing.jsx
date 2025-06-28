@@ -9,14 +9,14 @@ import ShoppingProductTile from "./product-tile";
 import ProductDetailsDialog from "@/pages/shopping-view/product-details";
 import SellerExchangeOffers from "./sellerExchangeOffers";
 import "@fontsource/inika";
-import Footer from "./footer";
+import { Input } from "@/components/ui/input";
+import { Search } from "lucide-react";
 import io from "socket.io-client";
 
 const socket = io(import.meta.env.VITE_API_URL, {
   withCredentials: true,
   transports: ['websocket', 'polling'],
 });
-
 
 function ShoppingListing() {
     const dispatch = useDispatch();
@@ -25,7 +25,7 @@ function ShoppingListing() {
     );
     const [openDetailsDialog, setOpenDetailsDialog] = useState(false);
     const [activeTab, setActiveTab] = useState("products");
-    const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
+    const [searchQuery, setSearchQuery] = useState("");
 
     useEffect(() => {
         dispatch(fetchAllUserProducts());
@@ -69,120 +69,132 @@ function ShoppingListing() {
         };
     }, [dispatch]);
 
-    return (
-        <>
-            {mobileSidebarOpen && (
-                <div
-                    className="fixed inset-0 bg-black opacity-40 z-30 md:hidden"
-                    onClick={() => setMobileSidebarOpen(false)}
-                />
-            )}
+    const filteredProducts = productList?.filter((productItem) => {
+        const daysPassed = (Date.now() - new Date(productItem.offerTime)) / (1000 * 60 * 60 * 24);
+        const matchesSearch = productItem.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                             productItem.description.toLowerCase().includes(searchQuery.toLowerCase());
+        return daysPassed < 4 && (searchQuery === "" || matchesSearch);
+    });
 
-            <div className="relative min-h-screen bg-gray-100">
-                <div
-                    className={`fixed top-16 left-0 z-40 w-64 h-screen bg-slate-200 shadow-md transition-transform duration-200 ease-in-out ${
-                        mobileSidebarOpen
-                            ? "translate-x-0"
-                            : "-translate-x-full md:translate-x-0"
-                    }`}
-                >
-                    <div className="p-4 mt-4 space-y-4 font-inika">
-                        <button
-                            className={`w-full px-4 py-2 rounded-md text-left font-semibold ${
-                                activeTab === "products"
-                                    ? "bg-indigo-600 text-white"
-                                    : "bg-gray-100 hover:bg-gray-200"
-                            }`}
-                            onClick={() => {
-                                setActiveTab("products");
-                                setMobileSidebarOpen(false);
-                            }}
-                        >
-                            Products Listing
-                        </button>
-                        <button
-                            className={`w-full px-4 py-2 rounded-md text-left font-semibold ${
-                                activeTab === "exchangeOffers"
-                                    ? "bg-indigo-600 text-white"
-                                    : "bg-gray-100 hover:bg-gray-200"
-                            }`}
-                            onClick={() => {
-                                setActiveTab("exchangeOffers");
-                                setMobileSidebarOpen(false);
-                            }}
-                        >
-                            Exchange Offers
-                        </button>
+    return (
+        <div className="min-h-screen">
+            {/* Fixed Header - Adjusted height */}
+            <div className="fixed top-16 left-0 right-0 z-50 bg-white shadow-sm h-[72px] md:h-[56px]">
+                <div className="container mx-auto px-4 h-full">
+                    {/* Desktop Layout */}
+                    <div className="hidden md:flex items-center justify-between h-full">
+                        <div className="flex space-x-1 bg-gray-100 rounded-lg p-1">
+                            <button
+                                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                                    activeTab === "products"
+                                        ? "bg-white shadow text-indigo-600"
+                                        : "text-gray-500 hover:text-gray-700"
+                                }`}
+                                onClick={() => setActiveTab("products")}
+                            >
+                                Products Listing
+                            </button>
+                            <button
+                                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                                    activeTab === "exchangeOffers"
+                                        ? "bg-white shadow text-indigo-600"
+                                        : "text-gray-500 hover:text-gray-700"
+                                }`}
+                                onClick={() => setActiveTab("exchangeOffers")}
+                            >
+                                Exchange Offers
+                            </button>
+                        </div>
+                        
+                        <div className="relative w-64">
+                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                            <Input
+                                type="search"
+                                placeholder="Search products..."
+                                className="pl-10"
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                            />
+                        </div>
+                    </div>
+
+                    {/* Mobile Layout */}
+                    <div className="md:hidden flex flex-col justify-center h-full py-1">
+                        <div className="relative mb-1">
+                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                            <Input
+                                type="search"
+                                placeholder="Search products..."
+                                className="pl-10 w-full"
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                            />
+                        </div>
+                        
+                        <div className="flex justify-center">
+                            <div className="flex space-x-1 bg-gray-100 rounded-lg p-1">
+                                <button
+                                    className={`px-4 py-1 rounded-md text-sm font-medium transition-colors ${
+                                        activeTab === "products"
+                                            ? "bg-white shadow text-indigo-600"
+                                            : "text-gray-500 hover:text-gray-700"
+                                    }`}
+                                    onClick={() => setActiveTab("products")}
+                                >
+                                    Products
+                                </button>
+                                <button
+                                    className={`px-4 py-1 rounded-md text-sm font-medium transition-colors ${
+                                        activeTab === "exchangeOffers"
+                                            ? "bg-white shadow text-indigo-600"
+                                            : "text-gray-500 hover:text-gray-700"
+                                    }`}
+                                    onClick={() => setActiveTab("exchangeOffers")}
+                                >
+                                    Offers
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
-
-                <button
-                    className="md:hidden fixed bottom-4 left-4 z-50 bg-white p-3 rounded-full shadow-lg border border-gray-300"
-                    onClick={() => setMobileSidebarOpen(!mobileSidebarOpen)}
-                >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth="1.5"
-                        stroke="currentColor"
-                        className="w-6 h-6"
-                    >
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M4 6h16M4 12h16M4 18h16"
-                        />
-                    </svg>
-                </button>
-
-                <div className={`p-4 pt-6 transition-all duration-300 ${mobileSidebarOpen ? "pl-72" : "pl-0"} md:pl-72`}>
-
-                    {loading ? (
-                        <div className="text-center text-xl text-gray-500">
-                            Loading...
-                        </div>
-                    ) : activeTab === "products" ? (
-                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                            {productList && productList.length > 0 ? (
-                                productList
-                                    .filter((productItem) => {
-                                        const daysPassed =
-                                            (Date.now() -
-                                                new Date(
-                                                    productItem.offerTime
-                                                )) /
-                                            (1000 * 60 * 60 * 24);
-                                        return daysPassed < 4;
-                                    })
-                                    .map((productItem) => (
-                                        <ShoppingProductTile
-                                            key={productItem._id}
-                                            handleGetProductDetails={
-                                                handleGetProductDetails
-                                            }
-                                            product={productItem}
-                                        />
-                                    ))
-                            ) : (
-                                <p className="col-span-full text-center text-gray-400">
-                                    No products available
-                                </p>
-                            )}
-                        </div>
-                    ) : (
-                        <SellerExchangeOffers />
-                    )}
-                </div>
-
-                <ProductDetailsDialog
-                    open={openDetailsDialog}
-                    setOpen={setOpenDetailsDialog}
-                    productDetails={productDetails}
-                    setProductDetails={setProductDetails}
-                />
             </div>
-        </>
+
+            {/* Main Content - Adjusted padding */}
+            <div className="container mx-auto px-4 pt-[88px] pb-6 md:pt-[72px]">
+                {loading ? (
+                    <div className="text-center text-xl text-gray-500">
+                        Loading...
+                    </div>
+                ) : activeTab === "products" ? (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                        {filteredProducts && filteredProducts.length > 0 ? (
+                            filteredProducts.map((productItem) => (
+                                <ShoppingProductTile
+                                    key={productItem._id}
+                                    handleGetProductDetails={
+                                        handleGetProductDetails
+                                    }
+                                    product={productItem}
+                                />
+                            ))
+                        ) : (
+                            <p className="col-span-full text-center text-gray-400">
+                                {searchQuery ? "No products match your search" : "No products available"}
+                            </p>
+                        )}
+                    </div>
+                ) : (
+                    <SellerExchangeOffers />
+                )}
+            </div>
+
+            <ProductDetailsDialog
+                open={openDetailsDialog}
+                setOpen={setOpenDetailsDialog}
+                productDetails={productDetails}
+                setProductDetails={setProductDetails}
+            />
+        </div>
     );
 }
 

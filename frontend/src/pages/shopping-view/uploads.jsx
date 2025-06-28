@@ -1,11 +1,15 @@
 import { useEffect, useState } from "react";
 import api from "@/api/axios";
 import { useSelector } from "react-redux";
+import { Input } from "@/components/ui/input";
+import { Search } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Plus } from "lucide-react";
 
 function ShoppingUploads() {
   const [products, setProducts] = useState([]);
-  const userEmail = "bhattaraikrish478@gmail.com"; // Replace this with dynamic data
-  const { user } = useSelector((state) => state.auth); // Get user from Redux
+  const [searchQuery, setSearchQuery] = useState("");
+  const { user } = useSelector((state) => state.auth);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -34,14 +38,44 @@ function ShoppingUploads() {
     fetchProducts();
   }, [user]);
 
+  const filteredProducts = products.filter(product => 
+    product.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    product.description.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <div className="max-w-4xl mx-auto px-4 py-6">
-      <h2 className="text-center text-2xl font-semibold mb-6">Your Listed Products</h2>
-      {products.length === 0 ? (
-        <p className="text-center">You have not listed any products yet.</p>
+      {/* Header with Upload Button and Search */}
+      <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mb-6">
+        <h2 className="text-center text-2xl font-semibold mb-6">Your Listed Products</h2>
+        <div className="flex items-center gap-4 w-full sm:w-auto">
+          <Button className="flex items-center gap-2 bg-slate-600 text-white hover:bg-slate-700 transition-colors">
+            <Plus size={16} />
+            Upload Book
+          </Button>
+        </div>
+        
+        <div className="relative w-full sm:w-64">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+          <Input
+            type="search"
+            placeholder="Search your products..."
+            className="pl-10"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+        </div>
+      </div>
+
+      
+      
+      {filteredProducts.length === 0 ? (
+        <p className="text-center">
+          {searchQuery ? "No products match your search" : "You have not listed any products yet."}
+        </p>
       ) : (
         <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          {products.map((product) => (
+          {filteredProducts.map((product) => (
             <li key={product._id} className="p-4 border rounded-lg shadow-md bg-white">
               <div className="relative w-full h-48 overflow-hidden rounded-lg mb-2">
                 <img
