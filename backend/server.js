@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const authRouter = require('./routes/auth/auth-routes');
-const bcrypt = require('bcryptjs');
 const adminProductsRouter = require('./routes/admin/products-routes');
 const shopProductsRouter = require('./routes/shop/products-routes');
 const http = require('http');
@@ -17,6 +16,12 @@ require('dotenv').config();
 
 const app = express();
 const server = http.createServer(app);
+
+// Validate critical environment variables
+if (!process.env.KHALTI_SECRET_KEY || !process.env.KHALTI_GATEWAY_URL) {
+  console.error("FATAL ERROR: Khalti environment variables missing!");
+  process.exit(1);
+}
 
 // Trust proxy for Railway deployment
 const isProduction = process.env.NODE_ENV === 'production';
@@ -102,9 +107,21 @@ app.use((err, req, res, next) => {
   next(err);
 });
 
+// Preflight handling for payment routes
+app.options("/initialize-product-payment", cors(corsOptions));
+app.options("/complete-khalti-payment", cors(corsOptions));
+
 // Initialize Khalti payment for products
 app.post("/initialize-product-payment", async (req, res) => {
   try {
+    // Database connection check
+    if (mongoose.connection.readyState !== 1) {
+      return res.status(500).json({
+        success: false,
+        message: "Database connection not ready"
+      });
+    }
+
     const { productId, productType, website_url } = req.body;
     const PROCESSING_FEE = 5;
     const DELIVERY_FEE = 25;
@@ -123,6 +140,15 @@ app.post("/initialize-product-payment", async (req, res) => {
           message: "Product not found"
         });
       }
+      
+      // Validate bid amount
+      if (!productData.currentBid && !productData.minBid) {
+        return res.status(400).json({
+          success: false,
+          message: "Product has no valid bid amount"
+        });
+      }
+      
       productName = productData.title;
       baseAmount = Number(productData.currentBid || productData.minBid);
       totalAmount = baseAmount + PROCESSING_FEE + DELIVERY_FEE;
@@ -147,11 +173,17 @@ app.post("/initialize-product-payment", async (req, res) => {
       productName = originalProduct.title;
       // Exchange processing fee only
       baseAmount = 0;
-      totalAmount = baseAmount + EXCHANGE_FEE;
+      totalAmount = EXCHANGE_FEE;
     }
 
-    // Convert to paisa (Khalti uses paisa as base unit)
-    const amountInPaisa = totalAmount * 100;
+    // Convert to paisa with rounding and validation
+    const amountInPaisa = Math.round(totalAmount * 100);
+    if (amountInPaisa < 100) { // Minimum 1 NPR
+      return res.status(400).json({
+        success: false,
+        message: "Amount too small (minimum 1 NPR)"
+      });
+    }
     
     // Create payment record
     const paymentRecord = await PaymentTransaction.create({
@@ -165,13 +197,17 @@ app.post("/initialize-product-payment", async (req, res) => {
     });
     
     // Initialize payment with Khalti
-    const paymentInitiate = await initializeKhaltiPayment({
-      amount: amountInPaisa,
-      purchase_order_id: paymentRecord._id.toString(),
-      purchase_order_name: productName,
-      return_url: `${process.env.BACKEND_URI}/complete-khalti-payment`,
-      website_url,
-    });
+const backendBase = process.env.BACKEND_URI.endsWith('/') 
+    ? process.env.BACKEND_URI.slice(0, -1) 
+    : process.env.BACKEND_URI;
+
+const paymentInitiate = await initializeKhaltiPayment({
+    amount: amountInPaisa,
+    purchase_order_id: paymentRecord._id.toString(),
+    purchase_order_name: productName,
+    return_url: `${backendBase}/complete-khalti-payment`, // Fixed URL
+    website_url,
+});
 
     // Update payment record with pidx
     await PaymentTransaction.findByIdAndUpdate(
@@ -190,7 +226,11 @@ app.post("/initialize-product-payment", async (req, res) => {
       }
     });
   } catch (error) {
-    console.error("Payment initialization error:", error);
+    console.error("Payment initialization error:", {
+      message: error.message,
+      stack: error.stack,
+      body: req.body
+    });
     res.status(500).json({
       success: false,
       message: "Failed to initialize payment",
@@ -206,10 +246,7 @@ app.get("/complete-khalti-payment", async (req, res) => {
     
     if (!pidx) {
       console.error("Missing pidx in callback");
-      return res.status(400).json({
-        success: false,
-        message: "Payment verification failed: Missing payment identifier"
-      });
+      return res.redirect(`${process.env.FRONTEND_URL}/payment-failed?reason=missing_pidx`);
     }
     
     console.log("Verifying payment with pidx:", pidx);
@@ -254,7 +291,11 @@ app.get("/complete-khalti-payment", async (req, res) => {
     // Redirect to success page
     return res.redirect(`${process.env.FRONTEND_URL}/payment-success?purchase_order_id=${paymentRecord._id}`);
   } catch (error) {
-    console.error("Payment verification error:", error);
+    console.error("Payment verification error:", {
+      message: error.message,
+      stack: error.stack,
+      query: req.query
+    });
     return res.redirect(`${process.env.FRONTEND_URL}/payment-failed?reason=verification_error`);
   }
 });
@@ -299,7 +340,8 @@ app.get('/health', (req, res) => {
   res.status(200).json({
     status: 'UP',
     timestamp: new Date().toISOString(),
-    environment: process.env.NODE_ENV || 'development'
+    environment: process.env.NODE_ENV || 'development',
+    dbStatus: mongoose.connection.readyState === 1 ? 'Connected' : 'Disconnected'
   });
 });
 
@@ -314,7 +356,11 @@ app.use((req, res) => {
 
 // Error handling middleware
 app.use((err, req, res, next) => {
-  console.error('Server error:', err);
+  console.error('Server error:', {
+    message: err.message,
+    stack: err.stack,
+    url: req.originalUrl
+  });
   res.status(500).json({
     success: false,
     message: "Internal server error",
