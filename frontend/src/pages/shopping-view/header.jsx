@@ -177,9 +177,8 @@ function ShoppingHeader() {
   return (
     <>
       {/* Fixed Desktop Header */}
-      <header className={`hidden md:block fixed top-0 left-0 right-0 z-50 w-full border-b bg-white transition-all duration-300 ${
-        isScrolled ? "shadow-md py-2" : "py-3"
-      }`}>
+<header className="hidden md:block fixed top-0 left-0 right-0 z-50 w-full border-b bg-white shadow-md py-2">
+
         <div className="container mx-auto px-4 md:px-6">
           <div className="flex items-center justify-between">
             <Link
@@ -211,7 +210,8 @@ function ShoppingHeader() {
       </div>
 
       {/* Spacer for fixed headers */}
-      <div className="pt-20 pb-16 md:pb-0"></div>
+      <div className="pt-[64px] md:pt-[56px]"></div>
+
     </>
   );
 }

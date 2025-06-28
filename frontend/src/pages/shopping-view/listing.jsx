@@ -1,17 +1,15 @@
 import {
     fetchAllUserProducts,
-    fetchProductDetails,
-    setProductDetails,
 } from "@/store/shop/products-slice";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ShoppingProductTile from "./product-tile";
-import ProductDetailsDialog from "@/pages/shopping-view/product-details";
 import SellerExchangeOffers from "./sellerExchangeOffers";
 import "@fontsource/inika";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import io from "socket.io-client";
+import { useNavigate } from "react-router-dom";
 
 const socket = io(import.meta.env.VITE_API_URL, {
   withCredentials: true,
@@ -20,10 +18,10 @@ const socket = io(import.meta.env.VITE_API_URL, {
 
 function ShoppingListing() {
     const dispatch = useDispatch();
-    const { productList, productDetails, loading } = useSelector(
+    const navigate = useNavigate();
+    const { productList, loading } = useSelector(
         (state) => state.shopProductsSlice
     );
-    const [openDetailsDialog, setOpenDetailsDialog] = useState(false);
     const [activeTab, setActiveTab] = useState("products");
     const [searchQuery, setSearchQuery] = useState("");
 
@@ -51,24 +49,6 @@ function ShoppingListing() {
         };
     }, [dispatch]);
 
-    function handleGetProductDetails(getCurrentProductId) {
-        dispatch(fetchProductDetails(getCurrentProductId));
-    }
-
-    useEffect(() => {
-        if (productDetails) {
-            setOpenDetailsDialog(true);
-        } else {
-            setOpenDetailsDialog(false);
-        }
-    }, [productDetails]);
-
-    useEffect(() => {
-        return () => {
-            dispatch(setProductDetails(null));
-        };
-    }, [dispatch]);
-
     const filteredProducts = productList?.filter((productItem) => {
         const daysPassed = (Date.now() - new Date(productItem.offerTime)) / (1000 * 60 * 60 * 24);
         const matchesSearch = productItem.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
@@ -79,8 +59,8 @@ function ShoppingListing() {
     return (
         <div className="min-h-screen">
             {/* Fixed Header - Adjusted height */}
-            <div className="fixed top-16 left-0 right-0 z-50 bg-white shadow-sm h-[72px] md:h-[56px]">
-                <div className="container mx-auto px-4 h-full">
+            <div className="fixed top-[64px] md:top-[56px] left-0 right-0 z-40 bg-white shadow-sm h-[72px] md:h-[64px] border-t">
+                <div className="container mx-auto px-4 pt-[10px] md:pt-[10px] pb-6">
                     {/* Desktop Layout */}
                     <div className="hidden md:flex items-center justify-between h-full">
                         <div className="flex space-x-1 bg-gray-100 rounded-lg p-1">
@@ -171,9 +151,6 @@ function ShoppingListing() {
                             filteredProducts.map((productItem) => (
                                 <ShoppingProductTile
                                     key={productItem._id}
-                                    handleGetProductDetails={
-                                        handleGetProductDetails
-                                    }
                                     product={productItem}
                                 />
                             ))
@@ -187,13 +164,6 @@ function ShoppingListing() {
                     <SellerExchangeOffers />
                 )}
             </div>
-
-            <ProductDetailsDialog
-                open={openDetailsDialog}
-                setOpen={setOpenDetailsDialog}
-                productDetails={productDetails}
-                setProductDetails={setProductDetails}
-            />
         </div>
     );
 }

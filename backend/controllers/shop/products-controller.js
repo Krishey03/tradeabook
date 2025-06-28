@@ -28,29 +28,32 @@ const getProducts = async (req, res) => {
 
 const getProductDetails = async (req, res) => {
     try {
-        // Correctly destructure 'id' from req.params
-        const { id } = req.params
+        const { id } = req.params;
         const product = await Product.findById(id)
+            .populate('seller', 'name email phone') // Add this line
+            .lean();
 
-        if (!product)
+        if (!product) {
             return res.status(404).json({
                 success: false,
                 message: 'Product not found'
-            })
+            });
+        }
 
-        res.status(200).json({
-            success: true,
-            data: product
-        })
+        // Add fallback for missing image
+        if (!product.image || !isValidImageUrl(product.image)) {
+            product.image = 'https://res.cloudinary.com/your-cloud-name/image/upload/v1234567/default-book.jpg';
+        }
+
+        res.status(200).json(product); // Return raw product data instead of wrapped object
 
     } catch (e) {
-        console.log(e)
+        console.error("Product details error:", e);
         res.status(500).json({
-            success: false,
             message: 'Server Error'
-        })
+        });
     }
-}
+};
 
 //Bidding controller
 const placeBid = async (req, res) => {
