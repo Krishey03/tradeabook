@@ -1,11 +1,13 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { shoppingViewHeaderMenuItems } from "@/config";
-import { ShoppingCart, LogOut, UserRound, SquareStack, ScrollText } from "lucide-react";
+import { ShoppingCart, LogOut, UserRound, SquareStack, ScrollText, MessageCircle } from "lucide-react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import "@fontsource/inspiration";
 import "@fontsource/inika";
+import { io } from "socket.io-client";
+import { useChat } from "../../components/chat/ChatContext";
 
 import {
   DropdownMenu,
@@ -17,6 +19,7 @@ import {
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { logoutUser } from "@/store/auth-slice";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
+import InitiateChatButton from "@/components/chat/InitiateChatButton";
 
 function MenuItems({ closeMenu }) {
   const location = useLocation();
@@ -46,11 +49,162 @@ function MenuItems({ closeMenu }) {
   );
 }
 
+function MessageDropdown() {
+  const { user } = useSelector((state) => state.auth);
+  const { chats, unreadCount, fetchChats } = useChat();
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+  const socket = useRef();
+
+  useEffect(() => {
+    // Initialize socket connection
+socket.current = io(import.meta.env.VITE_BACKEND_URL, {  // Changed from process.env to import.meta.env
+      withCredentials: true,
+      transports: ['websocket']
+    });
+
+    // Listen for new messages
+    socket.current.on('new_message', (message) => {
+      fetchChats(); // Refresh chat list when new message arrives
+    });
+
+    return () => {
+      socket.current.disconnect();
+    };
+  }, []);
+
+  useEffect(() => {
+    const loadChats = async () => {
+      setIsLoading(true);
+      try {
+        await fetchChats();
+      } catch (error) {
+        console.error('Error loading chats:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadChats();
+  }, [fetchChats]);
+
+  const handleViewAll = () => {
+    navigate('/chat');
+  };
+
+  const handleChatClick = (chatId) => {
+    navigate(`/chat/${chatId}`);
+  };
+
+  const formatTime = (dateString) => {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffDays = Math.floor((now - date) / (1000 * 60 * 60 * 24));
+
+    if (diffDays === 0) {
+      return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    } else if (diffDays === 1) {
+      return 'Yesterday';
+    } else if (diffDays < 7) {
+      return date.toLocaleDateString([], { weekday: 'short' });
+    } else {
+      return date.toLocaleDateString([], { month: 'short', day: 'numeric' });
+    }
+  };
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" size="icon" className="relative rounded-full hover:bg-emerald-50">
+          <MessageCircle className="h-5 w-5 text-slate-600" />
+          {unreadCount > 0 && (
+            <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-rose-500 text-xs text-white">
+              {unreadCount}
+            </span>
+          )}
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent
+        align="end"
+        className="w-72 bg-white border shadow-lg rounded-lg p-1 animate-in fade-in-50 zoom-in-95"
+      >
+        <div className="p-2">
+          <div className="px-2 py-1.5 text-sm font-medium text-center text-slate-700">
+            Messages
+          </div>
+          <DropdownMenuSeparator />
+          
+          <div className="max-h-60 overflow-y-auto">
+            {isLoading ? (
+              <div className="flex justify-center py-4">
+                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-emerald-500"></div>
+              </div>
+            ) : chats.length === 0 ? (
+              <div className="text-center py-4 text-sm text-slate-500">
+                No messages yet
+              </div>
+            ) : (
+              chats.slice(0, 3).map(chat => {
+                const otherUser = chat.members.find(member => member._id !== user._id);
+                const lastMessage = chat.lastMessage;
+                const hasUnread = chat.unreadCount > 0;
+                
+                return (
+                  <DropdownMenuItem 
+                    key={chat._id}
+                    className={`flex items-start gap-3 p-2 rounded-md cursor-pointer hover:bg-slate-50 focus:bg-slate-50 transition-colors ${
+                      hasUnread ? 'bg-blue-50' : ''
+                    }`}
+                    onClick={() => handleChatClick(chat._id)}
+                  >
+                    <Avatar className="h-8 w-8">
+                      <AvatarFallback className="bg-slate-200 text-slate-700">
+                        {otherUser?.userName?.charAt(0).toUpperCase() || 'U'}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium truncate">
+                        {otherUser?.userName || 'Unknown User'}
+                      </p>
+                      <p className="text-xs text-slate-500 truncate">
+                        {lastMessage 
+                          ? lastMessage.sender._id === user._id 
+                            ? `You: ${lastMessage.content}` 
+                            : lastMessage.content
+                          : 'No messages yet'}
+                      </p>
+                    </div>
+                    {lastMessage && (
+                      <span className="text-xs text-slate-400 whitespace-nowrap">
+                        {formatTime(lastMessage.createdAt)}
+                      </span>
+                    )}
+                    {hasUnread && (
+                      <span className="absolute right-2 top-2 h-2 w-2 rounded-full bg-emerald-500"></span>
+                    )}
+                  </DropdownMenuItem>
+                );
+              })
+            )}
+          </div>
+          
+          <DropdownMenuSeparator />
+          <DropdownMenuItem 
+            className="flex items-center justify-center p-2 text-sm font-medium text-emerald-600 hover:bg-emerald-50"
+            onClick={handleViewAll}
+          >
+            View all messages
+          </DropdownMenuItem>
+        </div>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
+
 function HeaderRightContent() {
   const { user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
 
   function handleLogoutClick() {
@@ -69,6 +223,9 @@ function HeaderRightContent() {
 
   return (
     <div className="flex items-center gap-2 sm:gap-3">
+      <InitiateChatButton />
+      <MessageDropdown />
+      
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Avatar className="bg-emerald-600 cursor-pointer hover:ring-2 hover:ring-emerald-200 transition-all h-8 w-8 sm:h-10 sm:w-10">
@@ -175,7 +332,9 @@ function ShoppingHeader() {
   return (
     <>
       {/* Desktop Header - Fixed at top */}
-      <header className="hidden md:flex fixed top-0 left-0 right-0 z-50 w-full border-b bg-white shadow-md py-2">
+      <header className={`hidden md:flex fixed top-0 left-0 right-0 z-50 w-full border-b bg-white shadow-md py-2 transition-all ${
+        isScrolled ? 'shadow-lg' : ''
+      }`}>
         <div className="container mx-auto px-4 md:px-6">
           <div className="flex items-center justify-between">
             <Link

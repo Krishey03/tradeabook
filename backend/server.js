@@ -5,6 +5,7 @@ const cors = require('cors');
 const authRouter = require('./routes/auth/auth-routes');
 const adminProductsRouter = require('./routes/admin/products-routes');
 const shopProductsRouter = require('./routes/shop/products-routes');
+const messageRoutes = require('./routes/chat/message-routes');
 const http = require('http');
 const { initializeKhaltiPayment, verifyKhaltiPayment } = require("./khalti");
 const Product = require("./models/Product");
@@ -40,15 +41,45 @@ const allowedOrigins = [
   "https://tradeabook-production.up.railway.app"
 ];
 
+// Socket.io setup
 const io = require("socket.io")(server, {
   cors: {
     origin: allowedOrigins,
     credentials: true,
+    methods: ["GET", "POST"]
   },
+  transports: ['websocket', 'polling']
 });
 
+// Socket.io connection handling
 io.on("connection", (socket) => {
   console.log("A user connected:", socket.id);
+
+  // Join chat room
+  socket.on('join_chat', (chatId) => {
+    socket.join(chatId);
+    console.log(`User ${socket.id} joined chat ${chatId}`);
+  });
+
+  // Leave chat room
+  socket.on('leave_chat', (chatId) => {
+    socket.leave(chatId);
+    console.log(`User ${socket.id} left chat ${chatId}`);
+  });
+
+  // Typing indicator
+  socket.on('typing', (chatId) => {
+    socket.to(chatId).emit('typing', chatId);
+  });
+
+  // Stop typing indicator
+  socket.on('stop_typing', (chatId) => {
+    socket.to(chatId).emit('stop_typing', chatId);
+  });
+
+  socket.on('disconnect', () => {
+    console.log("User disconnected:", socket.id);
+  });
 });
 
 const PORT = process.env.PORT || 5000;
@@ -197,17 +228,17 @@ app.post("/initialize-product-payment", async (req, res) => {
     });
     
     // Initialize payment with Khalti
-const backendBase = process.env.BACKEND_URI.endsWith('/') 
-    ? process.env.BACKEND_URI.slice(0, -1) 
-    : process.env.BACKEND_URI;
+    const backendBase = process.env.BACKEND_URI.endsWith('/') 
+      ? process.env.BACKEND_URI.slice(0, -1) 
+      : process.env.BACKEND_URI;
 
-const paymentInitiate = await initializeKhaltiPayment({
-    amount: amountInPaisa,
-    purchase_order_id: paymentRecord._id.toString(),
-    purchase_order_name: productName,
-    return_url: `${backendBase}/complete-khalti-payment`, // Fixed URL
-    website_url,
-});
+    const paymentInitiate = await initializeKhaltiPayment({
+      amount: amountInPaisa,
+      purchase_order_id: paymentRecord._id.toString(),
+      purchase_order_name: productName,
+      return_url: `${backendBase}/complete-khalti-payment`, // Fixed URL
+      website_url,
+    });
 
     // Update payment record with pidx
     await PaymentTransaction.findByIdAndUpdate(
@@ -331,7 +362,9 @@ app.use("/auth", authRouter);
 app.use('/admin/products', adminProductsRouter);
 app.use('/shop/products', shopProductsRouter);
 app.use('/admin', adminRoutes);
+app.use('/chat', messageRoutes);
 
+// Make io accessible to routes
 app.set('io', io);
 app.options('*', cors(corsOptions));
 
@@ -341,7 +374,8 @@ app.get('/health', (req, res) => {
     status: 'UP',
     timestamp: new Date().toISOString(),
     environment: process.env.NODE_ENV || 'development',
-    dbStatus: mongoose.connection.readyState === 1 ? 'Connected' : 'Disconnected'
+    dbStatus: mongoose.connection.readyState === 1 ? 'Connected' : 'Disconnected',
+    socketConnections: io.engine.clientsCount
   });
 });
 

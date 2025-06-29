@@ -4,7 +4,7 @@ import AuthLogin from "./pages/auth/login";
 import AuthRegister from "./pages/auth/register";
 import AdminLayout from "./components/admin-view/layout";
 import AdminOrders from "./pages/admin-view/orders";
-import AdminFeatures from "./pages/admin-view/user";
+import AdminUser from "./pages/admin-view/user";
 import AdminProducts from "./pages/admin-view/products";
 import NotFound from "./pages/not-found";
 import ShoppingLayout from "./pages/shopping-view/layout";
@@ -19,82 +19,91 @@ import UnauthPage from "./pages/unauth-page";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { checkAuth } from "./store/auth-slice";
-import { Skeleton } from "@/components/ui/skeleton"
-import AdminUser from "./pages/admin-view/user";
+import { Skeleton } from "@/components/ui/skeleton";
 import PaymentSuccess from "./pages/paymentSuccess";
 import PaymentFailed from "./pages/paymentFailed";
 import TermsAndConditions from "./pages/terms";
 import UserOrders from "./pages/shopping-view/orders";
-import BookDetailsPage from "./pages/shopping-view/book-details-page"; 
+import BookDetailsPage from "./pages/shopping-view/book-details-page";
 import ProductUpload from "./pages/shopping-view/product-upload";
+import { ChatProvider } from "./components/chat/ChatContext";
+import ChatLayout from "./components/chat/ChatLayout";
+import ChatPage from "./components/chat/ChatPage";
 
 function App() {
+  const { isAuthenticated, user, isLoading } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
 
-    const{isAuthenticated, user, isLoading} = useSelector(state=> state.auth)
-    const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(checkAuth());
+  }, [dispatch]);
 
-    useEffect(()=>{
-        dispatch(checkAuth())
-    }, [dispatch])
+  if (isLoading) return <Skeleton className="w-[500px] h-[500px] rounded-full" />;
 
-    if(isLoading) return <Skeleton className="w-[500px] h-[500px] rounded-full" />
+  return (
+    <div className="flex flex-col min-h-screen w-full overflow-hidden bg-white">
+      <ChatProvider> {/* ✅ Wrap everything inside ChatProvider */}
+        <Routes>
+          {/* Auth Layout */}
+          <Route path="/auth" element={
+            <CheckAuth isAuthenticated={isAuthenticated} user={user}>
+              <AuthLayout />
+            </CheckAuth>
+          }>
+            <Route path="login" element={<AuthLogin />} />
+            <Route path="register" element={<AuthRegister />} />
+          </Route>
 
+          {/* Admin Layout */}
+          <Route path="/admin" element={
+            <CheckAuth isAuthenticated={isAuthenticated} user={user}>
+              <AdminLayout />
+            </CheckAuth>
+          }>
+            <Route path="auctions" element={<AdminProducts />} />
+            <Route path="exchange" element={<AdminOrders />} />
+            <Route path="user" element={<AdminUser />} />
+          </Route>
 
-    return (
-        <div className="flex flex-col min-h-screen w-full overflow-hidden bg-white">
-            <div>
-            <Routes>
-                {/* Auth Layout */}
-                <Route path="/auth" element={
-                    <CheckAuth isAuthenticated={isAuthenticated} user={user}>
-                        <AuthLayout /> 
-                    </CheckAuth>
-                }>
-                    <Route path="login" element={<AuthLogin />} />
-                    <Route path="register" element={<AuthRegister />} />
-                </Route>
+          {/* Payment */}
+          <Route path="/payment-success" element={<PaymentSuccess />} />
+          <Route path="/payment-failed" element={<PaymentFailed />} />
 
-                {/* Admin Layout */}
-                <Route path="/admin" element={
-                    <CheckAuth isAuthenticated={isAuthenticated} user={user}>
-                        <AdminLayout />
-                    </CheckAuth>
-                }>
-                    {/* <Route path="dashboard" element={<AdminDashboard />} /> */}
-                    <Route path="auctions" element={<AdminProducts />} />
-                    <Route path="exchange" element={<AdminOrders />} />
-                    <Route path="user" element={<AdminUser />} />
-                </Route>
-                <Route path="/payment-success" element={<PaymentSuccess />} />  
-                <Route path="/payment-failed" element={<PaymentFailed />} />  
+          {/* Shopping Layout */}
+          <Route path="/shop" element={
+            <CheckAuth isAuthenticated={isAuthenticated} user={user}>
+              <ShoppingLayout />
+            </CheckAuth>
+          }>
+            <Route path="home" element={<ShoppingHome />} />
+            <Route path="account" element={<ShoppingAccount />} />
+            <Route path="checkout" element={<ShoppingCheckout />} />
+            <Route path="listing" element={<ShoppingListing />} />
+            <Route path="uploads" element={<ShoppingUploads />} />
+            <Route path="about" element={<ShoppingAbout />} />
+            <Route path="orders" element={<UserOrders />} />
+            <Route path="book/:id" element={<BookDetailsPage />} />
+            <Route path="product-upload" element={<ProductUpload />} />
+          </Route>
 
-                {/* Shopping Layout */}
-                <Route path="/shop" element={
-                    <CheckAuth isAuthenticated={isAuthenticated} user={user}>
-                        <ShoppingLayout />
-                    </CheckAuth>
-                }>
-                    <Route path="home" element={<ShoppingHome />} />
-                    <Route path="account" element={<ShoppingAccount />} />
-                    <Route path="checkout" element={<ShoppingCheckout />} />
-                    <Route path="listing" element={<ShoppingListing />} />
-                    <Route path="uploads" element={<ShoppingUploads />} />
-                    <Route path="about" element={<ShoppingAbout />} />
-                    <Route path="orders" element={<UserOrders />} />
-                    <Route path="book/:id" element={<BookDetailsPage />} />
-                    <Route path="product-upload" element={<ProductUpload />} />
-                </Route>
+          {/* Chat Layout */}
+          <Route path="/chat" element={
+            <CheckAuth isAuthenticated={isAuthenticated} user={user}>
+              <ChatLayout />
+            </CheckAuth>
+          }>
+            <Route index element={<ChatPage />} />
+            <Route path=":chatId" element={<ChatPage />} />
+          </Route>
 
-                {/* Unauthorized Page */}
-                <Route path="/unauth-page" element={<UnauthPage />} />
-
-                {/* No Page Found */}
-                <Route path="/terms" element={<TermsAndConditions />} />
-                <Route path="*" element={<NotFound />} />
-            </Routes>
-            </div>
-        </div>
-    );
+          {/* Misc */}
+          <Route path="/unauth-page" element={<UnauthPage />} />
+          <Route path="/terms" element={<TermsAndConditions />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </ChatProvider>
+    </div>
+  );
 }
 
 export default App;
