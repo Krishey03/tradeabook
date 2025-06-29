@@ -142,10 +142,10 @@ function HeaderRightContent() {
             </CardHeader>
             <CardContent>Are you sure you want to log out?</CardContent>
             <CardFooter className="flex justify-end gap-2">
-              <Button variant="ghost" onClick={cancelLogout}>
+              <Button variant="ghost" onClick={cancelLogout} className="text-white hover:text-emerald-600">
                 Cancel
               </Button>
-              <Button variant="destructive" onClick={confirmLogout}>
+              <Button variant="destructive" onClick={confirmLogout} className="bg-rose-600 hover:bg-rose-700 text-white">
                 Logout
               </Button>
             </CardFooter>
