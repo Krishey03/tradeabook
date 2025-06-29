@@ -13,6 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { BookOpen, Clock, MessageCircle, RefreshCw, ArrowRight, Loader2, CheckCircle2, XCircle } from "lucide-react";
 import api from "@/api/axios";
+import ShoppingHeader from "./header"; // Import the header component
 
 export default function BookDetailsPage() {
   const { id } = useParams();
@@ -156,7 +157,11 @@ export default function BookDetailsPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      {/* Add the ShoppingHeader component */}
+      <ShoppingHeader />
+
+      {/* Main content with proper spacing */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-4 pb-16 md:pt-[72px] md:pb-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Book Cover */}
           <div className="flex justify-center">

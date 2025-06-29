@@ -2,11 +2,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { shoppingViewHeaderMenuItems } from "@/config";
-import { ShoppingCart, UserCog, LogOut, UserRound, SquareStack, ScrollText } from "lucide-react";
+import { ShoppingCart, LogOut, UserRound, SquareStack, ScrollText } from "lucide-react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import "@fontsource/inspiration";
 import "@fontsource/inika";
-import useExchangeOffers from "@/hooks/useExchangeOffers";
 
 import {
   DropdownMenu,
@@ -136,17 +135,17 @@ function HeaderRightContent() {
       </DropdownMenu>
       
       {showLogoutConfirm && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+        <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/40">
           <Card className="w-[320px] bg-white shadow-lg rounded-lg">
             <CardHeader>
               <h3 className="text-lg font-semibold">Confirm Logout</h3>
             </CardHeader>
             <CardContent>Are you sure you want to log out?</CardContent>
             <CardFooter className="flex justify-end gap-2">
-              <Button variant="ghost" onClick={cancelLogout} className="text-white ">
+              <Button variant="ghost" onClick={cancelLogout}>
                 Cancel
               </Button>
-              <Button variant="destructive" onClick={confirmLogout} className="bg-rose-600 hover:bg-rose-700 text-white">
+              <Button variant="destructive" onClick={confirmLogout}>
                 Logout
               </Button>
             </CardFooter>
@@ -158,7 +157,6 @@ function HeaderRightContent() {
 }
 
 function ShoppingHeader() {
-  const { isAuthenticated } = useSelector((state) => state.auth);
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -176,9 +174,8 @@ function ShoppingHeader() {
 
   return (
     <>
-      {/* Fixed Desktop Header */}
-<header className="hidden md:block fixed top-0 left-0 right-0 z-50 w-full border-b bg-white shadow-md py-2">
-
+      {/* Desktop Header - Fixed at top */}
+      <header className="hidden md:flex fixed top-0 left-0 right-0 z-50 w-full border-b bg-white shadow-md py-2">
         <div className="container mx-auto px-4 md:px-6">
           <div className="flex items-center justify-between">
             <Link
@@ -199,19 +196,18 @@ function ShoppingHeader() {
         </div>
       </header>
 
-      {/* Fixed Mobile Bottom Navigation */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white border-t shadow-lg">
-        <div className="container mx-auto">
-          <div className="flex items-center justify-center gap-6 px-4 py-3">
+      {/* Mobile Navigation - Fixed at bottom */}
+      <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white border-t shadow-lg h-16">
+        <div className="container mx-auto h-full">
+          <div className="flex items-center justify-center gap-6 px-4 h-full">
             <MenuItems closeMenu={() => {}} />
             <HeaderRightContent />
           </div>
         </div>
       </div>
 
-      {/* Spacer for fixed headers */}
-      <div className="pt-[64px] md:pt-[56px]"></div>
-
+      {/* Desktop Spacer - Only shows on desktop */}
+      <div className="hidden md:block pt-[56px]"></div>
     </>
   );
 }

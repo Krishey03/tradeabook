@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
 import { Card, CardHeader, CardContent, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet"
+import { Input } from "@/components/ui/input"
+import { Search } from "lucide-react"
 import api from "@/api/axios"
 import { BookOpen, Loader2, Truck, ShieldCheck, MessageCircle, ArrowRight, CreditCard, RefreshCw } from "lucide-react"
 
@@ -16,55 +17,54 @@ function Checkout(productDetails) {
   const [cartItems, setCartItems] = useState([])
   const [loading, setLoading] = useState(true)
   const [paymentLoading, setPaymentLoading] = useState(false)
-
   const [selectedExchange, setSelectedExchange] = useState(null)
   const [showSidebar, setShowSidebar] = useState(false)
   const [selectedBidItem, setSelectedBidItem] = useState(null)
   const [showBidSidebar, setShowBidSidebar] = useState(false)
+  const [searchQuery, setSearchQuery] = useState("")
 
   const { user } = useSelector((state) => state.auth)
   const email = user?.email
 
   const fetchWithHandling = async (url) => {
     try {
-      const response = await api.get(url); // Use your existing axios instance
-      return response.data;
+      const response = await api.get(url)
+      return response.data
     } catch (error) {
-      console.error("API error:", error);
+      console.error("API error:", error)
       
-      // Handle HTML responses
       if (error.response && 
           error.response.headers['content-type'].includes('text/html')) {
-        console.error("Received HTML response");
+        console.error("Received HTML response")
       }
       
-      return { data: [] };
+      return { data: [] }
     }
-  };
+  }
 
   useEffect(() => {
-    if (!email) return;
+    if (!email) return
 
     const fetchCartItems = async () => {
-    const data = await fetchWithHandling(`/shop/products/cart/${email}`);
-    setCartItems(data.data || []);
-  };
+      const data = await fetchWithHandling(`/shop/products/cart/${email}`)
+      setCartItems(data.data || [])
+    }
 
     const fetchSellerExchanges = async () => {
-    const data = await fetchWithHandling(`/shop/products/exchangeOffers/${email}`);
-    const accepted = data.data?.filter(offer => offer.offerStatus === "accepted") || [];
-    setAcceptedExchanges(accepted);
-  };
+      const data = await fetchWithHandling(`/shop/products/exchangeOffers/${email}`)
+      const accepted = data.data?.filter(offer => offer.offerStatus === "accepted") || []
+      setAcceptedExchanges(accepted)
+    }
 
     const fetchUserExchanges = async () => {
-    const data = await fetchWithHandling(`/shop/products/exchangeOffers/user/${email}`);
-    const accepted = data.data?.filter(offer => offer.offerStatus === "accepted") || [];
-    setUserExchanges(accepted);
-    setLoading(false);
-  };
+      const data = await fetchWithHandling(`/shop/products/exchangeOffers/user/${email}`)
+      const accepted = data.data?.filter(offer => offer.offerStatus === "accepted") || []
+      setUserExchanges(accepted)
+      setLoading(false)
+    }
 
-    Promise.all([fetchCartItems(), fetchSellerExchanges(), fetchUserExchanges()]);
-  }, [email]);
+    Promise.all([fetchCartItems(), fetchSellerExchanges(), fetchUserExchanges()])
+  }, [email])
 
   const handleBidPayment = async (product) => {
     try {
@@ -116,37 +116,124 @@ function Checkout(productDetails) {
     window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, "_blank")
   }
 
+  // Filter functions
+  const filteredCartItems = cartItems.filter(item => 
+    item.title?.toLowerCase().includes(searchQuery.toLowerCase())
+  )
 
-  
+  const filteredAcceptedExchanges = acceptedExchanges.filter(exchange => 
+    exchange.productId?.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    exchange.exchangeOffer?.eTitle?.toLowerCase().includes(searchQuery.toLowerCase())
+  )
+
+  const filteredUserExchanges = userExchanges.filter(exchange => 
+    exchange.productId?.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    exchange.exchangeOffer?.eTitle?.toLowerCase().includes(searchQuery.toLowerCase())
+  )
+
+  if (loading) {
+    return (
+      <div className="flex flex-col justify-center items-center h-64 gap-3 pt-[88px] md:pt-[72px]">
+        <Loader2 className="h-10 w-10 animate-spin text-emerald-500" />
+        <p className="text-slate-600">Loading your orders...</p>
+      </div>
+    )
+  }
+
   return (
-    <div className="p-4 md:p-6 lg:p-8 max-w-6xl mx-auto bg-gray-50 min-h-screen">
-      <div className="mb-8">
-        <h2 className="text-3xl font-bold text-gray-900">Checkout</h2>
-        <p className="text-gray-500 mt-2">Complete your purchase or exchange</p>
+    <div className="min-h-screen">
+      {/* Fixed Header */}
+      <div className="fixed md:top-[56px] left-0 right-0 z-40 bg-white shadow-sm h-[72px] md:h-[64px] border-t">
+        <div className="container mx-auto px-4 pt-[10px] md:pt-[10px] pb-6">
+          {/* Desktop Layout */}
+          <div className="hidden md:flex items-center justify-between h-full">
+            {/* Heading alone */}
+            <h2 className="text-center text-2xl font-semibold mb-6 sm:mb-0">
+              Checkout
+            </h2>
+
+            {/* Group tabs + search together */}
+            <div className="flex items-center gap-4">
+              <div className="flex space-x-1 bg-gray-100 rounded-lg p-1">
+                <button
+                  className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                    activeTab === "bid"
+                      ? "bg-white shadow text-indigo-600"
+                      : "text-gray-500 hover:text-gray-700"
+                  }`}
+                  onClick={() => setActiveTab("bid")}
+                >
+                  Winning Bids
+                </button>
+                <button
+                  className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                    activeTab === "exchange"
+                      ? "bg-white shadow text-indigo-600"
+                      : "text-gray-500 hover:text-gray-700"
+                  }`}
+                  onClick={() => setActiveTab("exchange")}
+                >
+                  Book Exchanges
+                </button>
+              </div>
+
+              <div className="relative w-64">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                <Input
+                  type="search"
+                  placeholder="Search your purchases..."
+                  className="pl-10"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Mobile Layout */}
+          <div className="md:hidden flex flex-col justify-center h-full py-1">
+            <div className="relative mb-1">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <Input
+                type="search"
+                placeholder="Search purchases..."
+                className="pl-10 w-full"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
+            
+            <div className="flex justify-center">
+              <div className="flex space-x-1 bg-gray-100 rounded-lg p-1">
+                <button
+                  className={`px-4 py-1 rounded-md text-sm font-medium transition-colors ${
+                    activeTab === "bid"
+                      ? "bg-white shadow text-indigo-600"
+                      : "text-gray-500 hover:text-gray-700"
+                  }`}
+                  onClick={() => setActiveTab("bid")}
+                >
+                  Bids
+                </button>
+                <button
+                  className={`px-4 py-1 rounded-md text-sm font-medium transition-colors ${
+                    activeTab === "exchange"
+                      ? "bg-white shadow text-indigo-600"
+                      : "text-gray-500 hover:text-gray-700"
+                  }`}
+                  onClick={() => setActiveTab("exchange")}
+                >
+                  Exchanges
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-8">
-      <TabsList className="grid w-full grid-cols-2 h-14 rounded-xl bg-gray-100 p-1 gap-2">
-        <TabsTrigger
-          value="bid"
-          className="rounded-lg text-base font-semibold text-gray-600 bg-gray-100 hover:bg-gray-200 transition-all flex items-center justify-center
-          data-[state=active]:bg-white data-[state=active]:text-teal-600 data-[state=active]:shadow-sm"
-        >
-          Winning Bids
-        </TabsTrigger>
-
-        <TabsTrigger
-          value="exchange"
-          className="rounded-lg text-base font-semibold text-gray-600 bg-gray-100 hover:bg-gray-200 transition-all flex items-center justify-center
-          data-[state=active]:bg-white data-[state=active]:text-teal-600 data-[state=active]:shadow-sm"
-        >
-          Book Exchanges
-        </TabsTrigger>
-      </TabsList>
-
-
-        {/* Bid Checkout */}
-        <TabsContent value="bid" className="mt-6">
+      {/* Main Content */}
+      <div className="container mx-auto px-4 pt-[88px] pb-6 md:pt-[72px]">
+        {activeTab === "bid" ? (
           <Card className="border-0 rounded-xl shadow-sm overflow-hidden">
             <CardHeader className="bg-white border-b px-6 py-5">
               <CardTitle className="text-xl font-semibold text-gray-900 flex items-center gap-2">
@@ -155,9 +242,9 @@ function Checkout(productDetails) {
               </CardTitle>
             </CardHeader>
             <CardContent className="p-0 bg-white">
-              {cartItems.length > 0 ? (
+              {filteredCartItems.length > 0 ? (
                 <div className="divide-y">
-                  {cartItems.map((item) => (
+                  {filteredCartItems.map((item) => (
                     <div key={item._id} className="p-6 hover:bg-gray-50 transition-colors">
                       <div className="flex flex-col md:flex-row gap-6">
                         <div className="w-full md:w-32 h-32 flex-shrink-0 rounded-lg overflow-hidden border bg-gray-100">
@@ -213,16 +300,13 @@ function Checkout(productDetails) {
                   </div>
                   <p className="text-gray-700 text-lg font-medium">No winning bids to checkout</p>
                   <p className="text-gray-500 mt-2 max-w-md mx-auto">
-                    Your winning auction items will appear here once you've won a bid
+                    {searchQuery ? "No matching bids found" : "Your winning auction items will appear here once you've won a bid"}
                   </p>
                 </div>
               )}
             </CardContent>
           </Card>
-        </TabsContent>
-
-        {/* Exchange Checkout */}
-        <TabsContent value="exchange" className="mt-6">
+        ) : (
           <Card className="border-0 rounded-xl shadow-sm overflow-hidden">
             <CardHeader className="bg-white border-b px-6 py-5">
               <CardTitle className="text-xl font-semibold text-gray-900 flex items-center gap-2">
@@ -241,16 +325,13 @@ function Checkout(productDetails) {
               ) : (
                 <>
                   {/* Exchanges where you are the seller */}
-                  {acceptedExchanges.length > 0 && (
+                  {filteredAcceptedExchanges.length > 0 && (
                     <div className="p-6">
                       <h4 className="text-lg font-semibold mb-4 text-gray-900 flex items-center gap-2">
-                        <Badge variant="outline" className="bg-teal-50 text-teal-700 border-teal-200">
-                          Outgoing
-                        </Badge>
                         Books You're Exchanging
                       </h4>
                       <div className="space-y-6">
-                        {acceptedExchanges.map((exchange) => (
+                        {filteredAcceptedExchanges.map((exchange) => (
                           <div
                             key={exchange._id}
                             className="border border-gray-200 rounded-xl p-6 hover:border-teal-200 transition-colors"
@@ -326,7 +407,7 @@ function Checkout(productDetails) {
                   )}
 
                   {/* Exchanges where you are the offerer */}
-                  {userExchanges.length > 0 && (
+                  {filteredUserExchanges.length > 0 && (
                     <div className="p-6">
                       <h4 className="text-lg font-semibold mb-4 text-gray-900 flex items-center gap-2">
                         <Badge variant="outline" className="bg-teal-50 text-teal-700 border-teal-200">
@@ -335,7 +416,7 @@ function Checkout(productDetails) {
                         Books You're Receiving
                       </h4>
                       <div className="space-y-6">
-                        {userExchanges.map((exchange) => (
+                        {filteredUserExchanges.map((exchange) => (
                           <div
                             key={exchange._id}
                             className="border border-gray-200 rounded-xl p-6 hover:border-teal-200 transition-colors"
@@ -422,14 +503,16 @@ function Checkout(productDetails) {
                     </div>
                   )}
 
-                  {acceptedExchanges.length === 0 && userExchanges.length === 0 && (
+                  {filteredAcceptedExchanges.length === 0 && filteredUserExchanges.length === 0 && (
                     <div className="text-center py-16">
                       <div className="bg-gray-50 rounded-full p-4 w-20 h-20 mx-auto mb-4 flex items-center justify-center">
                         <RefreshCw className="h-10 w-10 text-gray-400" />
                       </div>
-                      <p className="text-gray-700 text-lg font-medium">No accepted exchanges found</p>
+                      <p className="text-gray-700 text-lg font-medium">
+                        {searchQuery ? "No matching exchanges found" : "No accepted exchanges found"}
+                      </p>
                       <p className="text-gray-500 mt-2 max-w-md mx-auto">
-                        Your accepted exchange offers will appear here once approved
+                        {searchQuery ? "" : "Your accepted exchange offers will appear here once approved"}
                       </p>
                     </div>
                   )}
@@ -437,181 +520,181 @@ function Checkout(productDetails) {
               )}
             </CardContent>
           </Card>
-        </TabsContent>
-      </Tabs>
+        )}
 
-      {/* Bid Payment Sheet */}
-      <Sheet open={showBidSidebar} onOpenChange={setShowBidSidebar}>
-        <SheetContent className="sm:max-w-md">
-          <SheetHeader>
-            <SheetTitle className="text-2xl font-bold text-gray-900">Order Summary</SheetTitle>
-          </SheetHeader>
+        {/* Bid Payment Sheet */}
+        <Sheet open={showBidSidebar} onOpenChange={setShowBidSidebar}>
+          <SheetContent className="sm:max-w-md">
+            <SheetHeader>
+              <SheetTitle className="text-2xl font-bold text-gray-900">Order Summary</SheetTitle>
+            </SheetHeader>
 
-          {selectedBidItem && (
-            <div className="mt-6 space-y-6">
-              <div className="flex items-center gap-4">
-                <div className="w-24 h-24 flex-shrink-0 rounded-lg overflow-hidden border bg-gray-100">
-                  <img
-                    src={selectedBidItem.image || "/placeholder.svg"}
-                    alt={selectedBidItem.title}
-                    className="w-full h-full object-cover"
-                  />
+            {selectedBidItem && (
+              <div className="mt-6 space-y-6">
+                <div className="flex items-center gap-4">
+                  <div className="w-24 h-24 flex-shrink-0 rounded-lg overflow-hidden border bg-gray-100">
+                    <img
+                      src={selectedBidItem.image || "/placeholder.svg"}
+                      alt={selectedBidItem.title}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div>
+                    <h4 className="text-lg font-semibold text-gray-800">{selectedBidItem.title}</h4>
+                    <p className="text-gray-600 text-sm mt-1">Seller: {selectedBidItem.seller}</p>
+                  </div>
                 </div>
+
+                <Separator />
+
                 <div>
-                  <h4 className="text-lg font-semibold text-gray-800">{selectedBidItem.title}</h4>
-                  <p className="text-gray-600 text-sm mt-1">Seller: {selectedBidItem.seller}</p>
-                </div>
-              </div>
+                  <h4 className="text-lg font-semibold mb-4 text-gray-800">Payment Details</h4>
 
-              <Separator />
-
-              <div>
-                <h4 className="text-lg font-semibold mb-4 text-gray-800">Payment Details</h4>
-
-                <div className="space-y-3">
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Winning Bid Amount</span>
-                    <span className="font-medium">Rs. {selectedBidItem.currentBid}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600 flex items-center gap-1">
-                      <Truck className="h-4 w-4" />
-                      Delivery Fee
-                    </span>
-                    <span className="font-medium">Rs. 25</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600 flex items-center gap-1">
-                      <ShieldCheck className="h-4 w-4" />
-                      Service Fee
-                    </span>
-                    <span className="font-medium">Rs. 5</span>
-                  </div>
-                  <Separator />
-                  <div className="flex justify-between text-lg font-semibold">
-                    <span>Total Amount</span>
-                    <span className="text-teal-600">Rs. {selectedBidItem.currentBid + 30}</span>
+                  <div className="space-y-3">
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">Winning Bid Amount</span>
+                      <span className="font-medium">Rs. {selectedBidItem.currentBid}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-600 flex items-center gap-1">
+                        <Truck className="h-4 w-4" />
+                        Delivery Fee
+                      </span>
+                      <span className="font-medium">Rs. 25</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-600 flex items-center gap-1">
+                        <ShieldCheck className="h-4 w-4" />
+                        Service Fee
+                      </span>
+                      <span className="font-medium">Rs. 5</span>
+                    </div>
+                    <Separator />
+                    <div className="flex justify-between text-lg font-semibold">
+                      <span>Total Amount</span>
+                      <span className="text-teal-600">Rs. {selectedBidItem.currentBid + 30}</span>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <div className="pt-4">
-                <Button
-                  className="w-full bg-teal-600 hover:bg-teal-700 h-12 text-lg"
-                  disabled={paymentLoading}
-                  onClick={() => handleBidPayment(selectedBidItem)}
-                >
-                  {paymentLoading ? (
-                    <span className="flex items-center gap-2">
-                      <Loader2 className="h-5 w-5 animate-spin" />
-                      Processing Payment...
-                    </span>
-                  ) : (
-                    "Pay with Khalti"
-                  )}
-                </Button>
-                <p className="mt-3 text-sm text-gray-500 text-center">
-                  By completing your purchase, you agree to our Terms of Service
-                </p>
-              </div>
-            </div>
-          )}
-        </SheetContent>
-      </Sheet>
-
-      {/* Exchange Payment Sheet */}
-      <Sheet open={showSidebar} onOpenChange={setShowSidebar}>
-        <SheetContent className="sm:max-w-md">
-          <SheetHeader>
-            <SheetTitle className="text-2xl font-bold text-gray-900">Exchange Fee</SheetTitle>
-          </SheetHeader>
-
-          {selectedExchange && (
-            <div className="mt-6 space-y-6">
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <h5 className="font-semibold text-sm text-gray-700">You'll Receive</h5>
-                  <div className="border rounded-lg p-3 bg-gray-50 h-40 flex items-center justify-center">
-                    {selectedExchange.productId?.image ? (
-                      <img
-                        src={selectedExchange.productId.image || "/placeholder.svg"}
-                        alt={selectedExchange.productId.title}
-                        className="max-h-full max-w-full object-contain"
-                      />
+                <div className="pt-4">
+                  <Button
+                    className="w-full bg-teal-600 hover:bg-teal-700 h-12 text-lg"
+                    disabled={paymentLoading}
+                    onClick={() => handleBidPayment(selectedBidItem)}
+                  >
+                    {paymentLoading ? (
+                      <span className="flex items-center gap-2">
+                        <Loader2 className="h-5 w-5 animate-spin" />
+                        Processing Payment...
+                      </span>
                     ) : (
-                      <BookOpen className="h-10 w-10 text-gray-400" />
+                      "Pay with Khalti"
                     )}
-                  </div>
-                  <p className="text-sm text-gray-700 truncate">{selectedExchange.productId?.title || "Product"}</p>
+                  </Button>
+                  <p className="mt-3 text-sm text-gray-500 text-center">
+                    By completing your purchase, you agree to our Terms of Service
+                  </p>
                 </div>
-                <div className="space-y-2">
-                  <h5 className="font-semibold text-sm text-gray-700">Your Book</h5>
-                  <div className="border rounded-lg p-3 bg-gray-50 h-40 flex items-center justify-center">
-                    {selectedExchange.exchangeOffer?.eImage ? (
-                      <img
-                        src={selectedExchange.exchangeOffer.eImage || "/placeholder.svg"}
-                        alt={selectedExchange.exchangeOffer.eTitle}
-                        className="max-h-full max-w-full object-contain"
-                      />
+              </div>
+            )}
+          </SheetContent>
+        </Sheet>
+
+        {/* Exchange Payment Sheet */}
+        <Sheet open={showSidebar} onOpenChange={setShowSidebar}>
+          <SheetContent className="sm:max-w-md">
+            <SheetHeader>
+              <SheetTitle className="text-2xl font-bold text-gray-900">Exchange Fee</SheetTitle>
+            </SheetHeader>
+
+            {selectedExchange && (
+              <div className="mt-6 space-y-6">
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <h5 className="font-semibold text-sm text-gray-700">You'll Receive</h5>
+                    <div className="border rounded-lg p-3 bg-gray-50 h-40 flex items-center justify-center">
+                      {selectedExchange.productId?.image ? (
+                        <img
+                          src={selectedExchange.productId.image || "/placeholder.svg"}
+                          alt={selectedExchange.productId.title}
+                          className="max-h-full max-w-full object-contain"
+                        />
+                      ) : (
+                        <BookOpen className="h-10 w-10 text-gray-400" />
+                      )}
+                    </div>
+                    <p className="text-sm text-gray-700 truncate">{selectedExchange.productId?.title || "Product"}</p>
+                  </div>
+                  <div className="space-y-2">
+                    <h5 className="font-semibold text-sm text-gray-700">Your Book</h5>
+                    <div className="border rounded-lg p-3 bg-gray-50 h-40 flex items-center justify-center">
+                      {selectedExchange.exchangeOffer?.eImage ? (
+                        <img
+                          src={selectedExchange.exchangeOffer.eImage || "/placeholder.svg"}
+                          alt={selectedExchange.exchangeOffer.eTitle}
+                          className="max-h-full max-w-full object-contain"
+                        />
+                      ) : (
+                        <BookOpen className="h-10 w-10 text-gray-400" />
+                      )}
+                    </div>
+                    <p className="text-sm text-gray-700 truncate">{selectedExchange.exchangeOffer?.eTitle}</p>
+                  </div>
+                </div>
+
+                <Separator />
+
+                <div>
+                  <h4 className="text-lg font-semibold mb-4 text-gray-800">Fee Details</h4>
+
+                  <div className="space-y-3">
+                    <div className="flex justify-between">
+                      <span className="text-gray-600 flex items-center gap-1">
+                        <Truck className="h-4 w-4" />
+                        Delivery Fee
+                      </span>
+                      <span className="font-medium">Rs. 50</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-600 flex items-center gap-1">
+                        <ShieldCheck className="h-4 w-4" />
+                        Service Fee
+                      </span>
+                      <span className="font-medium">Rs. 5</span>
+                    </div>
+                    <Separator />
+                    <div className="flex justify-between text-lg font-semibold">
+                      <span>Total Amount</span>
+                      <span className="text-teal-600">Rs. 55</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="pt-4">
+                  <Button
+                    className="w-full bg-teal-600 hover:bg-teal-700 h-12 text-lg"
+                    disabled={paymentLoading}
+                    onClick={() => handleExchangePayment(selectedExchange)}
+                  >
+                    {paymentLoading ? (
+                      <span className="flex items-center gap-2">
+                        <Loader2 className="h-5 w-5 animate-spin" />
+                        Processing Payment...
+                      </span>
                     ) : (
-                      <BookOpen className="h-10 w-10 text-gray-400" />
+                      "Pay with Khalti"
                     )}
-                  </div>
-                  <p className="text-sm text-gray-700 truncate">{selectedExchange.exchangeOffer?.eTitle}</p>
+                  </Button>
+                  <p className="mt-3 text-sm text-gray-500 text-center">
+                    A small fee helps us maintain the platform and ensure secure exchanges
+                  </p>
                 </div>
               </div>
-
-              <Separator />
-
-              <div>
-                <h4 className="text-lg font-semibold mb-4 text-gray-800">Fee Details</h4>
-
-                <div className="space-y-3">
-                  <div className="flex justify-between">
-                    <span className="text-gray-600 flex items-center gap-1">
-                      <Truck className="h-4 w-4" />
-                      Delivery Fee
-                    </span>
-                    <span className="font-medium">Rs. 50</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600 flex items-center gap-1">
-                      <ShieldCheck className="h-4 w-4" />
-                      Service Fee
-                    </span>
-                    <span className="font-medium">Rs. 5</span>
-                  </div>
-                  <Separator />
-                  <div className="flex justify-between text-lg font-semibold">
-                    <span>Total Amount</span>
-                    <span className="text-teal-600">Rs. 55</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="pt-4">
-                <Button
-                  className="w-full bg-teal-600 hover:bg-teal-700 h-12 text-lg"
-                  disabled={paymentLoading}
-                  onClick={() => handleExchangePayment(selectedExchange)}
-                >
-                  {paymentLoading ? (
-                    <span className="flex items-center gap-2">
-                      <Loader2 className="h-5 w-5 animate-spin" />
-                      Processing Payment...
-                    </span>
-                  ) : (
-                    "Pay with Khalti"
-                  )}
-                </Button>
-                <p className="mt-3 text-sm text-gray-500 text-center">
-                  A small fee helps us maintain the platform and ensure secure exchanges
-                </p>
-              </div>
-            </div>
-          )}
-        </SheetContent>
-      </Sheet>
+            )}
+          </SheetContent>
+        </Sheet>
+      </div>
     </div>
   )
 }

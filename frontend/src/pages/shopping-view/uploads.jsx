@@ -11,10 +11,10 @@ function ShoppingUploads() {
   const [products, setProducts] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const { user } = useSelector((state) => state.auth);
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const handleUploadClick = () => {
-    navigate("/shop/product-upload"); // change this to your desired route
+    navigate("/shop/product-upload");
   };
 
   useEffect(() => {
@@ -29,7 +29,6 @@ function ShoppingUploads() {
           return;
         }
 
-        // Filter the products by the logged-in user's email
         const userProducts = allProducts.filter(
           (product) => product.sellerEmail?.trim().toLowerCase() === user.email.trim().toLowerCase()
         );
@@ -51,40 +50,38 @@ function ShoppingUploads() {
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-6">
-      {/* Header with Upload Button and Search */}
+      {/* Header with Search and Upload Button */}
       <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mb-6">
-  {/* Heading alone */}
-  <h2 className="text-center text-2xl font-semibold mb-6 sm:mb-0">
-    Your Listed Products
-  </h2>
+        {/* Heading */}
+        <h2 className="text-center text-2xl font-semibold mb-6 sm:mb-0">
+          Your Listed Products
+        </h2>
 
-  {/* Group: Upload + Search */}
-  <div className="flex flex-col sm:flex-row items-center gap-4">
-    {/* Upload Button */}
-    <Button
-      onClick={handleUploadClick}
-      className="flex items-center gap-2 bg-[#DEDCFF] text-black hover:bg-[#BFB9FF] transition-colors"
-    >
-      Upload Book
-    </Button>
+        {/* Group: Search + Upload - Reversed order on mobile */}
+        <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
+          {/* Search Bar - Now comes first on mobile */}
+          <div className="relative w-full sm:w-64">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+            <Input
+              type="search"
+              placeholder="Search your products..."
+              className="pl-10"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </div>
 
-    {/* Search Bar */}
-    <div className="relative w-full sm:w-64">
-      <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
-      <Input
-        type="search"
-        placeholder="Search your products..."
-        className="pl-10"
-        value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
-      />
-    </div>
-  </div>
-</div>
+          {/* Upload Button - Now comes second on mobile */}
+          <Button
+            onClick={handleUploadClick}
+            className="w-full sm:w-auto flex items-center gap-2 bg-[#DEDCFF] text-black hover:bg-[#BFB9FF] transition-colors"
+          >
+            <Plus className="h-4 w-4" />
+            Upload Book
+          </Button>
+        </div>
+      </div>
 
-
-      
-      
       {filteredProducts.length === 0 ? (
         <p className="text-center">
           {searchQuery ? "No products match your search" : "You have not listed any products yet."}

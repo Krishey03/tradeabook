@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react"
 import api from "@/api/axios"
 import { useSelector } from "react-redux"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -23,6 +22,7 @@ function UserOrders() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [searchQuery, setSearchQuery] = useState("")
+  const [activeTab, setActiveTab] = useState("auction")
   const { user } = useSelector((state) => state.auth)
 
   useEffect(() => {
@@ -89,7 +89,7 @@ function UserOrders() {
 
   if (loading) {
     return (
-      <div className="flex flex-col justify-center items-center h-64 gap-3">
+      <div className="flex flex-col justify-center items-center h-64 gap-3 pt-[88px] md:pt-[72px]">
         <Loader2 className="h-10 w-10 animate-spin text-emerald-500" />
         <p className="text-slate-600">Loading your orders...</p>
       </div>
@@ -98,7 +98,7 @@ function UserOrders() {
 
   if (error) {
     return (
-      <div className="p-6 bg-rose-50 border border-rose-200 rounded-lg text-rose-700 max-w-2xl mx-auto flex flex-col items-center">
+      <div className="p-6 bg-rose-50 border border-rose-200 rounded-lg text-rose-700 max-w-2xl mx-auto flex flex-col items-center pt-[88px] md:pt-[72px]">
         <AlertCircle className="h-10 w-10 mb-3 text-rose-500" />
         <p className="font-medium mb-1">Unable to load your orders</p>
         <p className="text-sm mb-4">{error}</p>
@@ -111,56 +111,100 @@ function UserOrders() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-10 max-w-6xl">
-      {/* Header with search */}
-      <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mb-6">
-        {/* Heading */}
-        <h2 className="text-center text-2xl font-semibold mb-6 sm:mb-0">
-          Your Purchases
-        </h2>
+    <div className="min-h-screen">
+      {/* Fixed Header */}
+      <div className="fixed top-[64px] md:top-[56px] left-0 right-0 z-40 bg-white shadow-sm h-[72px] md:h-[64px] border-t">
+        <div className="container mx-auto px-4 pt-[10px] md:pt-[10px] pb-6">
+          {/* Desktop Layout */}
+          <div className="hidden md:flex items-center justify-between h-full">
+            {/* Heading alone */}
+            <h2 className="text-center text-2xl font-semibold mb-6 sm:mb-0">
+              Your Purchases
+            </h2>
 
-        {/* Group: Search */}
-        <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
-          {/* Search Bar */}
-          <div className="relative w-full sm:w-64">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
-            <Input
-              type="search"
-              placeholder="Search your products..."
-              className="pl-10"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
+            {/* Group tabs + search together */}
+            <div className="flex items-center gap-4">
+              <div className="flex space-x-1 bg-gray-100 rounded-lg p-1">
+                <button
+                  className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                    activeTab === "auction"
+                      ? "bg-white shadow text-indigo-600"
+                      : "text-gray-500 hover:text-gray-700"
+                  }`}
+                  onClick={() => setActiveTab("auction")}
+                >
+                  Auction Orders
+                </button>
+                <button
+                  className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                    activeTab === "exchange"
+                      ? "bg-white shadow text-indigo-600"
+                      : "text-gray-500 hover:text-gray-700"
+                  }`}
+                  onClick={() => setActiveTab("exchange")}
+                >
+                  Exchange Orders
+                </button>
+              </div>
+
+              <div className="relative w-64">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                <Input
+                  type="search"
+                  placeholder="Search your products..."
+                  className="pl-10"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Mobile Layout */}
+          <div className="md:hidden flex flex-col justify-center h-full py-1">
+            <div className="relative mb-1">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <Input
+                type="search"
+                placeholder="Search products..."
+                className="pl-10 w-full"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
+            
+            <div className="flex justify-center">
+              <div className="flex space-x-1 bg-gray-100 rounded-lg p-1">
+                <button
+                  className={`px-4 py-1 rounded-md text-sm font-medium transition-colors ${
+                    activeTab === "auction"
+                      ? "bg-white shadow text-indigo-600"
+                      : "text-gray-500 hover:text-gray-700"
+                  }`}
+                  onClick={() => setActiveTab("auction")}
+                >
+                  Auction
+                </button>
+                <button
+                  className={`px-4 py-1 rounded-md text-sm font-medium transition-colors ${
+                    activeTab === "exchange"
+                      ? "bg-white shadow text-indigo-600"
+                      : "text-gray-500 hover:text-gray-700"
+                  }`}
+                  onClick={() => setActiveTab("exchange")}
+                >
+                  Exchange
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Tabs */}
-      <Tabs defaultValue="auction" className="w-full">
-        <TabsList className="flex space-x-1 bg-gray-100 rounded-lg p-1 mb-6">
-          <TabsTrigger
-            value="auction"
-            className="bg-gray-100 text-gray-600 hover:bg-gray-200 transition-all duration-200 ease-in-out 
-            flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold 
-            data-[state=active]:bg-white data-[state=active]:text-teal-600 data-[state=active]:shadow-md"
-          >
-            <span className="truncate">Auction Orders</span>
-          </TabsTrigger>
-
-          <TabsTrigger
-            value="exchange"
-            className="bg-gray-100 text-gray-600 hover:bg-gray-200 transition-all duration-200 ease-in-out 
-            flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold 
-            data-[state=active]:bg-white data-[state=active]:text-teal-600 data-[state=active]:shadow-md"
-          >
-
-            <span className="truncate">Exchange Orders</span>
-          </TabsTrigger>
-        </TabsList>
-
-        {/* Auction Orders Tab */}
-        <TabsContent value="auction" className="space-y-6 focus:outline-none">
-          {auctionOrders.length === 0 ? (
+      {/* Main Content */}
+      <div className="container mx-auto px-4 pt-[88px] pb-6 md:pt-[72px]">
+        {activeTab === "auction" ? (
+          auctionOrders.length === 0 ? (
             <div className="bg-white border border-slate-200 rounded-lg p-10 text-center">
               <div className="bg-slate-50 h-20 w-20 rounded-full flex items-center justify-center mx-auto mb-4">
                 <ShoppingBag className="h-10 w-10 text-slate-400" />
@@ -224,12 +268,9 @@ function UserOrders() {
                 </Card>
               ))}
             </div>
-          )}
-        </TabsContent>
-
-        {/* Exchange Orders Tab */}
-        <TabsContent value="exchange" className="space-y-6 focus:outline-none">
-          {exchangeOrders.length === 0 ? (
+          )
+        ) : (
+          exchangeOrders.length === 0 ? (
             <div className="bg-white border border-slate-200 rounded-lg p-10 text-center">
               <div className="bg-slate-50 h-20 w-20 rounded-full flex items-center justify-center mx-auto mb-4">
                 <ArrowLeftRight className="h-10 w-10 text-slate-400" />
@@ -339,9 +380,9 @@ function UserOrders() {
                 )
               })}
             </div>
-          )}
-        </TabsContent>
-      </Tabs>
+          )
+        )}
+      </div>
     </div>
   )
 }
