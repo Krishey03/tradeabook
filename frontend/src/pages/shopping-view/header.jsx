@@ -58,7 +58,7 @@ function MessageDropdown() {
 
   useEffect(() => {
     // Initialize socket connection
-socket.current = io(import.meta.env.VITE_BACKEND_URL, {  // Changed from process.env to import.meta.env
+socket.current = io(import.meta.env.VITE_API_URL, {  // Changed from process.env to import.meta.env
       withCredentials: true,
       transports: ['websocket']
     });

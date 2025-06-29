@@ -19,7 +19,7 @@ const ChatInterface = ({ initialChatId }) => {
 
   // Connect to socket
   useEffect(() => {
-    socket.current = io(import.meta.env.VITE_BACKEND_URL, {
+    socket.current = io(import.meta.env.VITE_API_URL, {
       withCredentials: true,
       transports: ['websocket'],
     });
