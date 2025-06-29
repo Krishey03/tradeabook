@@ -249,7 +249,7 @@ const updateUserProfile = async (req, res) => {
         const user = req.user; 
         const { userName, phone, address, currentPassword, newPassword } = req.body;
 
-        const userToUpdate = await User.findById(user.id);
+        const userToUpdate = await User.findById(user._id).select("+password");
         if (!userToUpdate) {
             return res.status(404).json({
                 success: false,
@@ -293,5 +293,6 @@ const updateUserProfile = async (req, res) => {
         });
     }
 };
+
 
 module.exports = { registerUser, loginUser, logoutUser, authMiddleware, getUserProfile, updateUserProfile };
